@@ -1,0 +1,238 @@
+@font-face {
+    font-family: 'Bomberman';
+    src: url('../BLACKJACK.TTF');
+}
+
+/* General Styles */
+.menu {
+    -fx-background-color: linear-gradient(#228B22 13%, #006400 92%);
+}
+
+/* Common Button Styles */
+.button-play, .button-profile, .button-rank, .button-exit, .small-button, .button-start-game {
+    -fx-background-color: #8B0000;
+    -fx-text-fill: white;
+    -fx-font-family: 'Bomberman';
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 4);
+}
+
+/* Large Buttons */
+.button-play, .button-profile, .button-rank, .button-exit {
+    -fx-padding: 10 20;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-font-size: 40px;
+}
+
+/* Small Button */
+.small-button {
+    -fx-background-color: #006400;
+    -fx-font-size: 18px;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+/* Start Game Button */
+.button-start-game {
+    -fx-background-color: #006400;
+    -fx-font-size: 22px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 7;
+    -fx-min-width: 160px;
+    -fx-min-height: 45px;
+}
+
+/* Button Hover States */
+.button-play:hover, .button-profile:hover, .button-rank:hover, .button-exit:hover,
+.small-button:hover, .button-start-game:hover {
+    -fx-text-fill: #FFFFF0;
+    -fx-translate-y: -2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 0, 6);
+}
+
+.small-button:hover, .button-start-game:hover {
+    -fx-background-color: #008000;
+}
+
+/* Button Pressed States */
+.button-play:pressed, .button-profile:pressed, .button-rank:pressed, .button-exit:pressed,
+.small-button:pressed, .button-start-game:pressed {
+    -fx-text-fill: #FFFFF0;
+    -fx-translate-y: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 2);
+}
+
+.small-button:pressed, .button-start-game:pressed {
+    -fx-background-color: #004d00;
+}
+
+/* Menu Box */
+.menu-box {
+    -fx-background-color: rgba(139, 0, 0, 0.9);
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+/* Labels */
+.menu-label, .menu-title, .history-label, .history-value {
+    -fx-text-fill: white;
+    -fx-font-family: 'Bomberman';
+}
+
+.menu-label, .menu-title {
+    -fx-padding: 0 0 20 0;
+}
+
+.menu-label {
+    -fx-font-size: 28px;
+}
+
+.menu-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}
+
+.history-label {
+    -fx-font-size: 18px;
+}
+
+.history-value {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Radio Buttons */
+.card-color-radio {
+    -fx-text-fill: white;
+    -fx-font-family: 'Bomberman';
+    -fx-font-size: 20px;
+}
+
+.card-color-radio .radio {
+    -fx-background-color: white;
+    -fx-border-color: #FFFFF0;
+    -fx-border-radius: 15px;
+    -fx-padding: 3px;
+}
+
+.card-color-radio:selected .radio .dot {
+    -fx-background-color: #8B0000;
+    -fx-padding: 4px;
+}
+
+.card-color-radio:hover {
+    -fx-text-fill: #FFFFF0;
+}
+
+/* Text Field */
+.menu-textfield {
+    -fx-prompt-text-fill: rgba(139, 0, 0, 0.5);
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #006400;
+    -fx-border-width: 2;
+    -fx-text-fill: #8B0000;
+    -fx-font-family: 'Bomberman';
+    -fx-font-size: 22px;
+    -fx-padding: 5 10 5 10;
+}
+
+.menu-textfield:focused {
+    -fx-background-color: #FFFFF0;
+    -fx-border-color: #008000;
+    -fx-effect: dropshadow(gaussian, rgba(0,100,0,0.3), 10, 0, 0, 0);
+}
+
+/* Combo Box */
+.combo-box {
+    -fx-background-color: #006400;
+    -fx-text-fill: white;
+    -fx-font-family: 'Bomberman';
+    -fx-font-size: 18px;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: #006400;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.combo-box .list-view {
+    -fx-background-color: #006400;
+    -fx-border-color: white;
+    -fx-background-radius: 0 0 15px 15px;
+    -fx-border-radius: 0 0 15px 15px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: #004d00;
+    -fx-background-radius: 0 15px 15px 0;
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+/* Table View */
+.table-view {
+    -fx-background-color: #006400;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #006400;
+    -fx-background-radius: 15px 15px 0 0;
+    -fx-background-insets: 0 0 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 35;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: white;
+}
+
+.table-view .column-header .label {
+    -fx-font-family: 'Bomberman';
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #006400;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: white;
+    -fx-font-family: 'Bomberman';
+    -fx-font-size: 16px;
+}
+
+/* Transition */
+.transition-pane {
+    -fx-background-color: black;
+    -fx-opacity: 0;
+}
+
+.transition-label {
+    -fx-font-family: 'Bomberman';
+    -fx-font-size: 40px;
+    -fx-text-fill: white;
+}
