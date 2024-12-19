@@ -63,6 +63,7 @@ public class MenuController {
     @FXML
     public void onProfileButtonClick(){
         System.out.println("Profilo Avviato");
+        System.out.println("Profile Avviato");
         toggleMenu(profileMenuBox);
         nameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (!newVal) {
