@@ -1,0 +1,9 @@
+{
+  "nickname": "sss",
+  "stats": {
+    "totalHandsPlayed": 0,
+    "handsWon": 0,
+    "handsLost": 0,
+    "currentBalance": 1000
+  }
+}

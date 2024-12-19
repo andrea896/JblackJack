@@ -1,9 +1,10 @@
 package Controller;
 
+import Model.GameStats.GameStats;
+import Model.Profile.UserProfile;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
@@ -16,25 +17,20 @@ import javafx.util.Duration;
  * sottomenu (gioco, profilo, classifica) e le relative animazioni di transizione.
  */
 public class MenuController {
-
-    @FXML
-    private Button buttonPlay, profileButton, rankButton, exitButton, changeButton;
-
     @FXML
     private VBox playMenuBox, profileMenuBox, rankMenuBox;
-
     @FXML
     private Circle avatarCircle;
-
+    @FXML
+    private StackPane transitionPane;
+    @FXML
+    private Label transitionLabel;
+    @FXML
+    private Label totalHandsLabel, wonHandsLabel, lostHandsLabel, balanceLabel;
     @FXML
     private TextField nameField;
 
-    @FXML
-    private StackPane transitionPane;
-
-    @FXML
-    private Label transitionLabel;
-
+    private GameManager gameManager;
     private VBox currentMenuBox;
     private boolean isMenuVisible = false;
 
@@ -47,6 +43,7 @@ public class MenuController {
         playMenuBox.setTranslateX(550);
         profileMenuBox.setTranslateX(550);
         rankMenuBox.setTranslateX(550);
+        gameManager.getInstance();
     }
 
     /**
@@ -67,6 +64,12 @@ public class MenuController {
     public void onProfileButtonClick(){
         System.out.println("Profilo Avviato");
         toggleMenu(profileMenuBox);
+        nameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                updateNickname();
+            }
+        });
+        updateUIFromProfile();
     }
 
     /**
@@ -171,4 +174,21 @@ public class MenuController {
         fadeIn.play();
     }
 
+    private void updateNickname() {
+        String nickname = nameField.getText();
+        if (!nickname.isEmpty())
+            gameManager.updateNickname(nickname);
+    }
+
+    private void updateUIFromProfile() {
+        UserProfile currentProfile = gameManager.getCurrentProfile();
+        if (currentProfile != null) {
+            nameField.setText(currentProfile.getNickname());
+            GameStats stats = currentProfile.getStats();
+            totalHandsLabel.setText(String.valueOf(stats.getTotalHandsPlayed()));
+            wonHandsLabel.setText(String.valueOf(stats.getHandsWon()));
+            lostHandsLabel.setText(String.valueOf(stats.getHandsLost()));
+            balanceLabel.setText(String.valueOf(stats.getCurrentBalance()));
+        }
+    }
 }
