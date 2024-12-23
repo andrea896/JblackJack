@@ -30,7 +30,6 @@ public class ProfileManager {
         try {
             String content = new String(Files.readAllBytes(Paths.get(PROFILE_PATH)));
             JsonObject rootObject = JsonParser.parseString(content).getAsJsonObject();
-            System.out.println(rootObject.toString());
             profilesArray = rootObject.getAsJsonArray("users");
             LOGGER.info("Trovati " + profilesArray.size() + " profili");
 
@@ -38,7 +37,6 @@ public class ProfileManager {
                 JsonObject profileObject = element.getAsJsonObject();
                 UserProfile profile = new UserProfile();
                 profile.setNickname(profileObject.get("nickname").getAsString());
-
                 JsonObject statsObject = profileObject.getAsJsonObject("stats");
                 GameStats stats = new GameStats();
                 stats.setTotalHandsPlayed(statsObject.get("totalHandsPlayed").getAsInt());
@@ -47,13 +45,10 @@ public class ProfileManager {
                 stats.setCurrentBalance(statsObject.get("currentBalance").getAsInt());
 
                 profile.setStats(stats);
-                System.out.println();
                 profiles.add(profile);
             }
         } catch (IOException e) {
-            System.err.println("Errore durante la lettura del file: " + e.getMessage());
-            profilesArray = new JsonArray();
-            profiles = new ArrayList<>();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -68,11 +63,9 @@ public class ProfileManager {
     }
 
     public UserProfile loadOrCreateProfile(String nickname) {
-        for (int i = 0; i < profiles.size(); i++) {
-            if (profiles.get(i).getNickname().equals(nickname)) {
+        for (int i = 0; i < profiles.size(); i++)
+            if (profiles.get(i).getNickname().equals(nickname))
                 return profiles.get(i);
-            }
-        }
 
         UserProfile newProfile = new UserProfile();
         newProfile.setNickname(nickname);

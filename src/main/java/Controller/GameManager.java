@@ -32,7 +32,7 @@ public class GameManager {
     }
 
     public void saveCurrentProfile() {
-        this.profileManager.loadOrCreateProfile(currentProfile.getNickname());
+        currentProfile = this.profileManager.loadOrCreateProfile(currentProfile.getNickname());
     }
 
     public void updateGameStats(boolean won, int betAmount){
@@ -47,9 +47,7 @@ public class GameManager {
                 stats.setHandsWon(stats.getHandsWon() + 1);
                 stats.setHandsLost(stats.getCurrentBalance() - betAmount);
             }
-
             saveCurrentProfile();
         }
     }
-
 }

@@ -1,9 +1,49 @@
 {
-  "nickname": "sss",
-  "stats": {
-    "totalHandsPlayed": 0,
-    "handsWon": 0,
-    "handsLost": 0,
-    "currentBalance": 1000
-  }
+  "users": [
+    {
+      "nickname": "Andrea",
+      "stats": {
+        "totalHandsPlayed": 0,
+        "handsWon": 0,
+        "handsLost": 0,
+        "currentBalance": 1000
+      }
+    },
+    {
+      "nickname": "prova",
+      "stats": {
+        "totalHandsPlayed": 0,
+        "handsWon": 0,
+        "handsLost": 0,
+        "currentBalance": 1000
+      }
+    },
+    {
+      "nickname": "guido",
+      "stats": {
+        "totalHandsPlayed": 200,
+        "handsWon": 60,
+        "handsLost": 140,
+        "currentBalance": 50000
+      }
+    },
+    {
+      "nickname": "andrew",
+      "stats": {
+        "totalHandsPlayed": 0,
+        "handsWon": 0,
+        "handsLost": 0,
+        "currentBalance": 1000
+      }
+    },
+    {
+      "nickname": "Alessandro",
+      "stats": {
+        "totalHandsPlayed": 0,
+        "handsWon": 0,
+        "handsLost": 0,
+        "currentBalance": 1000
+      }
+    }
+  ]
 }

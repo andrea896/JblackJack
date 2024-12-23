@@ -43,7 +43,7 @@ public class MenuController {
         playMenuBox.setTranslateX(550);
         profileMenuBox.setTranslateX(550);
         rankMenuBox.setTranslateX(550);
-        gameManager.getInstance();
+        gameManager = gameManager.getInstance();
     }
 
     /**
@@ -62,13 +62,10 @@ public class MenuController {
      */
     @FXML
     public void onProfileButtonClick(){
-        System.out.println("Profilo Avviato");
-        System.out.println("Profile Avviato");
         toggleMenu(profileMenuBox);
         nameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal) {
+            if (!newVal)
                 updateNickname();
-            }
         });
         updateUIFromProfile();
     }
@@ -177,7 +174,7 @@ public class MenuController {
 
     private void updateNickname() {
         String nickname = nameField.getText();
-        if (!nickname.isEmpty())
+        if (!nickname.isEmpty() || nickname != null)
             gameManager.updateNickname(nickname);
     }
 
