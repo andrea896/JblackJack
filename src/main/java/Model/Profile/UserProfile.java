@@ -1,7 +1,5 @@
 package Model.Profile;
 
-import Model.GameStats.GameStats;
-
 public class UserProfile {
     private String nickname;
     private String avatarPath;

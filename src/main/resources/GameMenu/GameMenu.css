@@ -220,9 +220,25 @@
 }
 
 .table-view .table-cell {
-    -fx-text-fill: white;
+    -fx-text-fill: rgba(139, 0, 0, 0.9);
     -fx-font-family: 'Bomberman';
     -fx-font-size: 16px;
+    -fx-alignment: CENTER;
+}
+
+.table-view .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar .increment-button,
+.table-view .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-pref-width: 0px;
+    -fx-pref-height: 0px;
+    -fx-min-width: 0px;
+    -fx-min-height: 0px;
 }
 
 /* Transition */

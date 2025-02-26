@@ -1,15 +1,18 @@
 package Controller;
 
-import Model.GameStats.GameStats;
+import Model.Profile.GameStats;
+import Model.Profile.ProfileManager;
 import Model.Profile.UserProfile;
+import Utility.LoggerUtility;
 
 public class GameManager {
-        private static GameManager instance;
-        private ProfileManager profileManager;
-        private UserProfile currentProfile;
+    private static GameManager instance;
+    private ProfileManager profileManager;
+    private UserProfile currentProfile;
+    private static final LoggerUtility logger = new LoggerUtility();
 
     private GameManager() {
-        profileManager = new ProfileManager();
+        profileManager = ProfileManager.getInstance();
         currentProfile = new UserProfile();
     }
 
@@ -20,34 +23,28 @@ public class GameManager {
         return instance;
     }
 
-    public void updateNickname(String newNickname) {
-        if (currentProfile != null && newNickname != null && !newNickname.trim().isEmpty()) {
-            currentProfile.setNickname(newNickname);
-            saveCurrentProfile();
+    public UserProfile loadExistingProfile(String nickname) {
+        if (currentProfile != null && nickname != null && !nickname.trim().isEmpty())
+            currentProfile = this.profileManager.loadProfile(nickname);
+        return currentProfile;
+    }
+
+    public UserProfile createNewProfile(String newNickname, String avatarPath) {
+        if (newNickname == null || newNickname.trim().isEmpty()) {
+            logger.logWarning("Tentativo di creare un profilo con un nickname vuoto!");
+            return null;
         }
+
+        currentProfile = profileManager.createProfile(newNickname, avatarPath);
+        logger.logInfo("Profilo creato:" + newNickname);
+        return currentProfile;
     }
 
     public UserProfile getCurrentProfile() {
         return currentProfile;
     }
 
-    public void saveCurrentProfile() {
-        currentProfile = this.profileManager.loadOrCreateProfile(currentProfile.getNickname());
-    }
-
     public void updateGameStats(boolean won, int betAmount){
-        if (currentProfile != null){
-            GameStats stats = currentProfile.getStats();
-            stats.setTotalHandsPlayed(stats.getTotalHandsPlayed() + 1);
 
-            if (won){
-                stats.setHandsWon(stats.getHandsWon() + 1);
-                stats.setHandsLost(stats.getHandsLost() + betAmount);
-            } else {
-                stats.setHandsWon(stats.getHandsWon() + 1);
-                stats.setHandsLost(stats.getCurrentBalance() - betAmount);
-            }
-            saveCurrentProfile();
-        }
     }
 }

@@ -1,26 +1,36 @@
 package Controller;
 
-import Model.GameStats.GameStats;
+import Model.Profile.GameStats;
+import Model.Profile.ProfileManager;
 import Model.Profile.UserProfile;
+import Utility.LoggerUtility;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Controller per il menu principale dell'applicazione. Gestisce la navigazione tra i diversi
  * sottomenu (gioco, profilo, classifica) e le relative animazioni di transizione.
  */
 public class MenuController {
+    private static final LoggerUtility logger = new LoggerUtility();
     @FXML
     private VBox playMenuBox, profileMenuBox, rankMenuBox;
     @FXML
-    private Circle avatarCircle;
+    private Circle loadAvatarCircle;
     @FXML
     private StackPane transitionPane;
     @FXML
@@ -28,11 +38,32 @@ public class MenuController {
     @FXML
     private Label totalHandsLabel, wonHandsLabel, lostHandsLabel, balanceLabel;
     @FXML
-    private TextField nameField;
+    private TextField loadNameField, newNameField;
+    @FXML
+    private VBox loadProfileBox, newProfileBox;
+    @FXML
+    private Circle newAvatarCircle;
+    @FXML
+    private ComboBox<String> rankingCriteriaComboBox;
+    @FXML
+    private TableView<UserProfile> rankingTableView;
+    @FXML
+    private TableColumn<UserProfile, Integer> rankColumn, valueColumn;
+    @FXML
+    private TableColumn<UserProfile, String> playerNameColumn;
+
 
     private GameManager gameManager;
     private VBox currentMenuBox;
     private boolean isMenuVisible = false;
+
+    private int currentAvatarIndex = 1;
+    private List<Image> avatarImages = Arrays.asList(
+            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar1.png"),
+            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar2.png"),
+            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar3.png"),
+            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar4.png")
+    );
 
     /**
      * Inizializza il controller dopo che i componenti FXML sono stati caricati.
@@ -42,8 +73,19 @@ public class MenuController {
     public void initialize() {
         playMenuBox.setTranslateX(550);
         profileMenuBox.setTranslateX(550);
+        loadProfileBox.setTranslateX(550);
+        newProfileBox.setTranslateX(550);
         rankMenuBox.setTranslateX(550);
         gameManager = gameManager.getInstance();
+        newAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
+        loadAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
+        // Configura le colonne della TableView
+        playerNameColumn.setCellValueFactory(new PropertyValueFactory<>("nickname"));
+        valueColumn.setCellValueFactory(cellData -> {
+            UserProfile user = cellData.getValue();
+            return new javafx.beans.property.SimpleIntegerProperty(getValueForCriteria(user, rankingCriteriaComboBox.getValue())).asObject();
+        });
+        rankingCriteriaComboBox.setOnAction(event -> loadRanking(rankingCriteriaComboBox.getValue()));
     }
 
     /**
@@ -52,7 +94,6 @@ public class MenuController {
      */
     @FXML
     public void onPlayButtonClick(){
-        System.out.println("Personalizzazione Avviata");
         toggleMenu(playMenuBox);
     }
 
@@ -63,11 +104,6 @@ public class MenuController {
     @FXML
     public void onProfileButtonClick(){
         toggleMenu(profileMenuBox);
-        nameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal)
-                updateNickname();
-        });
-        updateUIFromProfile();
     }
 
     /**
@@ -76,8 +112,48 @@ public class MenuController {
      */
     @FXML
     public void onRankButtonClick(){
-        System.out.println("Rank Avviato");
         toggleMenu(rankMenuBox);
+    }
+
+    private void loadRanking(String criteria) {
+        List<UserProfile> profiles = ProfileManager.getInstance().getProfiles();
+
+        // Ordina in base al criterio selezionato
+        switch (criteria) {
+            case "Hands Lost":
+                profiles.sort(Comparator.comparingInt(p -> p.getStats().getHandsLost()));
+                break;
+            case "Hands Won":
+                profiles.sort((p1, p2) -> Integer.compare(p2.getStats().getHandsWon(), p1.getStats().getHandsWon()));
+                break;
+            case "Total Hands Played":
+                profiles.sort((p1, p2) -> Integer.compare(p2.getStats().getTotalHandsPlayed(), p1.getStats().getTotalHandsPlayed()));
+                break;
+            case "Current Balance":
+                profiles.sort((p1, p2) -> Double.compare(p2.getStats().getCurrentBalance(), p1.getStats().getCurrentBalance()));
+                break;
+        }
+
+        // Converte in ObservableList e aggiorna la TableView
+        ObservableList<UserProfile> rankedProfiles = FXCollections.observableArrayList(profiles);
+        rankingTableView.setItems(rankedProfiles);
+
+        // Aggiorna la colonna del ranking
+        rankColumn.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleIntegerProperty(rankedProfiles.indexOf(cellData.getValue()) + 1).asObject()
+        );
+        rankingTableView.refresh();
+    }
+
+    private int getValueForCriteria(UserProfile profile, String criteria) {
+        if (profile == null || profile.getStats() == null) return 0;
+        switch (criteria) {
+            case "Hands Lost": return profile.getStats().getHandsLost();
+            case "Hands Won": return profile.getStats().getHandsWon();
+            case "Total Hands Played": return profile.getStats().getTotalHandsPlayed();
+            case "Current Balance": return (int) profile.getStats().getCurrentBalance();
+            default: return 0;
+        }
     }
 
     /**
@@ -90,21 +166,11 @@ public class MenuController {
     }
 
     /**
-     * Gestisce il clic sul pulsante "Change".
-     * Esegue azioni personalizzate legate al pulsante di cambio.
-     */
-    @FXML
-    public void onChangeButtonClick(){
-        System.out.println("Change Avviato");
-    }
-
-    /**
      * Gestisce il clic sul pulsante "Start Game".
      * Mostra una schermata di transizione con un messaggio di avvio del gioco.
      */
     @FXML
     public void onStartGameButtonClick(){
-        System.out.println("Game Avviato");
         showTransitionScreen("STARTING GAME");
     }
 
@@ -172,21 +238,53 @@ public class MenuController {
         fadeIn.play();
     }
 
-    private void updateNickname() {
-        String nickname = nameField.getText();
-        if (!nickname.isEmpty() || nickname != null)
-            gameManager.updateNickname(nickname);
+    private void updateUIFromProfile(String nickname) {
+        if (!nickname.isEmpty()) {
+            UserProfile currentProfile = gameManager.loadExistingProfile(nickname);
+            if (currentProfile != null) {
+                loadNameField.setText(currentProfile.getNickname());
+                Image avatarImage = new Image(currentProfile.getAvatarPath());
+                loadAvatarCircle.setFill(new ImagePattern(avatarImage));
+                GameStats stats = currentProfile.getStats();
+                totalHandsLabel.setText(String.valueOf(stats.getTotalHandsPlayed()));
+                wonHandsLabel.setText(String.valueOf(stats.getHandsWon()));
+                lostHandsLabel.setText(String.valueOf(stats.getHandsLost()));
+                balanceLabel.setText(String.valueOf(stats.getCurrentBalance()));
+            }
+        }
+        else {
+            logger.logWarning("Field del testo vuota");
+        }
     }
 
-    private void updateUIFromProfile() {
-        UserProfile currentProfile = gameManager.getCurrentProfile();
-        if (currentProfile != null) {
-            nameField.setText(currentProfile.getNickname());
-            GameStats stats = currentProfile.getStats();
-            totalHandsLabel.setText(String.valueOf(stats.getTotalHandsPlayed()));
-            wonHandsLabel.setText(String.valueOf(stats.getHandsWon()));
-            lostHandsLabel.setText(String.valueOf(stats.getHandsLost()));
-            balanceLabel.setText(String.valueOf(stats.getCurrentBalance()));
-        }
+    /**
+     * Gestisce il clic sul pulsante "Change".
+     * Esegue azioni personalizzate legate al pulsante di cambio e viene mostrata un'immagine
+     * del profilo diversa ad ogni click.
+     */
+    public void onNewChangeButtonClick() {
+        currentAvatarIndex = (currentAvatarIndex + 1) % avatarImages.size();
+        newAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
+    }
+
+    public void onCreateProfileClick() {
+        logger.logInfo("Aggiorno Nickname e creo il profilo");
+        ImagePattern pattern = (ImagePattern) newAvatarCircle.getFill();
+        gameManager.createNewProfile(newNameField.getText(), pattern.getImage().getUrl());
+        updateUIFromProfile(newNameField.getText());
+    }
+
+    public void onLoadProfileClick() {
+        loadProfileBox.setVisible(true);
+        toggleMenu(loadProfileBox);
+        loadNameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal)
+                updateUIFromProfile(loadNameField.getText());
+        });
+    }
+
+    public void onNewProfileClick() {
+        newProfileBox.setVisible(true);
+        toggleMenu(newProfileBox);
     }
 }

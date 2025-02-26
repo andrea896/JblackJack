@@ -1,4 +1,4 @@
-package Model.GameStats;
+package Model.Profile;
 
 public class GameStats {
     private int totalHandsPlayed;

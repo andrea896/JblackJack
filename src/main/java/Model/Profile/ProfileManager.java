@@ -1,9 +1,6 @@
-package Controller;
+package Model.Profile;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import Model.GameStats.GameStats;
-import Model.Profile.UserProfile;
+import Utility.LoggerUtility;
 import com.google.gson.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -12,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileManager {
-    private static final Logger LOGGER = Logger.getLogger(ProfileManager.class.getName());
+    private static final LoggerUtility LOGGER = new LoggerUtility();
     private static final String PROFILE_PATH = "C:\\progetti\\JBlackJack\\src\\main\\resources\\players.json";
     private final Gson gson;
     private JsonArray profilesArray;
     private List<UserProfile> profiles;
+    private static ProfileManager instance;
 
     public ProfileManager() {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
@@ -25,18 +23,26 @@ public class ProfileManager {
         loadProfiles();
     }
 
+    public static ProfileManager getInstance() {
+        if (instance == null)
+            instance = new ProfileManager();
+
+        return instance;
+    }
+
     private void loadProfiles() {
-        LOGGER.info("Caricamento profili dal file: " + PROFILE_PATH);
+        LOGGER.logInfo("Caricamento profili dal file: " + PROFILE_PATH);
         try {
             String content = new String(Files.readAllBytes(Paths.get(PROFILE_PATH)));
             JsonObject rootObject = JsonParser.parseString(content).getAsJsonObject();
             profilesArray = rootObject.getAsJsonArray("users");
-            LOGGER.info("Trovati " + profilesArray.size() + " profili");
+            LOGGER.logInfo("Trovati " + profilesArray.size() + " profili");
 
             for (JsonElement element : profilesArray) {
                 JsonObject profileObject = element.getAsJsonObject();
                 UserProfile profile = new UserProfile();
                 profile.setNickname(profileObject.get("nickname").getAsString());
+                profile.setAvatarPath(profileObject.get("avatarUrl").getAsString());
                 JsonObject statsObject = profileObject.getAsJsonObject("stats");
                 GameStats stats = new GameStats();
                 stats.setTotalHandsPlayed(statsObject.get("totalHandsPlayed").getAsInt());
@@ -48,7 +54,7 @@ public class ProfileManager {
                 profiles.add(profile);
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage());
+            LOGGER.logError(e.getMessage(), e);
         }
     }
 
@@ -58,40 +64,53 @@ public class ProfileManager {
             rootObject.add("users", profilesArray);
             Files.write(Paths.get(PROFILE_PATH), gson.toJson(rootObject).getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.logError(e.getMessage(), e);
         }
     }
 
-    public UserProfile loadOrCreateProfile(String nickname) {
-        for (int i = 0; i < profiles.size(); i++)
-            if (profiles.get(i).getNickname().equals(nickname))
-                return profiles.get(i);
+    public UserProfile createProfile(String nickname, String avatarPath) {
+        for (UserProfile profile : profiles) {
+            if (profile.getNickname().equals(nickname)) {
+                LOGGER.logWarning("Profilo " + nickname + " già esistente, scegliere un nickname diverso");
+                return null;
+            }
+        }
 
-        UserProfile newProfile = new UserProfile();
-        newProfile.setNickname(nickname);
-        newProfile.setStats(new GameStats());
+            UserProfile newProfile = new UserProfile();
+            newProfile.setNickname(nickname);
+            newProfile.setAvatarPath(avatarPath);
+            newProfile.setStats(new GameStats());
 
-        // Aggiungi alla lista dei profili
-        profiles.add(newProfile);
+            // Aggiungi alla lista dei profili
+            profiles.add(newProfile);
 
-        // Crea e aggiungi al JsonArray
-        JsonObject profileObject = new JsonObject();
-        profileObject.addProperty("nickname", newProfile.getNickname());
+            // Crea e aggiungi al JsonArray
+            JsonObject profileObject = new JsonObject();
+            profileObject.addProperty("nickname", newProfile.getNickname());
+            profileObject.addProperty("avatarUrl", newProfile.getAvatarPath());
 
-        JsonObject statsObject = new JsonObject();
-        statsObject.addProperty("totalHandsPlayed", newProfile.getStats().getTotalHandsPlayed());
-        statsObject.addProperty("handsWon", newProfile.getStats().getHandsWon());
-        statsObject.addProperty("handsLost", newProfile.getStats().getHandsLost());
-        statsObject.addProperty("currentBalance", newProfile.getStats().getCurrentBalance());
+            JsonObject statsObject = new JsonObject();
+            statsObject.addProperty("totalHandsPlayed", newProfile.getStats().getTotalHandsPlayed());
+            statsObject.addProperty("handsWon", newProfile.getStats().getHandsWon());
+            statsObject.addProperty("handsLost", newProfile.getStats().getHandsLost());
+            statsObject.addProperty("currentBalance", newProfile.getStats().getCurrentBalance());
 
-        profileObject.add("stats", statsObject);
-        profilesArray.add(profileObject);
+            profileObject.add("stats", statsObject);
+            profilesArray.add(profileObject);
 
-        saveToJson();
-        return newProfile;
+            saveToJson();
+            LOGGER.logInfo("Profilo " + newProfile.getNickname() + " creato con successo");
+            return newProfile;
     }
 
-    public void updateProfile(UserProfile updatedProfile) {
+    public UserProfile loadProfile(String nickname) {
+        return profiles.stream()
+                .filter(p -> p.getNickname().equalsIgnoreCase(nickname))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void updateProfile (UserProfile updatedProfile){
         if (updatedProfile != null && updatedProfile.getNickname() != null) {
             // Aggiorna il profilo nella lista
             for (int i = 0; i < profiles.size(); i++) {
@@ -106,9 +125,13 @@ public class ProfileManager {
                 String json = gson.toJson(profiles);
                 Files.write(Paths.get(PROFILE_PATH), json.getBytes());
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.logError(e.getMessage(), e);
             }
         }
+    }
+
+    public List<UserProfile> getProfiles() {
+        return profiles;
     }
 
 }
