@@ -1,4 +1,4 @@
-package Model.Game;
+package Model.Game.Objects;
 
 public enum Rank {
 
