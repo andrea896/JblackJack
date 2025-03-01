@@ -9,6 +9,14 @@ import Model.Players.Player;
  */
 public class BankManager {
 
+    private void resetBet(Player player, int handIndex){
+        Hand hand = player.getHands().get(handIndex);
+        hand.setBet(0);
+        if (handIndex == 0){
+            player.setCurrentBet(0);
+        }
+    }
+
     /**
      * Gestisce la scommessa iniziale di un giocatore.
      *
@@ -43,13 +51,7 @@ public class BankManager {
         // Paga la scommessa originale + la vincita (1:1)
         player.setBalance(player.getBalance() + bet * 2);
 
-        // Resetta la scommessa sulla mano
-        hand.setBet(0);
-
-        // Se è la prima mano, resetta anche currentBet
-        if (handIndex == 0) {
-            player.setCurrentBet(0);
-        }
+        resetBet(player, handIndex);
     }
 
     /**
@@ -65,13 +67,7 @@ public class BankManager {
         // Paga la scommessa originale + la vincita (3:2)
         player.setBalance(player.getBalance() + (int)(bet * 2.5));
 
-        // Resetta la scommessa sulla mano
-        hand.setBet(0);
-
-        // Se è la prima mano, resetta anche currentBet
-        if (handIndex == 0) {
-            player.setCurrentBet(0);
-        }
+        resetBet(player, handIndex);
     }
 
     /**
@@ -87,13 +83,7 @@ public class BankManager {
         // Restituisce solo la scommessa originale
         player.setBalance(player.getBalance() + bet);
 
-        // Resetta la scommessa sulla mano
-        hand.setBet(0);
-
-        // Se è la prima mano, resetta anche currentBet
-        if (handIndex == 0) {
-            player.setCurrentBet(0);
-        }
+        resetBet(player, handIndex);
     }
 
     /**
@@ -103,15 +93,7 @@ public class BankManager {
      * @param handIndex Indice della mano perdente
      */
     public void handleLoss(Player player, int handIndex) {
-        Hand hand = player.getHands().get(handIndex);
-
-        // La scommessa è già stata detratta dal saldo
-        hand.setBet(0);
-
-        // Se è la prima mano, resetta anche currentBet
-        if (handIndex == 0) {
-            player.setCurrentBet(0);
-        }
+        resetBet(player, handIndex);
     }
 
     /**
@@ -210,9 +192,8 @@ public class BankManager {
         Hand hand = player.getHands().get(handIndex);
         int bet = hand.getBet();
 
-        if (player.getBalance() < bet) {
+        if (player.getBalance() < bet)
             return false;
-        }
 
         // Detrae l'importo per la nuova mano
         player.setBalance(player.getBalance() - bet);

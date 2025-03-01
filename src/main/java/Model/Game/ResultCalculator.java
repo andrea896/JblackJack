@@ -9,6 +9,11 @@ import java.util.List;
  * Calcola i risultati del gioco e determina vincite e perdite.
  */
 public class ResultCalculator {
+    private BankManager manager;
+
+    public ResultCalculator(BankManager manager) {
+        this.manager = manager;
+    }
     /**
      * Calcola i risultati per tutti i giocatori.
      *
@@ -90,31 +95,23 @@ public class ResultCalculator {
         boolean handBusted = player.isBusted(handIndex);
         boolean handBlackjack = player.hasBlackjack(handIndex);
 
-        // Ottieni la mano e la sua scommessa
-        Hand hand = player.getHands().get(handIndex);
-        int bet = hand.getBet();
-
         if (handBusted) {
-            // La mano ha sballato, perde
-            // La scommessa è già persa, non serve fare nulla
+            manager.handleLoss(player, handIndex);
         } else if (dealerBusted) {
             // Il dealer ha sballato, la mano vince (pagamento 1:1)
-            player.setBalance(player.getBalance() + bet * 2);
+            manager.payWin(player, handIndex);
         } else if (handBlackjack && !dealerBusted && dealerValue != 21) {
             // La mano ha blackjack, il dealer no (pagamento 3:2)
-            player.setBalance(player.getBalance() + (int)(bet * 2.5));
+            manager.payBlackjack(player, handIndex);
         } else if (handValue > dealerValue) {
             // La mano ha un valore più alto (pagamento 1:1)
-            player.setBalance(player.getBalance() + bet * 2);
+            manager.payWin(player, handIndex);
         } else if (handValue < dealerValue) {
             // Il dealer ha un valore più alto
-            // La scommessa è già persa, non serve fare nulla
+            manager.handleLoss(player, handIndex);
         } else {
             // Stesso valore, pareggio (restituzione della scommessa)
-            player.setBalance(player.getBalance() + bet);
+            manager.payPush(player, handIndex);
         }
-
-        // Resetta la scommessa per questa mano
-        hand.setBet(0);
     }
 }

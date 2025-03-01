@@ -193,37 +193,6 @@ public class Player {
     }
 
     /**
-     * Gestisce una vittoria standard (pagamento 1:1).
-     */
-    public void winBet() {
-        balance += currentBet * 2; // Restituisce la puntata originale + vincita
-        currentBet = 0;
-    }
-
-    /**
-     * Gestisce una vittoria con blackjack (pagamento 3:2).
-     */
-    public void winBlackjack() {
-        balance += (int)(currentBet * 2.5); // Restituisce la puntata originale + vincita 3:2
-        currentBet = 0;
-    }
-
-    /**
-     * Gestisce un pareggio, restituendo la scommessa.
-     */
-    public void pushBet() {
-        balance += currentBet; // Restituisce solo la puntata originale
-        currentBet = 0;
-    }
-
-    /**
-     * Gestisce una perdita, azzerando la scommessa corrente.
-     */
-    public void loseBet() {
-        currentBet = 0; // La puntata è già stata sottratta dal saldo
-    }
-
-    /**
      * Verifica se il giocatore può fare double down sulla prima mano.
      *
      * @return true se può fare double down, false altrimenti
@@ -244,29 +213,6 @@ public class Player {
         if (handIndex < 0 || handIndex >= hands.size()) return false;
         Hand hand = hands.get(handIndex);
         return hand.size() == 2 && balance >= hand.getBet();
-    }
-
-    /**
-     * Esegue un double down sulla mano principale, raddoppiando la scommessa
-     * e aggiungendo una carta.
-     *
-     * @param card La carta da aggiungere
-     * @return true se l'operazione è riuscita, false altrimenti
-     */
-    public boolean doubleDown(Card card) {
-        if (!canDoubleDown()) return false;
-
-        // Sottrai l'importo aggiuntivo dal saldo
-        balance -= currentBet;
-
-        // Raddoppia la scommessa sulla mano
-        hands.get(0).doubleDown();
-        currentBet *= 2;
-
-        // Aggiungi una carta
-        addCard(card);
-
-        return true;
     }
 
     /**
@@ -295,17 +241,6 @@ public class Player {
     }
 
     /**
-     * Verifica se il giocatore può fare split sulla prima mano.
-     *
-     * @return true se può fare split, false altrimenti
-     */
-    public boolean canSplit() {
-        if (hands.isEmpty()) return false;
-        Hand hand = hands.get(0);
-        return hand.canSplit() && balance >= currentBet && hands.size() < 4; // Limite di 4 mani
-    }
-
-    /**
      * Verifica se il giocatore può fare split su una mano specifica.
      *
      * @param handIndex Indice della mano
@@ -315,37 +250,6 @@ public class Player {
         if (handIndex < 0 || handIndex >= hands.size()) return false;
         Hand hand = hands.get(handIndex);
         return hand.canSplit() && balance >= hand.getBet() && hands.size() < 4; // Limite di 4 mani
-    }
-
-    /**
-     * Esegue uno split sulla mano principale.
-     *
-     * @param newCard1 Nuova carta per la prima mano
-     * @param newCard2 Nuova carta per la seconda mano
-     * @return true se l'operazione è riuscita, false altrimenti
-     */
-    public boolean splitHand(Card newCard1, Card newCard2) {
-        if (!canSplit()) return false;
-
-        Hand originalHand = hands.get(0);
-        int bet = originalHand.getBet();
-
-        // Crea una nuova mano con la seconda carta dell'originale
-        Card secondCard = originalHand.splitSecondCard();
-        if (secondCard == null) return false;
-
-        // Crea la nuova mano con la stessa scommessa
-        Hand newHand = new Hand(bet);
-        newHand.addCard(secondCard);
-
-        // Aggiungi le nuove carte
-        originalHand.addCard(newCard1);
-        newHand.addCard(newCard2);
-
-        // Aggiungi la nuova mano alla lista
-        hands.add(newHand);
-
-        return true;
     }
 
     /**
@@ -444,18 +348,6 @@ public class Player {
     }
 
     /**
-     * Verifica se la prima mano è un blackjack.
-     *
-     * @return true se è un blackjack, false altrimenti
-     */
-    public boolean hasBlackjack() {
-        if (!hands.isEmpty()) {
-            return hands.get(0).isBlackjack();
-        }
-        return false;
-    }
-
-    /**
      * Verifica se una mano specifica è un blackjack.
      *
      * @param handIndex Indice della mano
@@ -464,18 +356,6 @@ public class Player {
     public boolean hasBlackjack(int handIndex) {
         if (handIndex >= 0 && handIndex < hands.size()) {
             return hands.get(handIndex).isBlackjack();
-        }
-        return false;
-    }
-
-    /**
-     * Verifica se la prima mano è sballata.
-     *
-     * @return true se è sballata, false altrimenti
-     */
-    public boolean isBusted() {
-        if (!hands.isEmpty()) {
-            return hands.get(0).isBusted();
         }
         return false;
     }

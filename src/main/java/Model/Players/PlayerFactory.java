@@ -1,5 +1,6 @@
 package Model.Players;
 
+import Model.Players.StrategyPlay.AggressiveStrategy;
 import Model.Players.StrategyPlay.BalancedStrategy;
 import Model.Players.StrategyPlay.PlayerStrategy;
 
@@ -14,6 +15,6 @@ public class PlayerFactory {
     }
 
     public static Dealer createDealer() {
-        return new Dealer(new BalancedStrategy());
+        return new Dealer(new AggressiveStrategy());
     }
 }

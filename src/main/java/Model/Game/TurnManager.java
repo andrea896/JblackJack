@@ -40,8 +40,8 @@ public class TurnManager extends Observable {
         this.gameState = GameState.WAITING_FOR_PLAYERS;
         this.currentHandIndex = 0;
         this.insurancePaid = false;
-        this.resultCalculator = new ResultCalculator();
         this.bankManager = new BankManager();
+        this.resultCalculator = new ResultCalculator(bankManager);
     }
 
     /**
@@ -87,8 +87,8 @@ public class TurnManager extends Observable {
      * @return true se il round termina immediatamente, false altrimenti
      */
     private boolean checkForNaturalBlackjacks() {
-        boolean dealerBlackjack = dealer.hasBlackjack();
-        boolean playerBlackjack = humanPlayer.hasBlackjack();
+        boolean dealerBlackjack = dealer.hasBlackjack(currentHandIndex);
+        boolean playerBlackjack = humanPlayer.hasBlackjack(currentHandIndex);
 
         if (dealerBlackjack || playerBlackjack) {
             dealer.revealHiddenCard();
@@ -113,6 +113,19 @@ public class TurnManager extends Observable {
         }
 
         return false;
+    }
+
+    private void handleHandTransition(){
+        if (humanPlayer.getHandCount() <= 1 || currentHandIndex >= humanPlayer.getHandCount() - 1) {
+            gameState = GameState.AI_PLAYER_TURN;
+            setChanged();
+            super.notifyObservers();
+            playAITurns();
+        } else {
+            currentHandIndex++;
+            setChanged();
+            super.notifyObservers();
+        }
     }
 
     /**
@@ -317,7 +330,8 @@ public class TurnManager extends Observable {
 
                         // Verifica se prendere l'Insurance (solo per la prima mano)
                         if (handIndex == 0 && dealerUpCard.isAce() &&
-                                strategy.shouldTakeInsurance(handValue, dealerUpCard)) {
+                                strategy.shouldTakeInsurance(handValue, dealerUpCard) &&
+                                aiPlayer.getHand(handIndex).size() <= 2) {
                             aiPlayer.takeInsurance();
                         }
 
@@ -351,15 +365,21 @@ public class TurnManager extends Observable {
         // Prima rivela la carta nascosta del dealer
         dealer.revealHiddenCard();
         notifyObservers(); // Notifica subito per mostrare la carta nascosta
-        PlayerStrategy strategy = dealer.getStrategy();
-        // Il dealer deve giocare secondo le regole standard, indipendentemente dai giocatori
-        while (strategy.shouldDraw(dealer.getHandValue())) {
-            dealer.addCard(deck.drawCard());
-            notifyObservers(); // Notifica ad ogni carta per animazioni
+        // Verifica se tutti i giocatori hanno sballato
+        boolean allPlayersBusted = isAllPlayersBusted();
 
-            // Interrompi se il dealer sballa
-            if (dealer.isBusted(0)) {
-                break;
+        // Se tutti i giocatori hanno sballato, il dealer non pesca e vince automaticamente
+        if (!allPlayersBusted) {
+            PlayerStrategy strategy = dealer.getStrategy();
+            // Il dealer deve giocare secondo le regole standard
+            while (strategy.shouldDraw(dealer.getHandValue())) {
+                dealer.addCard(deck.drawCard());
+                notifyObservers(); // Notifica ad ogni carta per animazioni
+
+                // Interrompi se il dealer sballa
+                if (dealer.isBusted(0)) {
+                    break;
+                }
             }
         }
 
@@ -367,11 +387,46 @@ public class TurnManager extends Observable {
     }
 
     /**
+     * Verifica se tutti i giocatori hanno sballato.
+     *
+     * @return true se tutti i giocatori hanno sballato, false altrimenti
+     */
+    private boolean isAllPlayersBusted() {
+        // Controlla il giocatore umano
+        boolean humanBusted = true;
+        for (int i = 0; i < humanPlayer.getHandCount(); i++) {
+            if (!humanPlayer.isBusted(i)) {
+                humanBusted = false;
+                break;
+            }
+        }
+
+        // Se il giocatore umano non ha sballato, almeno un giocatore non ha sballato
+        if (!humanBusted) {
+            return false;
+        }
+
+        // Controlla tutti gli altri giocatori AI
+        for (Player player : players) {
+            if (player != humanPlayer) {
+                for (int i = 0; i < player.getHandCount(); i++) {
+                    if (!player.isBusted(i)) {
+                        return false; // Trovato almeno un giocatore che non ha sballato
+                    }
+                }
+            }
+        }
+
+        // Se arriviamo qui, tutti i giocatori hanno sballato
+        return true;
+    }
+
+    /**
      * Termina il round e determina i risultati.
      */
     private void endRound() {
         // Gestisci l'assicurazione se il dealer ha un blackjack
-        if (dealer.hasBlackjack() && !insurancePaid) {
+        if (dealer.hasBlackjack(currentHandIndex) && !insurancePaid) {
             // Paga l'assicurazione a tutti i giocatori che l'hanno presa
             resultCalculator.processInsuranceOutcomes(humanPlayer, players, dealer, insurancePaid);
             insurancePaid = true;

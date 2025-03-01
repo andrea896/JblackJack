@@ -162,8 +162,7 @@ public class BlackJackConsoleTest implements Observer {
                     turnActive = false;
                     break;
                 case "3":
-                    if ((player.getHandCount() == 1 && player.canDoubleDown()) ||
-                            (player.getHandCount() > 1 && player.canDoubleDown(gameModel.getCurrentHandIndex()))) {
+                    if ((player.canDoubleDown(gameModel.getCurrentHandIndex()))) {
                         gameModel.doubleDown();
                         displayGameState();
                         turnActive = false;
@@ -172,8 +171,7 @@ public class BlackJackConsoleTest implements Observer {
                     }
                     break;
                 case "4":
-                    if ((player.getHandCount() == 1 && player.canSplit()) ||
-                            (player.getHandCount() > 1 && player.canSplit(gameModel.getCurrentHandIndex()))) {
+                    if (player.canSplit(gameModel.getCurrentHandIndex())) {
                         gameModel.splitHand();
                         displayGameState();
                     } else {
@@ -371,7 +369,7 @@ public class BlackJackConsoleTest implements Observer {
                 System.out.println(handPrefix + "Hai sballato con " + handValue + ". Perdi $" + gameModel.getCurrentBet() + ".");
             } else if (dealerBusted) {
                 System.out.println(handPrefix + "Il dealer ha sballato! Vinci $" + gameModel.getCurrentBet() + " con la tua mano di " + handValue + ".");
-            } else if (handBlackjack && !dealer.hasBlackjack()) {
+            } else if (handBlackjack && !dealer.hasBlackjack(0)) {
                 int winnings = (int)(gameModel.getCurrentBet() * 1.5);
                 System.out.println(handPrefix + "Blackjack! Vinci $" + winnings + " con un pagamento 3:2.");
             } else if (handValue > dealerValue) {
@@ -385,7 +383,7 @@ public class BlackJackConsoleTest implements Observer {
 
         // Gestione dell'assicurazione
         if (player.hasInsurance()) {
-            if (dealer.hasBlackjack()) {
+            if (dealer.hasBlackjack(0)) {
                 System.out.println("La tua assicurazione è stata pagata con un rapporto 2:1.");
             } else {
                 System.out.println("La tua assicurazione è stata persa.");
