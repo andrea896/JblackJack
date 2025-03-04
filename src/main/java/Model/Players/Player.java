@@ -66,18 +66,6 @@ public class Player {
     }
 
     /**
-     * Calcola il valore della prima mano del giocatore.
-     *
-     * @return Valore della mano principale
-     */
-    public int getHandValue() {
-        if (!hands.isEmpty()) {
-            return hands.get(0).getValue();
-        }
-        return 0;
-    }
-
-    /**
      * Calcola il valore di una mano specifica del giocatore.
      *
      * @param handIndex Indice della mano
@@ -98,18 +86,6 @@ public class Player {
         hands.add(new Hand());
         hasInsurance = false;
         insuranceAmount = 0;
-    }
-
-    /**
-     * Restituisce la prima mano del giocatore.
-     *
-     * @return Lista delle carte nella mano principale
-     */
-    public List<Card> getHand() {
-        if (!hands.isEmpty()) {
-            return hands.get(0).getCards();
-        }
-        return new ArrayList<>();
     }
 
     /**
@@ -168,11 +144,6 @@ public class Player {
      */
     public void setCurrentBet(int currentBet) {
         this.currentBet = currentBet;
-
-        // Aggiorna anche la scommessa nella mano principale
-        if (!hands.isEmpty()) {
-            hands.get(0).setBet(currentBet);
-        }
     }
 
     /**
@@ -181,26 +152,16 @@ public class Player {
      * @param amount Importo da scommettere
      * @return true se la scommessa è andata a buon fine, false altrimenti
      */
-    public boolean placeBet(int amount) {
+    public boolean placeBet(int amount, int currentHandIndex) {
         if (amount <= 0 || amount > balance) {
             return false;
         }
 
         balance -= amount;
         setCurrentBet(amount);
+        hands.get(currentHandIndex).setBet(amount);
 
         return true;
-    }
-
-    /**
-     * Verifica se il giocatore può fare double down sulla prima mano.
-     *
-     * @return true se può fare double down, false altrimenti
-     */
-    public boolean canDoubleDown() {
-        if (hands.isEmpty()) return false;
-        Hand hand = hands.get(0);
-        return hand.size() == 2 && balance >= currentBet;
     }
 
     /**
@@ -226,11 +187,6 @@ public class Player {
         if (!canDoubleDown(handIndex)) return false;
 
         Hand hand = hands.get(handIndex);
-        int bet = hand.getBet();
-
-        // Sottrai l'importo aggiuntivo dal saldo
-        balance -= bet;
-
         // Raddoppia la scommessa sulla mano
         hand.doubleDown();
 
@@ -277,6 +233,7 @@ public class Player {
         // Aggiungi le nuove carte
         originalHand.addCard(newCard1);
         newHand.addCard(newCard2);
+        currentBet += bet;
 
         // Aggiungi la nuova mano alla lista
         hands.add(newHand);
@@ -324,27 +281,6 @@ public class Player {
     public void setInsurance(boolean hasInsurance, int amount) {
         this.hasInsurance = hasInsurance;
         this.insuranceAmount = amount;
-    }
-
-    /**
-     * Vince l'assicurazione (pagamento 2:1).
-     */
-    public void winInsurance() {
-        if (hasInsurance) {
-            balance += insuranceAmount * 3; // Restituisce l'assicurazione + il pagamento 2:1
-            hasInsurance = false;
-            insuranceAmount = 0;
-        }
-    }
-
-    /**
-     * Perde l'assicurazione.
-     */
-    public void loseInsurance() {
-        if (hasInsurance) {
-            hasInsurance = false;
-            insuranceAmount = 0;
-        }
     }
 
     /**

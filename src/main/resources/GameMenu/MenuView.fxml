@@ -67,11 +67,11 @@
            </fx:define>
            <HBox alignment="CENTER" spacing="30">
                <Label styleClass="menu-label" text="Players:" alignment="CENTER_LEFT"/>
-               <RadioButton fx:id="twoPlayerRadiobutton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
+               <RadioButton fx:id="onePlayerRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
                <Label styleClass="menu-label" text="1" alignment="CENTER_LEFT"/>
-               <RadioButton fx:id="threePlayerRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
+               <RadioButton fx:id="twoPlayersRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
                <Label styleClass="menu-label" text="2" alignment="CENTER_LEFT"/>
-               <RadioButton fx:id="fourPlayerRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
+               <RadioButton fx:id="threePlayersRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
                <Label styleClass="menu-label" text="3" alignment="CENTER_LEFT"/>
            </HBox>
            <Region prefHeight="20.0" />

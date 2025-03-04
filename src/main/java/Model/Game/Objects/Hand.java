@@ -179,15 +179,4 @@ public class Hand {
     public int size() {
         return cards.size();
     }
-
-    /**
-     * Reimposta la mano, rimuovendo tutte le carte e ripristinando
-     * gli stati a false.
-     */
-    public void clear() {
-        cards.clear();
-        doubledDown = false;
-        insurance = false;
-        // Non azzeriamo la scommessa perché potrebbe essere gestita separatamente
-    }
 }

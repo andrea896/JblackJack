@@ -5,9 +5,12 @@ import Model.Game.Objects.Deck;
 import Model.Players.AIPlayer;
 import Model.Players.Dealer;
 import Model.Players.Player;
+import Model.Players.StrategyPlay.AggressiveStrategy;
+import Model.Players.StrategyPlay.ConservativeStrategy;
 import Model.Players.StrategyPlay.PlayerStrategy;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 /**
  * Gestisce il flusso di gioco e i turni nel BlackJack.
@@ -23,6 +26,8 @@ public class TurnManager extends Observable {
     private ResultCalculator resultCalculator;
     private boolean insurancePaid;
     private BankManager bankManager;
+    private int currentBet;
+    private Random random;
 
     /**
      * Costruttore che inizializza il gestore dei turni.
@@ -42,15 +47,30 @@ public class TurnManager extends Observable {
         this.insurancePaid = false;
         this.bankManager = new BankManager();
         this.resultCalculator = new ResultCalculator(bankManager);
+        random = new Random();
     }
 
     /**
      * Distribuisce le carte iniziali e avvia il gioco.
      */
-    public void startRound() {
-        // Distribuisci carte iniziali
-        dealInitialCards();
+    public void startRound(int betAmount) {
+        // Inizializza il mazzo e le mani
+        deck.shuffle();
+        humanPlayer.resetHand();
+        dealer.resetHand();
 
+        for (Player player : players)
+            player.resetHand();
+
+        currentBet = betAmount;
+        humanPlayer.placeBet(betAmount, currentHandIndex);
+
+        // Imposta scommesse casuali per i giocatori AI
+        for (Player player : players)
+            if (player instanceof AIPlayer aiPlayer) {
+                int aiBet = getAIBetAmount(aiPlayer);
+                aiPlayer.placeBet(aiBet, currentHandIndex);
+            }
         // Controlla blackjack naturali
         if (checkForNaturalBlackjacks()) {
             gameState = GameState.GAME_OVER;
@@ -59,8 +79,33 @@ public class TurnManager extends Observable {
             currentHandIndex = 0;
             gameState = GameState.PLAYER_TURN;
         }
-
+        dealInitialCards();
         notifyObservers();
+    }
+
+    /**
+     * Determina l'importo della scommessa per un giocatore AI.
+     *
+     * @param aiPlayer Giocatore AI
+     * @return Importo della scommessa
+     */
+    private int getAIBetAmount(AIPlayer aiPlayer) {
+        PlayerStrategy strategy = aiPlayer.getStrategy();
+        int minBet = 10;
+        int maxBet = 100;
+        int balance = aiPlayer.getBalance();
+
+        // Limita la scommessa massima al saldo disponibile
+        maxBet = Math.min(maxBet, balance);
+
+        if (strategy instanceof AggressiveStrategy) {
+            return Math.max(minBet, maxBet / 2 + random.nextInt(maxBet / 2));
+        } else if (strategy instanceof ConservativeStrategy) {
+            return minBet + random.nextInt(Math.max(1, (maxBet - minBet) / 3));
+        } else {
+            // BalancedStrategy
+            return minBet + random.nextInt(Math.max(1, (maxBet - minBet) / 2));
+        }
     }
 
     /**
@@ -118,13 +163,11 @@ public class TurnManager extends Observable {
     private void handleHandTransition(){
         if (humanPlayer.getHandCount() <= 1 || currentHandIndex >= humanPlayer.getHandCount() - 1) {
             gameState = GameState.AI_PLAYER_TURN;
-            setChanged();
-            super.notifyObservers();
+            notifyObservers();
             playAITurns();
         } else {
             currentHandIndex++;
-            setChanged();
-            super.notifyObservers();
+            notifyObservers();
         }
     }
 
@@ -132,86 +175,23 @@ public class TurnManager extends Observable {
      * Gestisce l'azione "Hit" del giocatore umano.
      */
     public void playerHit() {
-        if (gameState == GameState.PLAYER_TURN) {
-            // Se il giocatore ha più mani (dopo uno split), gestisce la mano corrente
-            if (humanPlayer.getHandCount() > 1) {
-                if (currentHandIndex < humanPlayer.getHandCount() &&
-                        !humanPlayer.isBusted(currentHandIndex) &&
-                         humanPlayer.getHandValue(currentHandIndex) < 21) {
+        if (gameState != GameState.PLAYER_TURN) return;
 
-                    humanPlayer.addCard(currentHandIndex, deck.drawCard());
+        if (humanPlayer.isBusted(currentHandIndex) || humanPlayer.getHandValue(currentHandIndex) >= 21) return;
 
-                    // Controlla se la mano corrente ha sballato o ha 21
-                    if (humanPlayer.getHandValue(currentHandIndex) >= 21) {
-                        moveToNextHand();
-                    }
+        humanPlayer.addCard(currentHandIndex, deck.drawCard());
+        notifyObservers();
 
-                    notifyObservers();
-                }
-            } else {
-                // Gestione standard con una sola mano
-                if (humanPlayer.getHandValue() < 21) {
-                    humanPlayer.addCard(deck.drawCard());
-                    notifyObservers();
-                    endTurn();
-                }
-            }
-        }
+        if (humanPlayer.getHandValue(currentHandIndex) >= 21)
+            handleHandTransition();
     }
 
     /**
      * Gestisce l'azione "Stand" del giocatore umano.
      */
     public void playerStand() {
-        if (gameState == GameState.PLAYER_TURN) {
-            // Se il giocatore ha più mani (dopo uno split), passa alla mano successiva
-            if (humanPlayer.getHandCount() > 1 && currentHandIndex < humanPlayer.getHandCount() - 1) {
-                moveToNextHand();
-                notifyObservers();
-            } else {
-                // Altrimenti passa al turno dei giocatori AI
-                gameState = GameState.AI_PLAYER_TURN;
-                notifyObservers();
-                playAITurns();
-            }
-        }
-    }
-
-    /**
-     * Passa alla mano successiva durante il turno del giocatore.
-     */
-    private void moveToNextHand() {
-        currentHandIndex++;
-        if (currentHandIndex >= humanPlayer.getHandCount()) {
-            // Tutte le mani sono state giocate, passa al turno AI
-            gameState = GameState.AI_PLAYER_TURN;
-            playAITurns();
-        }
-
-        notifyObservers();
-    }
-
-    /**
-     * Termina il turno del giocatore se necessario.
-     */
-    private void endTurn() {
-        // Se il giocatore ha più mani, gestisci la logica con moveToNextHand
-        if (humanPlayer.getHandCount() > 1) {
-            if (humanPlayer.getHandValue(currentHandIndex) >= 21) {
-                moveToNextHand();
-            }
-            // Altrimenti rimani sulla mano corrente
-            return;
-        }
-
-        // Logica per una singola mano
-        if (humanPlayer.getHandValue() >= 21) {
-            // Il giocatore ha sballato o ha 21, passa alla fase successiva
-            gameState = GameState.AI_PLAYER_TURN;
-            notifyObservers();
-            playAITurns();
-        }
-        // Altrimenti rimani nello stato PLAYER_TURN per consentire più azioni
+        if (gameState != GameState.PLAYER_TURN) return;
+        handleHandTransition();
     }
 
     /**
@@ -222,27 +202,13 @@ public class TurnManager extends Observable {
     public boolean doubleDown() {
         if (gameState != GameState.PLAYER_TURN) return false;
 
-        boolean success = false;
-        Card newCard = deck.drawCard();
-
-        // esegui il double down sulla mano corrente
-        if (humanPlayer.canDoubleDown(currentHandIndex) &&
-                    bankManager.handleDoubleDown(humanPlayer, currentHandIndex)) {
-            humanPlayer.addCard(currentHandIndex, newCard);
-            success = true;
-        }
+        boolean success = humanPlayer.canDoubleDown(currentHandIndex) &&
+                            bankManager.handleDoubleDown(humanPlayer, currentHandIndex);
 
         if (success) {
+            humanPlayer.addCard(currentHandIndex, deck.drawCard());
             notifyObservers();
-
-            // Dopo un double down, il turno del giocatore termina per quella mano
-            if (humanPlayer.getHandCount() > 1) {
-                moveToNextHand();
-            } else {
-                gameState = GameState.AI_PLAYER_TURN;
-                playAITurns();
-            }
-
+            handleHandTransition();
             return true;
         }
 
@@ -260,7 +226,6 @@ public class TurnManager extends Observable {
         boolean success = humanPlayer.canSplit(currentHandIndex) &&
                                 bankManager.handleSplit(humanPlayer, currentHandIndex) &&
                                 humanPlayer.splitHand(currentHandIndex, deck.drawCard(), deck.drawCard());
-
         if (success) {
             notifyObservers();
             return true;
@@ -276,7 +241,7 @@ public class TurnManager extends Observable {
      */
     public boolean takeInsurance() {
         if (gameState == GameState.PLAYER_TURN &&
-                dealer.getHand().get(0).isAce() &&
+                dealer.getHand(0).get(0).isAce() &&
                 !humanPlayer.hasInsurance()) {
 
             boolean success = humanPlayer.takeInsurance() && bankManager.placeInsurance(humanPlayer);
@@ -294,14 +259,14 @@ public class TurnManager extends Observable {
      */
     private void playAITurns() {
         for (Player player : players) {
-            if (player != humanPlayer && player instanceof AIPlayer aiPlayer) {
+            if (player instanceof AIPlayer aiPlayer) {
                 // Per ciascuna mano del giocatore AI (in caso di split)
                 for (int handIndex = 0; handIndex < aiPlayer.getHandCount(); handIndex++) {
                     PlayerStrategy strategy = aiPlayer.getStrategy();
                     boolean continuePlaying = true;
 
                     while (continuePlaying && aiPlayer.getHandValue(handIndex) < 21) {
-                        Card dealerUpCard = dealer.getHand().get(0); // La carta visibile del dealer
+                        Card dealerUpCard = dealer.getHand(0).get(0); // La carta visibile del dealer
                         int handValue = aiPlayer.getHandValue(handIndex);
 
                         // Verifica se fare Split (ha priorità più alta)
@@ -367,22 +332,19 @@ public class TurnManager extends Observable {
         notifyObservers(); // Notifica subito per mostrare la carta nascosta
         // Verifica se tutti i giocatori hanno sballato
         boolean allPlayersBusted = isAllPlayersBusted();
-
         // Se tutti i giocatori hanno sballato, il dealer non pesca e vince automaticamente
         if (!allPlayersBusted) {
             PlayerStrategy strategy = dealer.getStrategy();
             // Il dealer deve giocare secondo le regole standard
-            while (strategy.shouldDraw(dealer.getHandValue())) {
+            while (strategy.shouldDraw(dealer.getHandValue(0))) {
                 dealer.addCard(deck.drawCard());
                 notifyObservers(); // Notifica ad ogni carta per animazioni
-
                 // Interrompi se il dealer sballa
                 if (dealer.isBusted(0)) {
                     break;
                 }
             }
         }
-
         endRound();
     }
 
@@ -394,29 +356,19 @@ public class TurnManager extends Observable {
     private boolean isAllPlayersBusted() {
         // Controlla il giocatore umano
         boolean humanBusted = true;
-        for (int i = 0; i < humanPlayer.getHandCount(); i++) {
+        for (int i = 0; i < humanPlayer.getHandCount(); i++)
             if (!humanPlayer.isBusted(i)) {
                 humanBusted = false;
                 break;
             }
-        }
-
         // Se il giocatore umano non ha sballato, almeno un giocatore non ha sballato
-        if (!humanBusted) {
-            return false;
-        }
-
+        if (!humanBusted) return false;
         // Controlla tutti gli altri giocatori AI
-        for (Player player : players) {
-            if (player != humanPlayer) {
-                for (int i = 0; i < player.getHandCount(); i++) {
-                    if (!player.isBusted(i)) {
+        for (Player player : players)
+            if (player != humanPlayer)
+                for (int i = 0; i < player.getHandCount(); i++)
+                    if (!player.isBusted(i))
                         return false; // Trovato almeno un giocatore che non ha sballato
-                    }
-                }
-            }
-        }
-
         // Se arriviamo qui, tutti i giocatori hanno sballato
         return true;
     }
@@ -434,10 +386,8 @@ public class TurnManager extends Observable {
             // Se il dealer non ha blackjack, tutti perdono le assicurazioni
             resultCalculator.clearInsurance(humanPlayer, players);
         }
-
         // Calcola i risultati per tutti i giocatori
         resultCalculator.calculateResults(humanPlayer, players, dealer);
-
         // Aggiorna lo stato del gioco
         gameState = GameState.GAME_OVER;
         notifyObservers();
@@ -463,5 +413,9 @@ public class TurnManager extends Observable {
      */
     public int getCurrentHandIndex() {
         return currentHandIndex;
+    }
+
+    public int getCurrentbet(){
+        return currentBet;
     }
 }

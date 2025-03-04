@@ -1,0 +1,305 @@
+@font-face {
+    font-family: 'Bomberman';
+    src: url('../BLACKJACK.TTF');
+}
+
+/* Stili generali */
+.root {
+    -fx-background-color: #006400; /* Verde scuro per il tavolo */
+    -fx-font-family: 'Bomberman';
+}
+
+/* Componenti principali */
+.game-component {
+    -fx-background-color: rgba(0,0,0,0.1);
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+}
+
+.highlighted {
+    -fx-effect: dropshadow(three-pass-box, gold, 15, 0.5, 0, 0);
+    -fx-border-color: gold;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+}
+
+/* Label di stato */
+.status-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: rgba(0,0,0,0.7);
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+}
+
+.status-message {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: rgba(0,0,0,0.7);
+    -fx-padding: 8px 20px;
+    -fx-background-radius: 5px;
+}
+
+/* Etichette giocatore */
+.player-name, .dealer-name, .ai-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.balance-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #FFD700; /* Oro */
+}
+
+.bet-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #32CD32; /* Verde lime */
+}
+
+.hand-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.busted-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FF4500; /* Rosso arancione */
+    -fx-effect: dropshadow(three-pass-box, black, 1, 1, 0, 0);
+}
+
+.action-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00BFFF; /* Azzurro */
+    -fx-background-color: rgba(0,0,0,0.5);
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+}
+
+/* Pulsanti di controllo - Stile aggiornato dal GameMenu.css */
+.button {
+    -fx-background-color: #8B0000; /* Rosso scuro dal menu */
+    -fx-text-fill: white;
+    -fx-font-family: 'Bomberman';
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 4);
+}
+
+.button:hover {
+    -fx-background-color: #A52A2A; /* Rosso più chiaro */
+    -fx-text-fill: #FFFFF0; /* Avorio */
+    -fx-translate-y: -2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 0, 6);
+}
+
+.button:pressed {
+    -fx-text-fill: #FFFFF0; /* Avorio */
+    -fx-translate-y: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 2);
+}
+
+.button:disabled {
+    -fx-background-color: rgba(139, 0, 0, 0.5); /* Rosso scuro con opacità */
+    -fx-opacity: 0.7;
+}
+
+/* Stili specifici dei pulsanti con i colori aggiornati */
+.hit-button {
+    -fx-background-color: #006400; /* Verde scuro dal menu */
+}
+
+.hit-button:hover {
+    -fx-background-color: #008000; /* Verde più chiaro */
+}
+
+.hit-button:pressed {
+    -fx-background-color: #004d00; /* Verde più scuro */
+}
+
+.stand-button {
+    -fx-background-color: #8B0000; /* Rosso scuro dal menu */
+}
+
+.stand-button:hover {
+    -fx-background-color: #A52A2A; /* Rosso più chiaro */
+}
+
+.stand-button:pressed {
+    -fx-background-color: #6B0000; /* Rosso più scuro */
+}
+
+.double-button {
+    -fx-background-color: #FF8C00; /* Arancione scuro */
+}
+
+.double-button:hover {
+    -fx-background-color: #FFA500; /* Arancione più chiaro */
+}
+
+.double-button:pressed {
+    -fx-background-color: #CC7000; /* Arancione più scuro */
+}
+
+.split-button {
+    -fx-background-color: #9932CC; /* Viola scuro */
+}
+
+.split-button:hover {
+    -fx-background-color: #BA55D3; /* Viola più chiaro */
+}
+
+.split-button:pressed {
+    -fx-background-color: #7B2599; /* Viola più scuro */
+}
+
+.exit-button {
+    -fx-background-color: #696969; /* Grigio scuro */
+}
+
+.exit-button:hover {
+    -fx-background-color: #808080; /* Grigio più chiaro */
+}
+
+.exit-button:pressed {
+    -fx-background-color: #505050; /* Grigio più scuro */
+}
+
+.play-again-button {
+    -fx-background-color: #FFD700; /* Oro */
+    -fx-text-fill: #000000; /* Nero */
+    -fx-font-size: 16px;
+}
+
+.play-again-button:hover {
+    -fx-background-color: #FFDF33; /* Oro più chiaro */
+    -fx-text-fill: #000000; /* Nero */
+    -fx-translate-y: -2;
+}
+
+.play-again-button:pressed {
+    -fx-background-color: #CCAC00; /* Oro più scuro */
+    -fx-translate-y: 1;
+}
+
+/* Scommesse */
+.bet-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.bet-amount {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFD700; /* Oro */
+}
+
+.bet-button {
+    -fx-background-color: #006400; /* Verde scuro dal menu */
+    -fx-font-size: 14px;
+}
+
+.bet-button:hover {
+    -fx-background-color: #008000; /* Verde più chiaro */
+    -fx-translate-y: -2;
+}
+
+.bet-button:pressed {
+    -fx-background-color: #004d00; /* Verde più scuro */
+    -fx-translate-y: 1;
+}
+
+.insurance-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.accept-button {
+    -fx-background-color: #006400; /* Verde scuro dal menu */
+}
+
+.accept-button:hover {
+    -fx-background-color: #008000; /* Verde più chiaro */
+    -fx-translate-y: -2;
+}
+
+.accept-button:pressed {
+    -fx-background-color: #004d00; /* Verde più scuro */
+    -fx-translate-y: 1;
+}
+
+.decline-button {
+    -fx-background-color: #8B0000; /* Rosso scuro dal menu */
+}
+
+.decline-button:hover {
+    -fx-background-color: #A52A2A; /* Rosso più chiaro */
+    -fx-translate-y: -2;
+}
+
+.decline-button:pressed {
+    -fx-background-color: #6B0000; /* Rosso più scuro */
+    -fx-translate-y: 1;
+}
+
+/* Slider */
+.slider .track {
+    -fx-background-color: #696969;
+}
+
+.slider .thumb {
+    -fx-background-color: #FFD700;
+}
+
+.blackjack-table {
+    -fx-background-color: #006400;
+    -fx-background-radius: 25px;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.7), 15, 0.5, 0, 0);
+    -fx-padding: 10px;
+}
+
+.dealer-area {
+    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+    -fx-border-color: rgba(255,215,0,0.3);
+    -fx-border-radius: 15px;
+    -fx-border-width: 1px;
+}
+
+.human-player-area {
+    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+    -fx-border-color: rgba(255,215,0,0.7);
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,215,0,0.4), 10, 0, 0, 0);
+}
+
+.ai-player-area {
+    -fx-background-color: rgba(0,0,0,0.15);
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-border-color: rgba(255,255,255,0.2);
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+.controls-panel, .betting-panel {
+    -fx-background-color: rgba(0,0,0,0.3);
+    -fx-background-radius: 10px;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+    -fx-border-color: rgba(255,255,255,0.2);
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}

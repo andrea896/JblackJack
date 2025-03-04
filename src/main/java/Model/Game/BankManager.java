@@ -18,27 +18,6 @@ public class BankManager {
     }
 
     /**
-     * Gestisce la scommessa iniziale di un giocatore.
-     *
-     * @param player Il giocatore che effettua la scommessa
-     * @param amount L'importo della scommessa
-     * @return true se la scommessa è valida, false altrimenti
-     */
-    public boolean placeBet(Player player, int amount) {
-        if (amount <= 0 || amount > player.getBalance()) {
-            return false;
-        }
-
-        // Detrae la scommessa dal saldo del giocatore
-        player.setBalance(player.getBalance() - amount);
-
-        // Imposta la scommessa corrente del giocatore e nella mano principale
-        player.setCurrentBet(amount);
-
-        return true;
-    }
-
-    /**
      * Gestisce una vittoria standard (pagamento 1:1).
      *
      * @param player Il giocatore vincente
@@ -79,7 +58,6 @@ public class BankManager {
     public void payPush(Player player, int handIndex) {
         Hand hand = player.getHands().get(handIndex);
         int bet = hand.getBet();
-
         // Restituisce solo la scommessa originale
         player.setBalance(player.getBalance() + bet);
 
@@ -108,10 +86,8 @@ public class BankManager {
         if (player.getBalance() >= insuranceAmount) {
             // Detrae l'importo dell'assicurazione
             player.setBalance(player.getBalance() - insuranceAmount);
-
             // Imposta lo stato di assicurazione
             player.setInsurance(true, insuranceAmount);
-
             // Imposta l'assicurazione sulla prima mano
             if (!player.getHands().isEmpty()) {
                 player.getHands().get(0).takeInsurance();
@@ -169,14 +145,14 @@ public class BankManager {
 
         // Detrae l'importo aggiuntivo dal saldo
         player.setBalance(player.getBalance() - bet);
+        player.setCurrentBet(bet);
 
         // Raddoppia la scommessa nella mano
         hand.doubleDown();
 
         // Se è la prima mano, aggiorna anche currentBet
-        if (handIndex == 0) {
+        if (handIndex == 0)
             player.setCurrentBet(bet * 2);
-        }
 
         return true;
     }
@@ -192,11 +168,12 @@ public class BankManager {
         Hand hand = player.getHands().get(handIndex);
         int bet = hand.getBet();
 
-        if (player.getBalance() < bet)
+        if (player.getBalance() < bet || !player.canSplit(handIndex))
             return false;
 
         // Detrae l'importo per la nuova mano
         player.setBalance(player.getBalance() - bet);
+        player.setCurrentBet(bet);
 
         return true;
     }

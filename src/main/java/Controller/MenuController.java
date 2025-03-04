@@ -51,7 +51,10 @@ public class MenuController {
     private TableColumn<UserProfile, Integer> rankColumn, valueColumn;
     @FXML
     private TableColumn<UserProfile, String> playerNameColumn;
-
+    @FXML
+    private RadioButton greenCardRadioButton, redCardRadioButton, blueCardRadioButton;
+    @FXML
+    private RadioButton onePlayerRadioButton, twoPlayersRadioButton, threePlayersRadioButton;
 
     private GameManager gameManager;
     private VBox currentMenuBox;
@@ -171,7 +174,31 @@ public class MenuController {
      */
     @FXML
     public void onStartGameButtonClick(){
+        if (gameManager.getCurrentProfile() == null) {
+            logger.logWarning("Nessun profilo selezionato per iniziare il gioco!");
+            showTransitionScreen("Nessun profilo selezionato, accedi al tuo profilo");
+            return;
+        }
+        // Raccogli le opzioni selezionate dall'utente
+        int numPlayers = getSelectedNumberOfPlayers(); // Metodo che legge la selezione dai radioButton
+        String cardBackDesign = getSelectedCardBackDesign(); // Metodo che legge la selezione dai radioButton o combobox
         showTransitionScreen("STARTING GAME");
+        gameManager.startGame(numPlayers, cardBackDesign);
+
+    }
+
+    private int getSelectedNumberOfPlayers() {
+        if (onePlayerRadioButton.isSelected()) return 1;
+        if (twoPlayersRadioButton.isSelected()) return 2;
+        if (threePlayersRadioButton.isSelected()) return 3;
+        return 2; // Valore predefinito
+    }
+
+    private String getSelectedCardBackDesign() {
+        if (blueCardRadioButton.isSelected()) return "Images/cardBack_blue5.png";
+        if (redCardRadioButton.isSelected()) return "Images/cardBack_red5.png";
+        if (greenCardRadioButton.isSelected()) return "Images/cardBack_green5.png";
+        return "Images/cardBack_blue5.png"; // Valore predefinito
     }
 
     /**

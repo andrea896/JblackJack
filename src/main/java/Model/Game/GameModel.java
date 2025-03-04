@@ -1,7 +1,6 @@
 package Model.Game;
 
 import Model.Game.Objects.Deck;
-import Model.Players.AIPlayer;
 import Model.Players.StrategyPlay.AggressiveStrategy;
 import Model.Players.StrategyPlay.BalancedStrategy;
 import Model.Players.StrategyPlay.ConservativeStrategy;
@@ -12,14 +11,13 @@ import Model.Players.StrategyPlay.PlayerStrategy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 
 /**
  * Modello principale del gioco BlackJack.
  * Coordina i componenti e gestisce lo stato del gioco.
  */
-public class GameModel extends Observable implements Observer {
+public class GameModel extends Observable {
     private Deck deck;
     private Player humanPlayer;
     private List<Player> players;
@@ -34,24 +32,17 @@ public class GameModel extends Observable implements Observer {
      *
      * @param playerName Nome del giocatore umano
      * @param initialBalance Saldo iniziale del giocatore
-     * @param numDeck Numero di mazzi da utilizzare
      * @param numOfPlayers Numero di giocatori AI da creare
      */
-    public GameModel(String playerName, int initialBalance, int numDeck, int numOfPlayers) {
-        // Inizializza componenti di base
-        this.deck = new Deck(numDeck);
+    public GameModel(String playerName, int initialBalance, int numOfPlayers) {
+        this.deck = new Deck(2);
         this.humanPlayer = PlayerFactory.createHumanPlayer(playerName, initialBalance);
         this.players = new ArrayList<>();
         this.dealer = PlayerFactory.createDealer();
         this.random = new Random();
-        this.currentBet = 0;
-
-        // Crea giocatori AI
         createAIPlayers(numOfPlayers);
-
-        // Inizializza componenti specializzati
+        this.currentBet = 0;
         this.turnManager = new TurnManager(humanPlayer, players, dealer, deck);
-        this.turnManager.addObserver(this);
     }
 
     /**
@@ -92,54 +83,8 @@ public class GameModel extends Observable implements Observer {
             return false;
         }
 
-        // Inizializza il mazzo e le mani
-        deck.shuffle();
-        humanPlayer.resetHand();
-        dealer.resetHand();
-
-        for (Player player : players) {
-            player.resetHand();
-        }
-
-        currentBet = betAmount;
-        humanPlayer.placeBet(betAmount);
-
-        // Imposta scommesse casuali per i giocatori AI
-        for (Player player : players) {
-            if (player instanceof AIPlayer aiPlayer) {
-                int aiBet = getAIBetAmount(aiPlayer);
-                aiPlayer.placeBet(aiBet);
-            }
-        }
-
-        // Avvia il round
-        turnManager.startRound();
+        turnManager.startRound(betAmount);
         return true;
-    }
-
-    /**
-     * Determina l'importo della scommessa per un giocatore AI.
-     *
-     * @param aiPlayer Giocatore AI
-     * @return Importo della scommessa
-     */
-    private int getAIBetAmount(AIPlayer aiPlayer) {
-        PlayerStrategy strategy = aiPlayer.getStrategy();
-        int minBet = 10;
-        int maxBet = 100;
-        int balance = aiPlayer.getBalance();
-
-        // Limita la scommessa massima al saldo disponibile
-        maxBet = Math.min(maxBet, balance);
-
-        if (strategy instanceof AggressiveStrategy) {
-            return Math.max(minBet, maxBet / 2 + random.nextInt(maxBet / 2));
-        } else if (strategy instanceof ConservativeStrategy) {
-            return minBet + random.nextInt(Math.max(1, (maxBet - minBet) / 3));
-        } else {
-            // BalancedStrategy
-            return minBet + random.nextInt(Math.max(1, (maxBet - minBet) / 2));
-        }
     }
 
     /**
@@ -175,16 +120,6 @@ public class GameModel extends Observable implements Observer {
      */
     public void takeInsurance() {
         turnManager.takeInsurance();
-    }
-
-    /**
-     * Riceve aggiornamenti dal TurnManager e li inoltra agli osservatori.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        // Inoltra la notifica ai propri osservatori
-        setChanged();
-        notifyObservers(arg);
     }
 
     /**
@@ -239,6 +174,6 @@ public class GameModel extends Observable implements Observer {
      * @return Importo della scommessa corrente
      */
     public int getCurrentBet() {
-        return currentBet;
+        return turnManager.getCurrentbet();
     }
 }

@@ -22,7 +22,7 @@ public class ResultCalculator {
      * @param dealer Dealer
      */
     public void calculateResults(Player humanPlayer, List<Player> players, Dealer dealer) {
-        int dealerValue = dealer.getHandValue();
+        int dealerValue = dealer.getHandValue(0);
         boolean dealerBusted = dealerValue > 21;
 
         // Elabora i risultati per il giocatore umano
@@ -39,7 +39,6 @@ public class ResultCalculator {
             }
         }
     }
-
     /**
      * Elabora i risultati dell'assicurazione.
      *
@@ -52,17 +51,17 @@ public class ResultCalculator {
         if (insurancePaid) return; // Evita di pagare l'assicurazione due volte
 
         for (Player player : players) {
-            if (player != humanPlayer && player.hasInsurance()) {
-                player.winInsurance();
+            if (player.hasInsurance()) {
+                manager.payInsurance(player);
             } else if (player != humanPlayer) {
-                player.loseInsurance();
+                manager.handleInsuranceLoss(player);
             }
         }
 
         if (humanPlayer.hasInsurance()) {
-            humanPlayer.winInsurance();
+            manager.payInsurance(humanPlayer);
         } else {
-            humanPlayer.loseInsurance();
+            manager.handleInsuranceLoss(humanPlayer);
         }
     }
 
@@ -75,11 +74,11 @@ public class ResultCalculator {
     public void clearInsurance(Player humanPlayer, List<Player> players) {
         for (Player player : players) {
             if (player != humanPlayer) {
-                player.loseInsurance();
+                manager.handleInsuranceLoss(player);
             }
         }
 
-        humanPlayer.loseInsurance();
+        manager.handleInsuranceLoss(humanPlayer);
     }
 
     /**

@@ -45,7 +45,7 @@ public class BlackJackConsoleTest implements Observer {
         int numAIPlayers = Integer.parseInt(scanner.nextLine());
 
         // Crea il modello di gioco
-        gameModel = new GameModel(playerName, initialBalance, numDecks, numAIPlayers);
+        //gameModel = new GameModel(playerName, initialBalance, numDecks, numAIPlayers);
         gameModel.addObserver(this);
 
         System.out.println("\nGioco inizializzato! " + playerName + " inizia con $" + initialBalance);
@@ -144,7 +144,7 @@ public class BlackJackConsoleTest implements Observer {
                     System.out.println("4. Split (Dividi)");
                 }
 
-                if (gameModel.getDealer().getHand().get(0).isAce() && !player.hasInsurance()) {
+                if (gameModel.getDealer().getHand(0).get(0).isAce() && !player.hasInsurance()) {
                     System.out.println("5. Insurance (Assicurazione)");
                 }
             }
@@ -179,7 +179,7 @@ public class BlackJackConsoleTest implements Observer {
                     }
                     break;
                 case "5":
-                    if (gameModel.getDealer().getHand().get(0).isAce() && !player.hasInsurance()) {
+                    if (gameModel.getDealer().getHand(0).get(0).isAce() && !player.hasInsurance()) {
                         gameModel.takeInsurance();
                         displayGameState();
                     } else {
@@ -205,7 +205,7 @@ public class BlackJackConsoleTest implements Observer {
         String choice = scanner.nextLine().toLowerCase();
 
         if (choice.equals("s") || choice.equals("si") || choice.equals("sì")) {
-            gameModel = new GameModel(player.getName(), player.getBalance(), 1, 1);
+            gameModel = new GameModel(player.getName(), player.getBalance(),  1);
             gameModel.addObserver(this);
         } else {
             gameRunning = false;
@@ -224,21 +224,21 @@ public class BlackJackConsoleTest implements Observer {
 
         if (gameModel.getGameState() == GameState.PLAYER_TURN) {
             // Durante il turno del giocatore, mostra solo la prima carta del dealer
-            if (dealer.getHand() == null || dealer.getHand().isEmpty()) {
+            if (dealer.getHand(0) == null || dealer.getHand(0).isEmpty()) {
                 System.out.println("[Nessuna carta]");
             } else if (gameModel.getGameState() == GameState.PLAYER_TURN) {
                 // Durante il turno del giocatore, mostra solo la prima carta del dealer
-                System.out.print(dealer.getHand().get(0) + ", [Carta coperta]");
-                System.out.println(" (Valore mostrato: " + dealer.getHand().get(0).getValue() + ")");
+                System.out.print(dealer.getHand(0).get(0) + ", [Carta coperta]");
+                System.out.println(" (Valore mostrato: " + dealer.getHand(0).get(0).getValue() + ")");
             } else {
                 // Dopo il turno del giocatore, mostra tutte le carte del dealer
-                displayCards(dealer.getHand());
-                System.out.println(" (Valore: " + dealer.getHandValue() + ")");
+                displayCards(dealer.getHand(0));
+                System.out.println(" (Valore: " + dealer.getHandValue(0) + ")");
             }
         } else {
             // Dopo il turno del giocatore, mostra tutte le carte del dealer
-            displayCards(dealer.getHand());
-            System.out.println(" (Valore: " + dealer.getHandValue() + ")");
+            displayCards(dealer.getHand(0));
+            System.out.println(" (Valore: " + dealer.getHandValue(0) + ")");
         }
 
         // Mostra le carte dei giocatori AI
@@ -351,7 +351,7 @@ public class BlackJackConsoleTest implements Observer {
     private void displayRoundResults() {
         Player player = gameModel.getHumanPlayer();
         Dealer dealer = gameModel.getDealer();
-        int dealerValue = dealer.getHandValue();
+        int dealerValue = dealer.getHandValue(0);
         boolean dealerBusted = dealerValue > 21;
 
         System.out.println("\n=== RISULTATI DEL ROUND ===");

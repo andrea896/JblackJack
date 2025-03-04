@@ -1,15 +1,21 @@
 package Controller;
 
-import Model.Profile.GameStats;
+import Model.Game.GameModel;
 import Model.Profile.ProfileManager;
 import Model.Profile.UserProfile;
 import Utility.LoggerUtility;
+import View.BlackJackViewImpl;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 public class GameManager {
     private static GameManager instance;
     private ProfileManager profileManager;
     private UserProfile currentProfile;
     private static final LoggerUtility logger = new LoggerUtility();
+    private Stage primaryStage;
+    private GameModel gameModel;
 
     private GameManager() {
         profileManager = ProfileManager.getInstance();
@@ -21,6 +27,10 @@ public class GameManager {
             instance = new GameManager();
 
         return instance;
+    }
+
+    public void init(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     public UserProfile loadExistingProfile(String nickname) {
@@ -44,7 +54,45 @@ public class GameManager {
         return currentProfile;
     }
 
-    public void updateGameStats(boolean won, int betAmount){
+    public void startGame(int numberOfPlayers, String cardBackDesign){
+        if (currentProfile == null){
+            logger.logWarning("Nessun profilo selezionato per iniziare il gioco");
+            return;
+        }
+
+        int initialBalance = currentProfile.getStats().getCurrentBalance();
+        String playerName = currentProfile.getNickname();
+        primaryStage = new Stage();
+
+        try {
+            // Crea prima la Scene con un container temporaneo
+            BorderPane tempRoot = new BorderPane();
+            Scene gameScene = new Scene(tempRoot, 1024, 768);
+
+            // Carica subito il CSS
+            gameScene.getStylesheets().add(getClass().getResource("/Game/blackjack.css").toExternalForm());
+
+            // Crea il modello
+            gameModel = new GameModel(playerName, initialBalance, numberOfPlayers);
+
+            // Crea la vista - ora il CSS sarà disponibile quando i componenti vengono inizializzati
+            BlackJackViewImpl blackjackView = new BlackJackViewImpl(primaryStage, cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers);
+
+            // Sostituisci il root temporaneo con la vista reale
+            gameScene.setRoot(blackjackView);
+
+            // Crea il controller
+            MainController mainController = new MainController(gameModel, blackjackView);
+            gameModel.addObserver(mainController);
+
+            // Imposta e mostra la scena
+            primaryStage.setScene(gameScene);
+            primaryStage.show();
+
+            logger.logInfo("Gioco avviato per il profilo: " + playerName + ", giocatori: " + numberOfPlayers + ", design carte: " + cardBackDesign);
+        } catch (Exception e) {
+            logger.logError("Errore nell'avvio del gioco: " + e.getMessage(), e);
+        }
 
     }
 }
