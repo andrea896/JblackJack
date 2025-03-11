@@ -2,9 +2,10 @@ package View;
 
 import Controller.BlackjackActionListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;;
-
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class ControlPanelView extends HBox {
     private final Button hitButton;
@@ -12,20 +13,20 @@ public class ControlPanelView extends HBox {
     private final Button doubleDownButton;
     private final Button splitButton;
     private final Button exitButton;
-
     private BlackjackActionListener actionListener;
 
     public ControlPanelView() {
-        setAlignment(javafx.geometry.Pos.CENTER);
-        setSpacing(15);
-        setPadding(new Insets(20));
+        setAlignment(Pos.CENTER);
+        setSpacing(10);
+        setPadding(new Insets(15));
+        setPrefSize(800, 200);
 
-        // Crea i pulsanti
-        hitButton = createButton("Hit", "hit-button");
-        standButton = createButton("Stand", "stand-button");
-        doubleDownButton = createButton("Double Down", "double-button");
-        splitButton = createButton("Split", "split-button");
-        exitButton = createButton("Menu", "exit-button");
+        // Crea i pulsanti con le classi di stile appropriate
+        hitButton = createButton("HIT", "hit-button");
+        standButton = createButton("STAND", "stand-button");
+        doubleDownButton = createButton("DOUBLE DOWN", "double-button");
+        splitButton = createButton("SPLIT", "split-button");
+        exitButton = createButton("MENU", "exit-button");
 
         // Disabilita pulsanti all'inizio
         hitButton.setDisable(true);
@@ -38,11 +39,17 @@ public class ControlPanelView extends HBox {
 
         // Aggiungi pulsanti al layout
         getChildren().addAll(hitButton, standButton, doubleDownButton, splitButton, exitButton);
+        setHgrow(hitButton, Priority.ALWAYS);
+        setHgrow(standButton, Priority.ALWAYS);
+        setHgrow(doubleDownButton, Priority.ALWAYS);
+        setHgrow(splitButton, Priority.ALWAYS);
+        setHgrow(exitButton, Priority.ALWAYS);
     }
 
     private Button createButton(String text, String styleClass) {
         Button button = new Button(text);
         button.getStyleClass().add(styleClass);
+        button.setPrefSize(200, 50);
         return button;
     }
 

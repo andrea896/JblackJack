@@ -2,44 +2,36 @@ package View;
 
 import Model.Game.Objects.Card;
 import javafx.animation.RotateTransition;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DealerView extends GameComponentView{
+public class DealerView extends VBox {
     private final HandView handView;
     private final Label valueLabel;
 
     public DealerView() {
-        // Layout principale verticale
-        VBox mainContainer = new VBox(10);
-        mainContainer.setAlignment(javafx.geometry.Pos.CENTER);
-
         // Label del dealer
         Label nameLabel = new Label("Dealer");
         nameLabel.getStyleClass().add("dealer-name");
-
+        nameLabel.setTextAlignment(TextAlignment.CENTER);
         // Mano del dealer
         handView = new HandView();
-
         // Valore della mano
         valueLabel = new Label();
         valueLabel.getStyleClass().add("dealer-value");
         valueLabel.setVisible(false);
 
-        // Assembla layout
-        mainContainer.getChildren().addAll(nameLabel, handView, valueLabel);
-        getChildren().add(mainContainer);
+        getChildren().addAll(nameLabel, handView, valueLabel);
 
-        // Aggiunge status label sopra tutto
-        getChildren().add(statusLabel);
-        statusLabel.toFront();
     }
 
     public void updateHand(List<Card> cards, int handValue, boolean hideFirstCard) {

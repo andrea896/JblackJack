@@ -62,31 +62,18 @@ public class GameManager {
 
         int initialBalance = currentProfile.getStats().getCurrentBalance();
         String playerName = currentProfile.getNickname();
-        primaryStage = new Stage();
 
         try {
-            // Crea prima la Scene con un container temporaneo
             BorderPane tempRoot = new BorderPane();
-            Scene gameScene = new Scene(tempRoot, 1024, 768);
-
-            // Carica subito il CSS
+            Scene gameScene = new Scene(tempRoot, 1355, 944);
             gameScene.getStylesheets().add(getClass().getResource("/Game/blackjack.css").toExternalForm());
-
-            // Crea il modello
             gameModel = new GameModel(playerName, initialBalance, numberOfPlayers);
-
-            // Crea la vista - ora il CSS sarà disponibile quando i componenti vengono inizializzati
-            BlackJackViewImpl blackjackView = new BlackJackViewImpl(primaryStage, cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers);
-
-            // Sostituisci il root temporaneo con la vista reale
+            BlackJackViewImpl blackjackView = new BlackJackViewImpl(cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers, currentProfile.getNickname(), currentProfile.getStats().getCurrentBalance());
             gameScene.setRoot(blackjackView);
-
-            // Crea il controller
             MainController mainController = new MainController(gameModel, blackjackView);
             gameModel.addObserver(mainController);
-
-            // Imposta e mostra la scena
             primaryStage.setScene(gameScene);
+            primaryStage.setResizable(false);
             primaryStage.show();
 
             logger.logInfo("Gioco avviato per il profilo: " + playerName + ", giocatori: " + numberOfPlayers + ", design carte: " + cardBackDesign);

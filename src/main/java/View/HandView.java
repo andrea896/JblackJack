@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import java.util.List;
 
-public class HandView extends HBox{
+public class HandView extends HBox {
     private final Label valueLabel;
     private final Label betLabel;
 
@@ -23,7 +23,7 @@ public class HandView extends HBox{
         valueLabel = new Label();
         valueLabel.getStyleClass().add("hand-value");
 
-        betLabel = new Label("€0");
+        betLabel = new Label("Bet: ");
         betLabel.getStyleClass().add("bet-label");
         betLabel.setAlignment(javafx.geometry.Pos.CENTER);
 
@@ -69,7 +69,7 @@ public class HandView extends HBox{
     }
 
     public void updateBet(int bet) {
-        betLabel.setText("€" + bet);
+        betLabel.setText("Bet: " + bet);
     }
 
     public void showBusted() {

@@ -15,7 +15,7 @@ public class JBlackJack extends Application {
         logger.info("Starting Black Jack");
         FXMLLoader fxmlLoader = new FXMLLoader(JBlackJack.class.getResource("/GameMenu/MenuView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 834.0, 600.0);
-        stage.setTitle("Black Jack");
+        stage.setTitle("Blackjack");
         stage.getIcons().add(new Image(JBlackJack.class.getResourceAsStream("/playing-cards.png")));
         stage.setScene(scene);
         stage.setResizable(false);

@@ -5,7 +5,7 @@ import Model.Game.GameModel;
 import Model.Game.GameState;
 import View.BlackJackViewImpl;
 
-public class GameController{
+public class GameController {
     protected final GameModel model;
     protected final BlackJackViewImpl view;
 
@@ -32,7 +32,7 @@ public class GameController{
 
             case DEALER_TURN_STARTED:
                 view.updateStatusMessage("Turno del dealer");
-                view.getDealerView().highlight(true);
+                //view.getDealerView().highlight(true);
                 break;
 
             case ROUND_ENDED:
@@ -47,31 +47,29 @@ public class GameController{
         switch (state) {
             case PLAYER_TURN:
                 view.updateStatusMessage("È il tuo turno");
-                view.getPlayerView().highlight(true);
-                view.getDealerView().highlight(false);
+                //view.getPlayerView().highlight(true);
+                //view.getDealerView().highlight(false);
                 break;
 
             case AI_PLAYER_TURN:
                 view.updateStatusMessage("Turno dei giocatori AI");
-                view.getPlayerView().highlight(false);
-                for (int i = 0; i < view.getAIPlayerViews().size(); i++) {
-                    view.getAIPlayerViews().get(i).highlight(true);
-                }
+                //view.getPlayerView().highlight(false);
+                for (int i = 0; i < view.getAIPlayerViews().size(); i++)
+                    //view.getAIPlayerViews().get(i).highlight(true);
                 break;
 
             case DEALER_TURN:
                 view.updateStatusMessage("Turno del banco");
-                view.getPlayerView().highlight(false);
-                for (int i = 0; i < view.getAIPlayerViews().size(); i++) {
-                    view.getAIPlayerViews().get(i).highlight(false);
-                }
-                view.getDealerView().highlight(true);
+                //view.getPlayerView().highlight(false);
+                for (int i = 0; i < view.getAIPlayerViews().size(); i++)
+                    //view.getAIPlayerViews().get(i).highlight(false);
+                //view.getDealerView().highlight(true);
                 break;
 
             case GAME_OVER:
                 view.updateStatusMessage("Gioco terminato");
-                view.getPlayerView().highlight(false);
-                view.getDealerView().highlight(false);
+                //view.getPlayerView().highlight(false);
+                //view.getDealerView().highlight(false);
                 view.showPlayAgainButton(true);
                 break;
         }

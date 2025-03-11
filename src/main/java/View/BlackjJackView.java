@@ -11,9 +11,9 @@ public interface BlackjJackView {
     void showPlayAgainButton(boolean visible);
 
     // Metodi per accedere ai componenti view
-    PlayerView getPlayerView();
+    PlayerInfoView getPlayerView();
     DealerView getDealerView();
-    List<AIPlayerView> getAIPlayerViews();
+    List<PlayerHandsView> getAIPlayerViews();
     ControlPanelView getControlPanelView();
     BettingView getBettingView();
 

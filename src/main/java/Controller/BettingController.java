@@ -22,7 +22,7 @@ public class BettingController implements BlackjackBettingListener{
         switch (event.getType()) {
             case BET_PLACED:
                 int betAmount = (int) event.getData().get("amount");
-                view.getPlayerView().updateBet(betAmount, 0);
+                //view.getPlayerView().updateBet(betAmount, 0);
                 view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
                 break;
 
@@ -39,7 +39,7 @@ public class BettingController implements BlackjackBettingListener{
             case DOUBLE_DOWN_EXECUTED:
                 int newBet = (int) event.getData().get("bet") * 2;
                 int handIndex = (int) event.getData().get("handIndex");
-                view.getPlayerView().updateBet(newBet, handIndex);
+                //view.getPlayerView().updateBet(newBet, handIndex);
                 view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
                 break;
 

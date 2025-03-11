@@ -5,10 +5,13 @@ import Model.Profile.ProfileManager;
 import Model.Profile.UserProfile;
 import Utility.LoggerUtility;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -16,9 +19,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.EventObject;
 import java.util.List;
 
 /**
@@ -183,8 +188,14 @@ public class MenuController {
         int numPlayers = getSelectedNumberOfPlayers(); // Metodo che legge la selezione dai radioButton
         String cardBackDesign = getSelectedCardBackDesign(); // Metodo che legge la selezione dai radioButton o combobox
         showTransitionScreen("STARTING GAME");
-        gameManager.startGame(numPlayers, cardBackDesign);
-
+        // Ottieni lo Stage corrente dal componente in cui sei
+        Stage currentStage = (Stage) loadNameField.getScene().getWindow();
+        gameManager.init(currentStage);
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(3.5),
+                ae -> gameManager.startGame(numPlayers, cardBackDesign)
+        ));
+        timeline.play();
     }
 
     private int getSelectedNumberOfPlayers() {
