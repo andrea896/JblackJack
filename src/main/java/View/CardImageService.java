@@ -11,6 +11,7 @@ import java.util.Map;
 public class CardImageService {
     private static final Map<String, Image> cardImages = new HashMap<>();
     private static boolean initialized = false;
+    private static Image cardBackImage;
 
     public static void initialize() {
         if (initialized) return;
@@ -24,20 +25,18 @@ public class CardImageService {
             for (String suit : suits) {
                 for (String rank : ranks) {
                     String key = rank + "_of_" + suit;
-                    String path = "/images/cards/" + key + ".png";
+                    String path = "Game/Images/" + key + ".png";
                     try {
                         cardImages.put(key, new Image(CardImageService.class.getResourceAsStream(path)));
                     } catch (Exception e) {
                         System.err.println("Impossibile caricare l'immagine: " + path);
-                        // Crea un'immagine segnaposto
-                        cardImages.put(key, createPlaceholderImage());
                     }
                 }
             }
 
             // Carica anche il dorso della carta
             try {
-                cardImages.put("back", new Image(CardImageService.class.getResourceAsStream("/images/cards/back.png")));
+                cardImages.put("back", new Image(CardImageService.class.getResourceAsStream("Game/Images/cards/back.png")));
             } catch (Exception e) {
                 System.err.println("Impossibile caricare l'immagine del dorso della carta");
                 cardImages.put("back", createPlaceholderImage());
@@ -50,9 +49,17 @@ public class CardImageService {
         }
     }
 
-    private static Image createPlaceholderImage() {
-        // Crea un'immagine segnaposto per le carte non trovate
-        return new Image(CardImageService.class.getResourceAsStream("/images/placeholder.png"));
+    /**
+     * Imposta l'immagine del dorso della carta in base alla selezione dell'utente
+     *
+     * @param backDesign Il percorso al design del dorso selezionato dall'utente
+     */
+    public static void setCardBackDesign(String backDesign) {
+        try {
+            cardBackImage = new Image(CardImageService.class.getResourceAsStream(backDesign));
+        } catch (Exception e) {
+            System.err.println("Impossibile caricare l'immagine del dorso della carta: " + backDesign);
+        }
     }
 
     public static Image getCardImage(Card card) {
@@ -63,12 +70,12 @@ public class CardImageService {
         //}
 
         String key = card.toString().toLowerCase();
-        return cardImages.getOrDefault(key, cardImages.getOrDefault("back", createPlaceholderImage()));
+        return cardImages.get(key);
     }
 
     public static Image getCardBackImage() {
         if (!initialized) initialize();
-        return cardImages.getOrDefault("back", createPlaceholderImage());
+        return cardImages.get("back");
     }
 
     public static ImageView createCardImageView(Card card) {

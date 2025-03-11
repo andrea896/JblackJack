@@ -812,3 +812,42 @@ Trovati 14 profili
 mar 11, 2025 11:41:08 AM Utility.LoggerUtility logInfo
 INFO: [Controller.GameManager.startGame()] 
 Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mar 11, 2025 11:45:39 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mar 11, 2025 11:45:39 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 14 profili
+mar 11, 2025 11:45:44 AM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.onStartGameButtonClick()] 
+Nessun profilo selezionato per iniziare il gioco!
+mar 11, 2025 11:46:54 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mar 11, 2025 11:46:54 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 14 profili
+mar 11, 2025 11:46:57 AM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.updateUIFromProfile()] 
+Field del testo vuota
+mar 11, 2025 11:46:59 AM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.onStartGameButtonClick()] 
+Nessun profilo selezionato per iniziare il gioco!
+mar 11, 2025 11:47:44 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mar 11, 2025 11:47:44 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 14 profili
+mar 11, 2025 11:49:55 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mar 11, 2025 11:49:55 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo Mario creato con successo
+mar 11, 2025 11:49:55 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:Mario
+mar 11, 2025 11:50:12 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Mario, giocatori: 3, design carte: Images/cardBack_red5.png

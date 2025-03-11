@@ -176,6 +176,7 @@ public class MenuController {
     /**
      * Gestisce il clic sul pulsante "Start Game".
      * Mostra una schermata di transizione con un messaggio di avvio del gioco.
+     * Viene subito caricata la nuova Scene di gioco e mostrata
      */
     @FXML
     public void onStartGameButtonClick(){
@@ -185,10 +186,9 @@ public class MenuController {
             return;
         }
         // Raccogli le opzioni selezionate dall'utente
-        int numPlayers = getSelectedNumberOfPlayers(); // Metodo che legge la selezione dai radioButton
-        String cardBackDesign = getSelectedCardBackDesign(); // Metodo che legge la selezione dai radioButton o combobox
+        int numPlayers = getSelectedNumberOfPlayers();
+        String cardBackDesign = getSelectedCardBackDesign();
         showTransitionScreen("STARTING GAME");
-        // Ottieni lo Stage corrente dal componente in cui sei
         Stage currentStage = (Stage) loadNameField.getScene().getWindow();
         gameManager.init(currentStage);
         Timeline timeline = new Timeline(new KeyFrame(

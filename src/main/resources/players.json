@@ -139,6 +139,16 @@
         "handsLost": 0,
         "currentBalance": 1000
       }
+    },
+    {
+      "nickname": "Mario",
+      "avatarUrl": "C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar1.png",
+      "stats": {
+        "totalHandsPlayed": 0,
+        "handsWon": 0,
+        "handsLost": 0,
+        "currentBalance": 1000
+      }
     }
   ]
 }

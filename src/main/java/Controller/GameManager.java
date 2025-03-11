@@ -34,8 +34,10 @@ public class GameManager {
     }
 
     public UserProfile loadExistingProfile(String nickname) {
-        if (currentProfile != null && nickname != null && !nickname.trim().isEmpty())
+        if (currentProfile != null && nickname != null && !nickname.trim().isEmpty()) {
             currentProfile = this.profileManager.loadProfile(nickname);
+        }
+
         return currentProfile;
     }
 
