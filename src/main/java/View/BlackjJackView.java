@@ -2,6 +2,8 @@ package View;
 
 import Controller.BlackjackActionListener;
 import Controller.BlackjackBettingListener;
+import Model.Players.Player;
+
 import java.util.List;
 
 public interface BlackjJackView {
@@ -12,6 +14,7 @@ public interface BlackjJackView {
 
     // Metodi per accedere ai componenti view
     PlayerInfoView getPlayerView();
+    PlayerHandsView getPlayerHands();
     DealerView getDealerView();
     List<PlayerHandsView> getAIPlayerViews();
     ControlPanelView getControlPanelView();

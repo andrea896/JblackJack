@@ -5,6 +5,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -12,13 +13,14 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import java.util.List;
 
-public class HandView extends HBox {
+public class HandView extends VBox {
     private final Label valueLabel;
     private final Label betLabel;
+    private final HBox handContainer;
 
     public HandView() {
         setAlignment(javafx.geometry.Pos.CENTER);
-        setSpacing(-30); // Sovrapponi parzialmente le carte
+        //setSpacing(-30); // Sovrapponi parzialmente le carte
 
         valueLabel = new Label();
         valueLabel.getStyleClass().add("hand-value");
@@ -28,40 +30,43 @@ public class HandView extends HBox {
         betLabel.setAlignment(javafx.geometry.Pos.CENTER);
 
         // Posiziona le label in un contenitore separato
-        VBox labelsContainer = new VBox(5);
+        HBox labelsContainer = new HBox(5);
+        labelsContainer.setSpacing(30);
         labelsContainer.setAlignment(javafx.geometry.Pos.CENTER);
         labelsContainer.getChildren().addAll(valueLabel, betLabel);
+        handContainer = new HBox(60);
+        handContainer.setPrefHeight(40);
+        handContainer.setSpacing(5); // Aggiungi spazio tra le carte
+        handContainer.setPadding(new Insets(10)); // Aggiungi padding attorno alle carte
 
-        getChildren().add(labelsContainer);
+        getChildren().addAll(labelsContainer, handContainer);
+    }
+
+    public void setHandlabel(boolean visible){
+        betLabel.setVisible(false);
     }
 
     public void updateHand(List<Card> cards, int handValue) {
         // Rimuovi tutte le carte esistenti ma mantieni il container delle label
-        getChildren().clear();
+        handContainer.getChildren().clear();
 
         // Aggiungi le nuove carte
         for (Card card : cards) {
             ImageView cardView = CardImageService.createCardImageView(card);
-            getChildren().add(cardView);
+            handContainer.getChildren().add(cardView);
+            cardView.toFront();
         }
 
         // Aggiorna e aggiungi nuovamente il container delle label
-        valueLabel.setText(String.valueOf(handValue));
-        VBox labelsContainer = new VBox(5);
-        labelsContainer.setAlignment(javafx.geometry.Pos.CENTER);
-        labelsContainer.getChildren().addAll(valueLabel, betLabel);
-        getChildren().add(labelsContainer);
+        valueLabel.setText("value: " + handValue);
     }
 
     public void animateCardDealt(Card card) {
         ImageView cardView = CardImageService.createCardImageView(card);
-
         // Imposta posizione iniziale fuori schermo
         cardView.setTranslateY(-200);
-
         // Aggiungi la carta alla vista
-        getChildren().add(getChildren().size() - 1, cardView); // Aggiungi prima delle label
-
+        handContainer.getChildren().add(cardView);
         // Anima l'entrata della carta
         TranslateTransition transition = new TranslateTransition(Duration.millis(300), cardView);
         transition.setToY(0);

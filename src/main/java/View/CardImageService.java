@@ -17,15 +17,13 @@ public class CardImageService {
         if (initialized) return;
 
         try {
-            // Carica le immagini delle carte
-            // Nota: adatta i percorsi al tuo progetto
             String[] suits = {"hearts", "diamonds", "clubs", "spades"};
             String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"};
 
             for (String suit : suits) {
                 for (String rank : ranks) {
                     String key = rank + "_of_" + suit;
-                    String path = "Game/Images/" + key + ".png";
+                    String path = "/GameView/Images/" + key + ".png";
                     try {
                         cardImages.put(key, new Image(CardImageService.class.getResourceAsStream(path)));
                     } catch (Exception e) {
@@ -33,15 +31,6 @@ public class CardImageService {
                     }
                 }
             }
-
-            // Carica anche il dorso della carta
-            try {
-                cardImages.put("back", new Image(CardImageService.class.getResourceAsStream("Game/Images/cards/back.png")));
-            } catch (Exception e) {
-                System.err.println("Impossibile caricare l'immagine del dorso della carta");
-                cardImages.put("back", createPlaceholderImage());
-            }
-
             initialized = true;
         } catch (Exception e) {
             System.err.println("Errore nell'inizializzazione del CardImageService: " + e.getMessage());
@@ -63,14 +52,9 @@ public class CardImageService {
     }
 
     public static Image getCardImage(Card card) {
-        if (!initialized) initialize();
-
-        //if (card.isFaceDown()) {
-            //return cardImages.getOrDefault("back", createPlaceholderImage());
-        //}
-
-        String key = card.toString().toLowerCase();
-        return cardImages.get(key);
+        if (!initialized)
+            initialize();
+        return cardImages.get(card.toString().toLowerCase());
     }
 
     public static Image getCardBackImage() {
@@ -80,7 +64,7 @@ public class CardImageService {
 
     public static ImageView createCardImageView(Card card) {
         ImageView cardView = new ImageView(getCardImage(card));
-        cardView.setFitHeight(120);
+        cardView.setFitHeight(50);
         cardView.setPreserveRatio(true);
         cardView.setSmooth(true);
         cardView.setEffect(new DropShadow(5, Color.BLACK));

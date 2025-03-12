@@ -66,14 +66,14 @@ public class ActionController implements BlackjackActionListener{
         int handIndex = (int) data.get("handIndex");
         Card card = (Card) data.get("card");
 
-        if (player == model.getHumanPlayer()) {
+        if (player.equals(model.getHumanPlayer())) {
             // Carta al giocatore umano
-            //view.getPlayerView().animateCardDealt(handIndex, card);
-            //view.getPlayerView().updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
+            view.getPlayerHands().animateCardDealt(handIndex, card);
+            view.getPlayerHands().updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
 
-        } else if (player == model.getDealer()) {
+        } else if (player.equals(model.getDealer())) {
             // Carta al dealer
-            boolean hideFirstCard = model.getGameState() == GameState.PLAYER_TURN;
+            boolean hideFirstCard = model.getGameState().equals(GameState.PLAYER_TURN);
             view.getDealerView().animateCardDealt(card, hideFirstCard);
             view.getDealerView().updateHand(player.getHand(0), hideFirstCard ? 0 : player.getHandValue(0), hideFirstCard);
 
@@ -82,7 +82,7 @@ public class ActionController implements BlackjackActionListener{
             int playerIndex = model.getPlayers().indexOf(player);
             if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
                 //view.getAIPlayerViews().get(playerIndex).animateCardDealt(card);
-                //view.getAIPlayerViews().get(playerIndex).updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
+                view.getAIPlayerViews().get(playerIndex).updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
             }
         }
 

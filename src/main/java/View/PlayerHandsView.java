@@ -5,16 +5,14 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerHandsView extends VBox {
-    private final Label nameLabel;        // Nome del giocatore
+    private final Label nameLabel;
     private final List<HandView> handViews;
-    private final HBox handsContainer;    // Container per le mani
 
     public PlayerHandsView(String playerName, boolean isAI) {
         // Impostazioni base del layout
@@ -29,18 +27,14 @@ public class PlayerHandsView extends VBox {
         nameLabel.getStyleClass().add(isAI ? "ai-name" : "player-name");
         nameLabel.setAlignment(Pos.CENTER);
 
-        // Container per le mani (orizzontale)
-        handsContainer = new HBox(324);
-        handsContainer.setAlignment(Pos.CENTER);
-
         // Inizializza le mani
         handViews = new ArrayList<>();
         HandView initialHand = new HandView();
         handViews.add(initialHand);
-        handsContainer.getChildren().add(initialHand);
+
 
         // Assemblaggio componenti
-        getChildren().addAll(nameLabel, handsContainer);
+        getChildren().addAll(nameLabel, initialHand);
     }
 
     /**
@@ -84,11 +78,6 @@ public class PlayerHandsView extends VBox {
         handViews.get(0).updateHand(firstHand, calculateHandValue(firstHand));
         handViews.get(1).updateHand(secondHand, calculateHandValue(secondHand));
 
-        // Aggiunge la seconda mano al container se non è già presente
-        if (!handsContainer.getChildren().contains(handViews.get(1))) {
-            handsContainer.getChildren().add(handViews.get(1));
-        }
-
         // Anima la separazione
         TranslateTransition leftTransition = new TranslateTransition(Duration.millis(500), handViews.get(0));
         leftTransition.setByX(-50);
@@ -119,7 +108,7 @@ public class PlayerHandsView extends VBox {
             if (handViews.size() == 2) {
                 // Non aggiungere automaticamente al container
             } else if (handViews.size() > 2) {
-                handsContainer.getChildren().add(newHand);
+                getChildren().add(newHand);
             }
         }
     }

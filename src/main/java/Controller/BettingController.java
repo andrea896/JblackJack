@@ -14,7 +14,6 @@ public class BettingController implements BlackjackBettingListener{
     }
 
     public void initialize() {
-        // Configura listener per le scommesse
         view.setBettingListener(this);
     }
 
@@ -22,8 +21,15 @@ public class BettingController implements BlackjackBettingListener{
         switch (event.getType()) {
             case BET_PLACED:
                 int betAmount = (int) event.getData().get("amount");
-                //view.getPlayerView().updateBet(betAmount, 0);
-                view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
+                if (event.getData().get("player") == model.getHumanPlayer().getName()) {
+                    int balance = (int) event.getData().get("balance");
+                    view.getPlayerView().updateCurrentBet(betAmount);
+                    view.getPlayerView().updateBalance(balance);
+                    view.getPlayerHands().updateBet(betAmount);
+                }
+                else {
+                    view.getAIPlayerViews().get((int) event.getData().get("index")).updateBet(betAmount);
+                }
                 break;
 
             case INSURANCE_OFFERED:
@@ -32,8 +38,9 @@ public class BettingController implements BlackjackBettingListener{
 
             case INSURANCE_ACCEPTED:
                 int insuranceAmount = (int) event.getData().get("amount");
+                int currentBalance = (int) event.getData().get("balance");
                 view.getBettingView().updateInsuranceDisplay(insuranceAmount);
-                view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
+                view.getPlayerView().updateBalance(currentBalance);
                 break;
 
             case DOUBLE_DOWN_EXECUTED:
@@ -52,7 +59,6 @@ public class BettingController implements BlackjackBettingListener{
     }
 
     private void updatePlayerBalanceFromEvent() {
-        // Aggiorna il saldo dopo una vincita/perdita
         int balance = model.getHumanPlayer().getBalance();
         view.getPlayerView().updateBalance(balance);
     }
@@ -60,6 +66,10 @@ public class BettingController implements BlackjackBettingListener{
     @Override
     public void onBetPlaced(int amount) {
         model.getHumanPlayer().placeBet(amount, 0);
+        view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
+        view.getPlayerView().updateCurrentBet(amount);
+        view.getPlayerHands().updateBet(amount);
+        model.startGame(amount);
     }
 
     @Override

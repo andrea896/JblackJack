@@ -7,10 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +20,11 @@ public class DealerView extends VBox {
         // Label del dealer
         Label nameLabel = new Label("Dealer");
         nameLabel.getStyleClass().add("dealer-name");
-        nameLabel.setTextAlignment(TextAlignment.CENTER);
+        nameLabel.setPrefSize(400, 20);
+        nameLabel.setAlignment(Pos.TOP_CENTER);
         // Mano del dealer
         handView = new HandView();
+        handView.setHandlabel(false);
         // Valore della mano
         valueLabel = new Label();
         valueLabel.getStyleClass().add("dealer-value");
@@ -41,10 +41,8 @@ public class DealerView extends VBox {
         if (hideFirstCard && !cards.isEmpty()) {
             //displayCards.set(0, Card.createFaceDownCard());
         }
-
         // Aggiorna la mano
         handView.updateHand(displayCards, 0); // Non mostrare il valore nella mano
-
         // Aggiorna il valore separatamente
         if (handValue > 0 && !hideFirstCard) {
             valueLabel.setText("Valore: " + handValue);

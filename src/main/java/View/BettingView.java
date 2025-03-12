@@ -25,7 +25,7 @@ public class BettingView extends VBox {
         setPrefWidth(400); // Larghezza preferita per la zona scommesse
 
         // Label per scommessa
-        Label betLabel = new Label("SCOMMESSA:");
+        Label betLabel = new Label("Bet: ");
         betLabel.getStyleClass().add("bet-title");
 
         // Label per visualizzare l'importo selezionato
@@ -101,9 +101,9 @@ public class BettingView extends VBox {
     }
 
     public void showBettingControls(boolean visible) {
-        betSlider.setVisible(visible);
-        betAmountLabel.setVisible(visible);
         placeBetButton.setVisible(visible);
+        //betAmountLabel.setVisible(visible);
+        betSlider.setVisible(visible);
     }
 
     public void showInsuranceOption() {

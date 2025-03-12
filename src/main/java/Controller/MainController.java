@@ -22,7 +22,7 @@ public class MainController implements Observer {
         this.actionController = new ActionController(model, view);
         this.bettingController = new BettingController(model, view);
         // Registra questo controller come observer del model
-        model.addObserver(this);
+        model.getTurnManager().addObserver(this);
         // Inizializza i controller
         initialize();
     }
@@ -36,7 +36,7 @@ public class MainController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == model && arg instanceof GameEvent) {
+        if (o.equals(model.getTurnManager()) && arg instanceof GameEvent) {
             GameEvent event = (GameEvent) arg;
             dispatchEvent(event);
         }
@@ -58,6 +58,7 @@ public class MainController implements Observer {
 
             // Eventi delle azioni → ActionController
             case CARD_DEALT:
+                actionController.handleEvent(event);
             case HAND_UPDATED:
             case PLAYER_HIT:
             case PLAYER_STAND:

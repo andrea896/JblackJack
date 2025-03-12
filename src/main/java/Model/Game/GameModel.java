@@ -79,11 +79,10 @@ public class GameModel extends Observable {
      * @return true se il gioco è stato avviato con successo, false altrimenti
      */
     public boolean startGame(int betAmount) {
-        if (betAmount <= 0 || betAmount > humanPlayer.getBalance()) {
+        if (betAmount <= 0 || betAmount > humanPlayer.getBalance())
             return false;
-        }
 
-        turnManager.startRound(betAmount);
+        turnManager.startRound();
         return true;
     }
 
@@ -175,5 +174,9 @@ public class GameModel extends Observable {
      */
     public int getCurrentBet() {
         return turnManager.getCurrentbet();
+    }
+
+    public TurnManager getTurnManager() {
+        return turnManager;
     }
 }

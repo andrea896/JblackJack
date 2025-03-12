@@ -53,7 +53,7 @@ public class TurnManager extends Observable {
     /**
      * Distribuisce le carte iniziali e avvia il gioco.
      */
-    public void startRound(int betAmount) {
+    public void startRound() {
         // Inizializza il mazzo e le mani
         deck.shuffle();
         humanPlayer.resetHand();
@@ -62,15 +62,21 @@ public class TurnManager extends Observable {
         for (Player player : players)
             player.resetHand();
 
-        currentBet = betAmount;
-        humanPlayer.placeBet(betAmount, currentHandIndex);
-
         // Imposta scommesse casuali per i giocatori AI
+        int i = 0;
         for (Player player : players)
             if (player instanceof AIPlayer aiPlayer) {
                 int aiBet = getAIBetAmount(aiPlayer);
                 aiPlayer.placeBet(aiBet, currentHandIndex);
+                // Notifica l'evento di scommessa piazzata per l'AI
+                notifyObserversWithEvent(GameEventType.BET_PLACED,
+                        "player", aiPlayer.getName(),
+                        "amount", aiBet,
+                        "indexHand", currentHandIndex,
+                        "index", i++);
             }
+
+        dealInitialCards();
         // Controlla blackjack naturali
         if (checkForNaturalBlackjacks()) {
             gameState = GameState.GAME_OVER;
@@ -79,8 +85,6 @@ public class TurnManager extends Observable {
             currentHandIndex = 0;
             gameState = GameState.PLAYER_TURN;
         }
-        dealInitialCards();
-        notifyObservers();
     }
 
     /**
@@ -92,7 +96,7 @@ public class TurnManager extends Observable {
     private int getAIBetAmount(AIPlayer aiPlayer) {
         PlayerStrategy strategy = aiPlayer.getStrategy();
         int minBet = 10;
-        int maxBet = 100;
+        int maxBet = 300;
         int balance = aiPlayer.getBalance();
 
         // Limita la scommessa massima al saldo disponibile
@@ -113,7 +117,16 @@ public class TurnManager extends Observable {
      */
     private void dealInitialCards() {
         humanPlayer.addCard(deck.drawCard());
+        notifyObserversWithEvent(GameEventType.CARD_DEALT,
+                "player", humanPlayer,
+                "handIndex",currentHandIndex,
+                "card", humanPlayer.getHand(currentHandIndex).get(0));
         humanPlayer.addCard(deck.drawCard());
+
+        notifyObserversWithEvent(GameEventType.CARD_DEALT,
+                "player", humanPlayer,
+                "handIndex",currentHandIndex,
+                "card", humanPlayer.getHand(currentHandIndex).get(1));
 
         for (Player player : players) {
             if (player != humanPlayer) {
@@ -394,11 +407,18 @@ public class TurnManager extends Observable {
     }
 
     /**
-     * Notifica gli osservatori dei cambiamenti di stato.
+     * Notifica gli osservatori con un evento di gioco.
+     *
+     * @param eventType Il tipo di evento da notificare
+     * @param keyValuePairs Coppie chiave-valore per i dati dell'evento
      */
-    public void notifyObservers() {
+    private void notifyObserversWithEvent(GameEventType eventType, Object... keyValuePairs) {
+        // Crea l'evento utilizzando il metodo helper di GameEvent
+        GameEvent event = GameEvent.create(eventType, keyValuePairs);
+        // Imposta l'evento come argomento della notifica
         setChanged();
-        super.notifyObservers();
+        // Notifica tutti gli osservatori con l'evento
+        notifyObservers(event);
     }
 
     /**

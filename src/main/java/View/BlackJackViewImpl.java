@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +34,11 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
     private BlackjackBettingListener bettingListener;
 
     // Valori correnti
-    private int currentBalance = 1000;
     private int currentBet = 10;
 
     public BlackJackViewImpl(String cardBackDesign, String playerImagePath, int numberOfPlayers, String playerName, int balance) {
-        // Imposta dimensioni e stile dell'AnchorPane principale
+        CardImageService.setCardBackDesign(cardBackDesign);
+
         setPrefSize(1355, 944);
         getStyleClass().add("blackjack-table");
 
@@ -87,8 +86,8 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
         playAgainButton.setVisible(true);
 
         // Posiziona gli elementi nell'AnchorPane
-        AnchorPane.setTopAnchor(dealerView, 14.0);
-        AnchorPane.setLeftAnchor(dealerView, 520.5);
+        AnchorPane.setTopAnchor(dealerView, 15.0);
+        AnchorPane.setLeftAnchor(dealerView, 465.0);
 
         AnchorPane.setTopAnchor(allHandsArea, 350.0);
         AnchorPane.setLeftAnchor(allHandsArea, 5.0);
@@ -115,15 +114,6 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
             }
         });
     }
-
-    /**
-     * Mostra l'azione di un giocatore IA
-     */
-//    public void showAIAction(int playerIndex, String action) {
-//        if (playerIndex >= 0 && playerIndex < aiPlayerViews.size()) {
-//            aiPlayerViews.get(playerIndex).showAction(action);
-//        }
-//    }
 
     @Override
     public void updateStatusMessage(String message) {
@@ -153,6 +143,11 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
     @Override
     public DealerView getDealerView() {
         return dealerView;
+    }
+
+    @Override
+    public PlayerHandsView getPlayerHands() {
+        return playerHandsView;
     }
 
     @Override

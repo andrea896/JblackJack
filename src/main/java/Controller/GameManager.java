@@ -68,7 +68,7 @@ public class GameManager {
         try {
             BorderPane tempRoot = new BorderPane();
             Scene gameScene = new Scene(tempRoot, 1355, 944);
-            gameScene.getStylesheets().add(getClass().getResource("/Game/blackjack.css").toExternalForm());
+            gameScene.getStylesheets().add(getClass().getResource("/GameView/blackjack.css").toExternalForm());
             gameModel = new GameModel(playerName, initialBalance, numberOfPlayers);
             BlackJackViewImpl blackjackView = new BlackJackViewImpl(cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers, currentProfile.getNickname(), currentProfile.getStats().getCurrentBalance());
             gameScene.setRoot(blackjackView);
