@@ -1,0 +1,9 @@
+module:com.example.jblackjack
+Controller
+Model.Game
+Model.Game.Objects
+Model.Players
+Model.Players.StrategyPlay
+Model.Profile
+Test
+Utility

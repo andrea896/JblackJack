@@ -17,12 +17,12 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.Region?>
-
 <?import javafx.scene.layout.StackPane?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="834.0" styleClass="menu" stylesheets="@GameMenu.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MenuController">
    <children>
        <Button fx:id="buttonPlay" layoutX="12.0" layoutY="83.0" onAction="#onPlayButtonClick" prefHeight="67.0" prefWidth="242.0" styleClass="button-play" stylesheets="@GameMenu.css" text="Play" />
-       <Button fx:id="profileButton" layoutX="13.0" layoutY="211.0" onAction="#onProfileButtonClick" prefHeight="67.0" prefWidth="241.0" styleClass="button-profile" stylesheets="@GameMenu.css" text="Profile" />
+       <Button fx:id="profileButton" layoutX="13.0" layoutY="211.0" onAction="#onProfileButtonClick" prefHeight="67.0" prefWidth="242.0" styleClass="button-profile" stylesheets="@GameMenu.css" text="Profile" />
        <Button fx:id="rankButton" layoutX="12.0" layoutY="343.0" onAction="#onRankButtonClick" prefHeight="67.0" prefWidth="242.0" styleClass="button-rank" stylesheets="@GameMenu.css" text="Rank" />
        <Button fx:id="exitButton" layoutX="12.0" layoutY="470.0" onAction="#onExitButtonClick" prefHeight="67.0" prefWidth="242.0" styleClass="button-exit" stylesheets="@GameMenu.css" text="Exit" />
        <ImageView fitHeight="538.0" fitWidth="519.0" layoutX="277.0" layoutY="41.0">
@@ -30,6 +30,7 @@
             <Image url="@Images/pngegg.png" />
           </image>
        </ImageView>
+       <!-- Sezione inizio gioco -->
        <VBox fx:id="playMenuBox" layoutX="274.0" layoutY="20.0" prefHeight="550.0" prefWidth="550.0" spacing="30" styleClass="menu-box" visible="false">
            <HBox alignment="CENTER" prefWidth="Infinity">
                <Label styleClass="menu-title" text="Game Configuration" />
@@ -66,51 +67,87 @@
            </fx:define>
            <HBox alignment="CENTER" spacing="30">
                <Label styleClass="menu-label" text="Players:" alignment="CENTER_LEFT"/>
-               <RadioButton fx:id="twoPlayerRadiobutton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
+               <RadioButton fx:id="onePlayerRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
+               <Label styleClass="menu-label" text="1" alignment="CENTER_LEFT"/>
+               <RadioButton fx:id="twoPlayersRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
                <Label styleClass="menu-label" text="2" alignment="CENTER_LEFT"/>
-               <RadioButton fx:id="threePlayerRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
+               <RadioButton fx:id="threePlayersRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
                <Label styleClass="menu-label" text="3" alignment="CENTER_LEFT"/>
-               <RadioButton fx:id="fourPlayerRadioButton" styleClass="card-color-radio" toggleGroup="$playersGroup" />
-               <Label styleClass="menu-label" text="4" alignment="CENTER_LEFT"/>
            </HBox>
            <Region prefHeight="20.0" />
            <HBox alignment="CENTER" prefWidth="Infinity">
                <Button fx:id="startGame" styleClass="button-start-game" text="Start Game" onAction="#onStartGameButtonClick"/>
            </HBox>
        </VBox>
-       <VBox fx:id="profileMenuBox" layoutX="274.0" layoutY="20.0" prefHeight="550.0" prefWidth="550.0" spacing="30" styleClass="menu-box" visible="false">
+
+       <!-- Sezione Profilo -->
+       <VBox fx:id="profileMenuBox" layoutX="274.0" layoutY="20.0" prefHeight="200.0" prefWidth="550.0" spacing="30" styleClass="menu-box" visible="false">
            <HBox alignment="CENTER" prefWidth="Infinity">
-                <Label styleClass="menu-title" text="Profile Customization" />
+               <Label styleClass="menu-title" text="Profile" />
+           </HBox>
+           <!-- Pulsanti di selezione nuovo o profilo esistente-->
+           <HBox alignment="CENTER" spacing="20">
+               <Button fx:id="loadProfileButton" text="Load Profile" onAction="#onLoadProfileClick" styleClass="button-start-game"/>
+               <Button fx:id="newProfileButton" text="New Profile" onAction="#onNewProfileClick" styleClass="button-start-game"/>
+           </HBox>
+       </VBox>
+
+       <!-- Sezione Nuovo Profilo -->
+       <VBox fx:id="newProfileBox" layoutX="274.0" layoutY="20.0" prefHeight="550.0" prefWidth="550.0" spacing="30" styleClass="menu-box" visible="false">
+           <HBox alignment="CENTER" prefWidth="Infinity">
+               <Label styleClass="menu-title" text="New Profile" />
            </HBox>
            <HBox alignment="CENTER_LEFT" spacing="20">
                <Label styleClass="menu-label" text="Avatar:" />
-               <Circle fx:id="avatarCircle" fill="WHITE" radius="40" stroke="BLACK" strokeWidth="2" />
-               <Button fx:id="changeButton" onAction="#onChangeButtonClick" styleClass="small-button" text="Change" />
+               <Circle fx:id="newAvatarCircle" fill="WHITE" radius="80" stroke="BLACK" strokeWidth="2" />
+               <Button fx:id="newChangeButton" onAction="#onNewChangeButtonClick" styleClass="small-button" text="Change" />
            </HBox>
            <Region prefHeight="20.0" />
            <HBox alignment="CENTER_LEFT" spacing="20">
                <Label prefHeight="58.0" prefWidth="144.0" styleClass="menu-label" text="Name:" />
-               <TextField fx:id="nameField" prefWidth="388.0" promptText="Enter your name" styleClass="menu-textfield" HBox.hgrow="ALWAYS" />
+               <TextField fx:id="newNameField" prefWidth="388.0" promptText="choose your nickname:" styleClass="menu-textfield" HBox.hgrow="ALWAYS" />
+           </HBox>
+           <Region prefHeight="20.0" />
+           <HBox alignment="CENTER">
+               <Button fx:id="createProfileButton" text="Save Profile" onAction="#onCreateProfileClick" styleClass="button-start-game"/>
+           </HBox>
+       </VBox>
+
+       <!-- Sezione Carica Profilo -->
+       <VBox fx:id="loadProfileBox" layoutX="274.0" layoutY="20.0" prefHeight="550.0" prefWidth="550.0" spacing="30" styleClass="menu-box" visible="false">
+           <HBox alignment="CENTER" prefWidth="Infinity">
+               <Label styleClass="menu-title" text="Load Profile" />
+           </HBox>
+           <HBox alignment="CENTER_LEFT" spacing="20">
+               <Label styleClass="menu-label" text="Avatar:" />
+               <Circle fx:id="loadAvatarCircle" fill="WHITE" radius="80" stroke="BLACK" strokeWidth="2" />
+           </HBox>
+           <Region prefHeight="20.0" />
+           <HBox alignment="CENTER_LEFT" spacing="20">
+               <Label prefHeight="58.0" prefWidth="144.0" styleClass="menu-label" text="Name:" />
+               <TextField fx:id="loadNameField" prefWidth="388.0" promptText="enter your nickname" styleClass="menu-textfield" HBox.hgrow="ALWAYS" />
            </HBox>
            <Region prefHeight="20.0" />
            <VBox spacing="10">
-               <Label styleClass="menu-label" text="Games History:" />
+               <Label styleClass="menu-label" text="match history" />
                <HBox spacing="20">
                    <VBox alignment="CENTER_LEFT" spacing="5" HBox.hgrow="ALWAYS">
-                       <Label styleClass="history-label" text="Total Hands Played :" />
-                       <Label styleClass="history-label" text="Total hands won:" />
-                       <Label styleClass="history-label" text="Total hands Lost:" />
-                       <Label styleClass="history-label" text="Current Balance:" />
+                       <Label styleClass="history-label" text="Total hands played:" />
+                       <Label styleClass="history-label" text="Hands Won:" />
+                       <Label styleClass="history-label" text="Hands Lost:" />
+                       <Label styleClass="history-label" text="Balance:" />
                    </VBox>
                    <VBox alignment="CENTER_LEFT" spacing="5">
-                       <Label styleClass="history-value" text="14" />
-                       <Label styleClass="history-value" text="2" />
-                       <Label styleClass="history-value" text="10" />
-                       <Label styleClass="history-value" text="1000" />
+                       <Label fx:id="totalHandsLabel" styleClass="history-value" text="0" />
+                       <Label fx:id="wonHandsLabel" styleClass="history-value" text="0" />
+                       <Label fx:id="lostHandsLabel" styleClass="history-value" text="0" />
+                       <Label fx:id="balanceLabel" styleClass="history-value" text="0" />
                    </VBox>
                </HBox>
            </VBox>
        </VBox>
+
+       <!-- Sezione classifica -->
        <VBox fx:id="rankMenuBox" layoutX="274.0" layoutY="20.0" prefHeight="550.0" prefWidth="550.0" spacing="20" styleClass="menu-box" visible="false">
            <HBox alignment="CENTER" prefWidth="Infinity">
                <Label styleClass="menu-title" text="PLAYERS RANKING" textAlignment="CENTER" />
@@ -128,11 +165,11 @@
                    </items>
                </ComboBox>
            </HBox>
-           <TableView fx:id="rankingTableView" VBox.vgrow="ALWAYS">
+           <TableView fx:id="rankingTableView" VBox.vgrow="ALWAYS" styleClass="table-view">
                <columns>
-                   <TableColumn fx:id="rankColumn" text="Rank" />
-                   <TableColumn fx:id="playerNameColumn" text="Player Name" />
-                   <TableColumn fx:id="valueColumn" text="Value" />
+                   <TableColumn fx:id="rankColumn" text="Rank" prefWidth="100"/>
+                   <TableColumn fx:id="playerNameColumn" text="Player Name" prefWidth="300"/>
+                   <TableColumn fx:id="valueColumn" text="Value" prefWidth="100"/>
                </columns>
            </TableView>
        </VBox>
