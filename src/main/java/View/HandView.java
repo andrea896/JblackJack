@@ -6,6 +6,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -36,8 +37,9 @@ public class HandView extends VBox {
         labelsContainer.getChildren().addAll(valueLabel, betLabel);
         handContainer = new HBox(60);
         handContainer.setPrefHeight(40);
-        handContainer.setSpacing(5); // Aggiungi spazio tra le carte
-        handContainer.setPadding(new Insets(10)); // Aggiungi padding attorno alle carte
+        handContainer.setSpacing(2); // Aggiungi spazio tra le carte
+        handContainer.setPadding(new Insets(10));
+        handContainer.setAlignment(Pos.CENTER);// Aggiungi padding attorno alle carte
 
         getChildren().addAll(labelsContainer, handContainer);
     }
@@ -59,10 +61,18 @@ public class HandView extends VBox {
 
         // Aggiorna e aggiungi nuovamente il container delle label
         valueLabel.setText("value: " + handValue);
+        // Debug
+        System.out.println("updateHand - contenitore contiene ora " + handContainer.getChildren().size() + " nodi");
     }
 
-    public void animateCardDealt(Card card) {
-        ImageView cardView = CardImageService.createCardImageView(card);
+    public void animateCardDealt(Card card, int handValue, boolean isHiddenCard) {
+        ImageView cardView;
+
+        if (isHiddenCard)
+            cardView = CardImageService.getCardBackImageView();
+        else
+            cardView = CardImageService.createCardImageView(card);
+
         // Imposta posizione iniziale fuori schermo
         cardView.setTranslateY(-200);
         // Aggiungi la carta alla vista
@@ -71,6 +81,8 @@ public class HandView extends VBox {
         TranslateTransition transition = new TranslateTransition(Duration.millis(300), cardView);
         transition.setToY(0);
         transition.play();
+        valueLabel.setText("value: " + handValue);
+        System.out.println("updateHand - contenitore contiene ora " + handContainer.getChildren().size() + " nodi");
     }
 
     public void updateBet(int bet) {

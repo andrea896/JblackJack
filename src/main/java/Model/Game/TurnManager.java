@@ -84,6 +84,7 @@ public class TurnManager extends Observable {
             // Inizia con il giocatore umano
             currentHandIndex = 0;
             gameState = GameState.PLAYER_TURN;
+            notifyObserversWithEvent(GameEventType.GAME_STATE_CHANGED);
         }
     }
 
@@ -116,27 +117,30 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali a tutti i giocatori e al dealer.
      */
     private void dealInitialCards() {
-        humanPlayer.addCard(deck.drawCard());
-        notifyObserversWithEvent(GameEventType.CARD_DEALT,
-                "player", humanPlayer,
-                "handIndex",currentHandIndex,
-                "card", humanPlayer.getHand(currentHandIndex).get(0));
-        humanPlayer.addCard(deck.drawCard());
+        Card humanCard1 = deck.drawCard();
+        humanPlayer.addCard(humanCard1);
+        createCardDealtEvent(humanPlayer, humanCard1, currentHandIndex, false);
 
-        notifyObserversWithEvent(GameEventType.CARD_DEALT,
-                "player", humanPlayer,
-                "handIndex",currentHandIndex,
-                "card", humanPlayer.getHand(currentHandIndex).get(1));
+        Card humanCard2 = deck.drawCard();
+        humanPlayer.addCard(humanCard2);
+        createCardDealtEvent(humanPlayer, humanCard2, currentHandIndex, false);
 
         for (Player player : players) {
             if (player != humanPlayer) {
-                player.addCard(deck.drawCard());
-                player.addCard(deck.drawCard());
+                Card card1 = deck.drawCard();
+                player.addCard(card1);
+                createCardDealtEvent(player, card1, 0, false);
+                Card card2 = deck.drawCard();
+                player.addCard(card2);
+                createCardDealtEvent(player, card2, 0, false);
             }
         }
-
-        dealer.addCard(deck.drawCard());
-        dealer.addCard(deck.drawCard());
+        Card dealerCard1 = deck.drawCard();
+        dealer.addCard(dealerCard1);
+        createCardDealtEvent(dealer, dealerCard1, 0, true);
+        Card dealerCard2 = deck.drawCard();
+        dealer.addCard(dealerCard2);
+        createCardDealtEvent(dealer, dealerCard2, currentHandIndex, false);
     }
 
     /**
@@ -192,8 +196,9 @@ public class TurnManager extends Observable {
 
         if (humanPlayer.isBusted(currentHandIndex) || humanPlayer.getHandValue(currentHandIndex) >= 21) return;
 
-        humanPlayer.addCard(currentHandIndex, deck.drawCard());
-        notifyObservers();
+        Card card = deck.drawCard();
+        humanPlayer.addCard(currentHandIndex, card);
+        createCardDealtEvent(humanPlayer, card, currentHandIndex, false);
 
         if (humanPlayer.getHandValue(currentHandIndex) >= 21)
             handleHandTransition();
@@ -219,8 +224,9 @@ public class TurnManager extends Observable {
                             bankManager.handleDoubleDown(humanPlayer, currentHandIndex);
 
         if (success) {
-            humanPlayer.addCard(currentHandIndex, deck.drawCard());
-            notifyObservers();
+            Card card = deck.drawCard();
+            humanPlayer.addCard(currentHandIndex, card);
+            createCardDealtEvent(humanPlayer, card, currentHandIndex, false);
             handleHandTransition();
             return true;
         }
@@ -437,5 +443,27 @@ public class TurnManager extends Observable {
 
     public int getCurrentbet(){
         return currentBet;
+    }
+
+    /**
+     * Crea un evento per notificare che una carta è stata distribuita
+     * @param player Il giocatore che ha ricevuto la carta
+     * @param card La carta distribuita
+     * @param handIndex L'indice della mano (per supportare split)
+     * @param isHiddenCard Indica se la carta è nascosta (solo per il dealer)
+     */
+    private void createCardDealtEvent(Player player, Card card, int handIndex, boolean isHiddenCard) {
+        if (player instanceof Dealer) {
+            notifyObserversWithEvent(GameEventType.CARD_DEALT,
+                    "player", player,
+                    "card", card,
+                    "isHiddenCard", isHiddenCard);
+        } else {
+            // Caso per i giocatori normali
+            notifyObserversWithEvent(GameEventType.CARD_DEALT,
+                    "player", player,
+                    "handIndex", handIndex,
+                    "card", card);
+        }
     }
 }

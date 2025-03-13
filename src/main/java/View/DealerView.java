@@ -21,6 +21,7 @@ public class DealerView extends VBox {
         Label nameLabel = new Label("Dealer");
         nameLabel.getStyleClass().add("dealer-name");
         nameLabel.setPrefSize(400, 20);
+        setSpacing(10);
         nameLabel.setAlignment(Pos.TOP_CENTER);
         // Mano del dealer
         handView = new HandView();
@@ -81,8 +82,7 @@ public class DealerView extends VBox {
         }
     }
 
-    public void animateCardDealt(Card card, boolean faceDown) {
-        //Card displayCard = faceDown ? Card.createFaceDownCard() : card;
-        //handView.animateCardDealt(displayCard);
+    public void animateCardDealt(Card card, boolean faceDown, int handValue) {
+        handView.animateCardDealt(card, handValue, faceDown);
     }
 }

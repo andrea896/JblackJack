@@ -7,6 +7,8 @@ import View.BlackJackViewImpl;
 import java.util.Observable;
 import java.util.Observer;
 
+import static Model.Game.GameState.PLAYER_TURN;
+
 public class MainController implements Observer {
     private final GameModel model;
     private final BlackJackViewImpl view;
@@ -52,6 +54,8 @@ public class MainController implements Observer {
             case ROUND_STARTED:
             case ROUND_ENDED:
             case GAME_STATE_CHANGED:
+                actionController.updatePlayerControls();
+                break;
             case DEALER_TURN_STARTED:
                 gameController.handleEvent(event);
                 break;
@@ -59,6 +63,7 @@ public class MainController implements Observer {
             // Eventi delle azioni → ActionController
             case CARD_DEALT:
                 actionController.handleEvent(event);
+                break;
             case HAND_UPDATED:
             case PLAYER_HIT:
             case PLAYER_STAND:
@@ -88,9 +93,9 @@ public class MainController implements Observer {
 
             // Altri eventi - inviare a tutti i controller
             default:
-                gameController.handleEvent(event);
-                actionController.handleEvent(event);
-                bettingController.handleEvent(event);
+                //gameController.handleEvent(event);
+                //actionController.handleEvent(event);
+                //bettingController.handleEvent(event);
         }
     }
 }

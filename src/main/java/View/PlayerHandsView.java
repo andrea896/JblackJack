@@ -20,19 +20,15 @@ public class PlayerHandsView extends VBox {
         setAlignment(Pos.TOP_CENTER);
         setPrefSize(322, 182);
         getStyleClass().add("ai-player-area");
-
         // Label per il nome del giocatore
         nameLabel = new Label(playerName);
         nameLabel.setPrefSize(324, 10);
         nameLabel.getStyleClass().add(isAI ? "ai-name" : "player-name");
         nameLabel.setAlignment(Pos.CENTER);
-
         // Inizializza le mani
         handViews = new ArrayList<>();
         HandView initialHand = new HandView();
         handViews.add(initialHand);
-
-
         // Assemblaggio componenti
         getChildren().addAll(nameLabel, initialHand);
     }
@@ -48,9 +44,9 @@ public class PlayerHandsView extends VBox {
     /**
      * Anima l'aggiunta di una carta alla mano
      */
-    public void animateCardDealt(int handIndex, Card card) {
+    public void animateCardDealt(int handIndex, Card card, int handValue) {
         ensureHandViews(handIndex + 1);
-        handViews.get(handIndex).animateCardDealt(card);
+        handViews.get(handIndex).animateCardDealt(card, handValue, false);
     }
 
     /**

@@ -26,7 +26,7 @@ public class Player {
     public Player(String name, int initialBalance) {
         this.name = name;
         this.hands = new ArrayList<>();
-        this.hands.add(new Hand()); // Aggiungi una mano vuota di default
+        this.hands.add(new Hand()); // Aggiungo una mano vuota di default
         this.balance = initialBalance;
         this.currentBet = 0;
         this.hasInsurance = false;

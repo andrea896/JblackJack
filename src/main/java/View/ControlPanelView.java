@@ -24,7 +24,7 @@ public class ControlPanelView extends HBox {
         // Crea i pulsanti con le classi di stile appropriate
         hitButton = createButton("HIT", "hit-button");
         standButton = createButton("STAND", "stand-button");
-        doubleDownButton = createButton("DOUBLE DOWN", "double-button");
+        doubleDownButton = createButton("D. DOWN", "double-button");
         splitButton = createButton("SPLIT", "split-button");
         exitButton = createButton("MENU", "exit-button");
 

@@ -26,11 +26,6 @@ public class Dealer extends Player {
         if (hiddenCard == null) {
             hiddenCard = card;
         } else {
-            // Assicurarsi di aggiungere la carta nascosta alla mano se non è già presente
-            if (getHand(0).isEmpty() && hiddenCard != null) {
-                super.addCard(hiddenCard);
-                hiddenCard = null;
-            }
             super.addCard(card);
         }
     }
@@ -41,6 +36,10 @@ public class Dealer extends Player {
             revealHiddenCard = true;
             hiddenCard = null;
         }
+    }
+
+    public Card getHiddenCard() {
+        return hiddenCard;
     }
 
     public PlayerStrategy getStrategy() {

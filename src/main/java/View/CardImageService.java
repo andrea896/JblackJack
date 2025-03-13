@@ -18,7 +18,7 @@ public class CardImageService {
 
         try {
             String[] suits = {"hearts", "diamonds", "clubs", "spades"};
-            String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"};
+            String[] ranks = {"two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king", "ace"};
 
             for (String suit : suits) {
                 for (String rank : ranks) {
@@ -44,6 +44,7 @@ public class CardImageService {
      * @param backDesign Il percorso al design del dorso selezionato dall'utente
      */
     public static void setCardBackDesign(String backDesign) {
+        backDesign = "/GameMenu/" + backDesign;
         try {
             cardBackImage = new Image(CardImageService.class.getResourceAsStream(backDesign));
         } catch (Exception e) {
@@ -57,14 +58,19 @@ public class CardImageService {
         return cardImages.get(card.toString().toLowerCase());
     }
 
-    public static Image getCardBackImage() {
+    public static ImageView getCardBackImageView() {
         if (!initialized) initialize();
-        return cardImages.get("back");
+        ImageView cardBackview = new ImageView(cardBackImage);
+        cardBackview.setFitHeight(75);
+        cardBackview.setPreserveRatio(true);
+        cardBackview.setSmooth(true);
+        cardBackview.setEffect(new DropShadow(5, Color.BLACK));
+        return cardBackview;
     }
 
     public static ImageView createCardImageView(Card card) {
         ImageView cardView = new ImageView(getCardImage(card));
-        cardView.setFitHeight(50);
+        cardView.setFitHeight(75);
         cardView.setPreserveRatio(true);
         cardView.setSmooth(true);
         cardView.setEffect(new DropShadow(5, Color.BLACK));

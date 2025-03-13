@@ -9,7 +9,7 @@ import View.BlackJackViewImpl;
 
 import java.util.Map;
 
-public class ActionController implements BlackjackActionListener{
+public class ActionController implements BlackjackActionListener {
     protected final GameModel model;
     protected final BlackJackViewImpl view;
 
@@ -33,6 +33,7 @@ public class ActionController implements BlackjackActionListener{
 
             case PLAYER_HIT:
                 // Pre-azione, possibile aggiornamento UI
+                handleCardDealtEvent(event);
                 break;
 
             case PLAYER_STAND:
@@ -53,7 +54,8 @@ public class ActionController implements BlackjackActionListener{
                 break;
 
             case DOUBLE_DOWN_EXECUTED:
-                // Aggiorna UI per double down
+                handleCardDealtEvent(event);
+                view.getControlPanelView().updateControls(false,false,false,false);
                 break;
 
             // Altri eventi...
@@ -63,26 +65,27 @@ public class ActionController implements BlackjackActionListener{
     private void handleCardDealtEvent(GameEvent event) {
         Map<String, Object> data = event.getData();
         Player player = (Player) data.get("player");
-        int handIndex = (int) data.get("handIndex");
         Card card = (Card) data.get("card");
 
         if (player.equals(model.getHumanPlayer())) {
+            int handIndex = (int) data.get("handIndex");
             // Carta al giocatore umano
-            view.getPlayerHands().animateCardDealt(handIndex, card);
-            view.getPlayerHands().updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
+            view.getPlayerHands().animateCardDealt(handIndex, card, player.getHandValue(handIndex));
+            //view.getPlayerHands().updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
 
         } else if (player.equals(model.getDealer())) {
             // Carta al dealer
-            boolean hideFirstCard = model.getGameState().equals(GameState.PLAYER_TURN);
-            view.getDealerView().animateCardDealt(card, hideFirstCard);
-            view.getDealerView().updateHand(player.getHand(0), hideFirstCard ? 0 : player.getHandValue(0), hideFirstCard);
+            boolean isHiddenCard = (boolean) data.get("isHiddenCard");
+            view.getDealerView().animateCardDealt(card, isHiddenCard, player.getHandValue(0));
+            //view.getDealerView().updateHand(player.getHand(0), hideFirstCard ? 0 : player.getHandValue(0), hideFirstCard);
 
         } else {
+            int handIndex = (int) data.get("handIndex");
             // Carta a un giocatore AI
             int playerIndex = model.getPlayers().indexOf(player);
             if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
-                //view.getAIPlayerViews().get(playerIndex).animateCardDealt(card);
-                view.getAIPlayerViews().get(playerIndex).updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
+                view.getAIPlayerViews().get(playerIndex).animateCardDealt(handIndex, card, player.getHandValue(handIndex));
+                //view.getAIPlayerViews().get(playerIndex).updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
             }
         }
 
@@ -96,12 +99,12 @@ public class ActionController implements BlackjackActionListener{
         int handIndex = (int) data.get("handIndex");
 
         if (player == model.getHumanPlayer()) {
-            //view.getPlayerView().showBusted(handIndex);
+            view.getPlayerHands().showBusted(handIndex);
             view.updateStatusMessage("Hai sballato!");
         } else {
             int playerIndex = model.getPlayers().indexOf(player);
             if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
-                //view.getAIPlayerViews().get(playerIndex).showBusted();
+                view.getAIPlayerViews().get(playerIndex).showBusted(handIndex);
             }
         }
 
