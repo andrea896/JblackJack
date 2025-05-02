@@ -1,7 +1,6 @@
 package Model.Game;
 
 public enum GameEventType {
-    // Eventi del flusso di gioco
     GAME_STARTED,
     ROUND_STARTED,
     ROUND_ENDED,

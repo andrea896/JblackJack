@@ -2,7 +2,6 @@ package View;
 
 import Controller.BlackjackActionListener;
 import Controller.BlackjackBettingListener;
-import Model.Players.Player;
 
 import java.util.List;
 
@@ -23,7 +22,4 @@ public interface BlackjJackView {
     // Metodi per impostare i listener
     void setActionListener(BlackjackActionListener listener);
     void setBettingListener(BlackjackBettingListener listener);
-
-    // Utilità
-    int getBetAmount();
 }

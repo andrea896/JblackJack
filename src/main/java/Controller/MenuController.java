@@ -11,7 +11,6 @@ import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -23,7 +22,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.EventObject;
 import java.util.List;
 
 /**

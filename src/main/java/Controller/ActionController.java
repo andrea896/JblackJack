@@ -37,7 +37,7 @@ public class ActionController implements BlackjackActionListener {
                 break;
 
             case PLAYER_STAND:
-                // Pre-azione, possibile aggiornamento UI
+                updatePlayerControls();
                 break;
 
             case PLAYER_BUSTED:
@@ -54,7 +54,6 @@ public class ActionController implements BlackjackActionListener {
                 break;
 
             case DOUBLE_DOWN_EXECUTED:
-                handleCardDealtEvent(event);
                 view.getControlPanelView().updateControls(false,false,false,false);
                 break;
 
@@ -132,7 +131,7 @@ public class ActionController implements BlackjackActionListener {
 
     public void updatePlayerControls() {
         // Aggiorna controlli in base allo stato corrente del gioco
-        if (model.getGameState() != GameState.PLAYER_TURN) {
+        if (!model.getGameState().equals(GameState.PLAYER_TURN)) {
             view.getControlPanelView().updateControls(false, false, false, false);
             return;
         }
@@ -170,6 +169,6 @@ public class ActionController implements BlackjackActionListener {
 
     @Override
     public void onExitButtonPressed() {
-        model.playerStand();
+        //model.playerStand();
     }
 }

@@ -67,7 +67,7 @@ public class GameController {
                 break;
 
             case GAME_OVER:
-                view.updateStatusMessage("Gioco terminato");
+                view.updateStatusMessage("Game Over");
                 //view.getPlayerView().highlight(false);
                 //view.getDealerView().highlight(false);
                 view.showPlayAgainButton(true);

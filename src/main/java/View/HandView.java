@@ -21,11 +21,10 @@ public class HandView extends VBox {
 
     public HandView() {
         setAlignment(javafx.geometry.Pos.CENTER);
-        //setSpacing(-30); // Sovrapponi parzialmente le carte
+        //setSpacing(-30);
 
         valueLabel = new Label();
         valueLabel.getStyleClass().add("hand-value");
-
         betLabel = new Label("Bet: ");
         betLabel.getStyleClass().add("bet-label");
         betLabel.setAlignment(javafx.geometry.Pos.CENTER);
@@ -49,20 +48,15 @@ public class HandView extends VBox {
     }
 
     public void updateHand(List<Card> cards, int handValue) {
-        // Rimuovi tutte le carte esistenti ma mantieni il container delle label
         handContainer.getChildren().clear();
 
-        // Aggiungi le nuove carte
         for (Card card : cards) {
             ImageView cardView = CardImageService.createCardImageView(card);
             handContainer.getChildren().add(cardView);
             cardView.toFront();
         }
 
-        // Aggiorna e aggiungi nuovamente il container delle label
         valueLabel.setText("value: " + handValue);
-        // Debug
-        System.out.println("updateHand - contenitore contiene ora " + handContainer.getChildren().size() + " nodi");
     }
 
     public void animateCardDealt(Card card, int handValue, boolean isHiddenCard) {
@@ -73,16 +67,14 @@ public class HandView extends VBox {
         else
             cardView = CardImageService.createCardImageView(card);
 
-        // Imposta posizione iniziale fuori schermo
         cardView.setTranslateY(-200);
-        // Aggiungi la carta alla vista
         handContainer.getChildren().add(cardView);
         // Anima l'entrata della carta
         TranslateTransition transition = new TranslateTransition(Duration.millis(300), cardView);
         transition.setToY(0);
         transition.play();
         valueLabel.setText("value: " + handValue);
-        System.out.println("updateHand - contenitore contiene ora " + handContainer.getChildren().size() + " nodi");
+        //System.out.println("updateHand - contenitore contiene ora " + handContainer.getChildren().size() + " nodi");
     }
 
     public void updateBet(int bet) {

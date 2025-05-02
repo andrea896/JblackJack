@@ -112,16 +112,13 @@ public class ProfileManager {
 
     public void updateProfile (UserProfile updatedProfile){
         if (updatedProfile != null && updatedProfile.getNickname() != null) {
-            // Aggiorna il profilo nella lista
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNickname().equals(updatedProfile.getNickname())) {
                     profiles.set(i, updatedProfile);
                     break;
                 }
             }
-
             try {
-                // Salva la lista aggiornata
                 String json = gson.toJson(profiles);
                 Files.write(Paths.get(PROFILE_PATH), json.getBytes());
             } catch (IOException e) {

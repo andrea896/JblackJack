@@ -56,8 +56,8 @@ public class DealerView extends VBox {
     public void revealHiddenCard(Card hiddenCard) {
         // Trova la carta coperta (dovrebbe essere la prima)
         List<Node> children = handView.getChildren();
-        if (children.size() > 0 && children.get(0) instanceof ImageView) {
-            ImageView cardView = (ImageView) children.get(0);
+        if (children.size() > 0 && children.get(1) instanceof ImageView) {
+            ImageView cardView = (ImageView) children.get(1);
 
             // Crea la nuova immagine
             ImageView newCardView = CardImageService.createCardImageView(hiddenCard);
@@ -69,7 +69,7 @@ public class DealerView extends VBox {
             rotateOut.setToAngle(90);
 
             rotateOut.setOnFinished(e -> {
-                handView.getChildren().set(0, newCardView);
+                handView.getChildren().set(1, newCardView);
 
                 RotateTransition rotateIn = new RotateTransition(Duration.millis(150), newCardView);
                 rotateIn.setAxis(Rotate.Y_AXIS);

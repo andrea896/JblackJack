@@ -52,8 +52,8 @@ public class PlayerHandsView extends VBox {
     /**
      * Aggiorna la puntata visualizzata
      */
-    public void updateBet(int bet) {
-        handViews.get(0).updateBet(bet);
+    public void updateBet(int bet, int handIndex) {
+        handViews.get(handIndex).updateBet(bet);
     }
 
     /**

@@ -3,11 +3,10 @@ package Controller;
 import Model.Game.GameEvent;
 import Model.Game.GameEventType;
 import Model.Game.GameModel;
+import Model.Game.Objects.Card;
 import View.BlackJackViewImpl;
 import java.util.Observable;
 import java.util.Observer;
-
-import static Model.Game.GameState.PLAYER_TURN;
 
 public class MainController implements Observer {
     private final GameModel model;
@@ -19,6 +18,7 @@ public class MainController implements Observer {
     public MainController(GameModel model, BlackJackViewImpl view) {
         this.model = model;
         this.view = view;
+
         // Crea i controller specializzati
         this.gameController = new GameController(model, view);
         this.actionController = new ActionController(model, view);
@@ -57,7 +57,9 @@ public class MainController implements Observer {
                 actionController.updatePlayerControls();
                 break;
             case DEALER_TURN_STARTED:
+                Card hiddenCard = (Card) event.getData().get("card");
                 gameController.handleEvent(event);
+                view.getDealerView().revealHiddenCard(hiddenCard);
                 break;
 
             // Eventi delle azioni → ActionController

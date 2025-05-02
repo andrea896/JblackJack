@@ -1,0 +1,303 @@
+mar 13, 2025 2:52:09 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mar 13, 2025 2:52:09 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mar 13, 2025 2:53:47 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_green5.png
+apr 19, 2025 1:18:55 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 19, 2025 1:18:55 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 19, 2025 1:19:09 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 19, 2025 1:21:19 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 19, 2025 1:21:19 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 19, 2025 1:21:32 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 24, 2025 4:17:39 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 24, 2025 4:17:39 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 24, 2025 4:17:51 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+apr 28, 2025 2:21:02 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 2:21:02 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 2:21:14 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 2:34:40 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 2:34:40 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 2:34:51 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+apr 28, 2025 2:35:14 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 2:35:14 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 2:35:26 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 2:39:37 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 2:39:37 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 2:39:50 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_blue5.png
+apr 28, 2025 2:41:26 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 2:41:26 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 2:41:43 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+apr 28, 2025 3:01:12 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 3:01:12 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 3:01:24 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 3:05:18 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 3:05:18 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 3:05:31 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 3:10:17 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 3:10:17 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 3:10:28 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_blue5.png
+apr 28, 2025 3:35:05 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 3:35:05 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 3:35:17 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+apr 28, 2025 3:56:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 3:56:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 3:56:22 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 3:57:19 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 3:57:19 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 3:57:30 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:04:21 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:04:21 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:04:32 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_blue5.png
+apr 28, 2025 4:05:23 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:05:23 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:05:33 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:08:08 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:08:08 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:08:18 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:08:57 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:08:57 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:09:10 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:14:09 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:14:09 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:14:19 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:15:26 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:15:26 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:15:39 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:23:55 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:23:55 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:24:06 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:29:27 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:29:27 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:29:41 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+apr 28, 2025 4:40:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:40:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+apr 28, 2025 4:40:26 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_blue5.png
+apr 28, 2025 4:41:15 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+apr 28, 2025 4:41:15 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 10:24:37 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 10:24:37 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 10:24:57 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+mag 02, 2025 10:26:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 10:26:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 10:26:26 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 02, 2025 10:35:06 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 10:35:06 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 10:35:16 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 02, 2025 10:36:37 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 10:36:37 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 10:37:20 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+mag 02, 2025 10:59:32 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 10:59:32 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 10:59:41 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 02, 2025 11:24:43 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 11:24:43 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 11:24:55 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 02, 2025 11:26:41 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 11:26:41 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 11:26:51 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 02, 2025 11:29:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 11:29:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 11:29:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_blue5.png
+mag 02, 2025 11:33:23 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 02, 2025 11:33:23 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 02, 2025 11:33:33 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
