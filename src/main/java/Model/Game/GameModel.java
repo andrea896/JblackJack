@@ -23,8 +23,6 @@ public class GameModel extends Observable {
     private List<Player> players;
     private Dealer dealer;
     private Random random;
-    private int currentBet;
-    // Componenti specializzati
     private TurnManager turnManager;
 
     /**
@@ -35,13 +33,12 @@ public class GameModel extends Observable {
      * @param numOfPlayers Numero di giocatori AI da creare
      */
     public GameModel(String playerName, int initialBalance, int numOfPlayers) {
-        this.deck = new Deck(2);
+        this.deck = new Deck();
         this.humanPlayer = PlayerFactory.createHumanPlayer(playerName, initialBalance);
         this.players = new ArrayList<>();
         this.dealer = PlayerFactory.createDealer();
         this.random = new Random();
         createAIPlayers(numOfPlayers);
-        this.currentBet = 0;
         this.turnManager = new TurnManager(humanPlayer, players, dealer, deck);
     }
 
@@ -165,15 +162,6 @@ public class GameModel extends Observable {
      */
     public int getCurrentHandIndex() {
         return turnManager.getCurrentHandIndex();
-    }
-
-    /**
-     * Restituisce la scommessa corrente.
-     *
-     * @return Importo della scommessa corrente
-     */
-    public int getCurrentBet() {
-        return turnManager.getCurrentbet();
     }
 
     public TurnManager getTurnManager() {

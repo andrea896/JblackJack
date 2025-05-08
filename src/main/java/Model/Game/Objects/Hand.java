@@ -69,7 +69,6 @@ public class Hand {
             }
         }
 
-        // Aggiusta il valore degli assi se necessario
         while (total > 21 && aceCount > 0) {
             total -= 10;
             aceCount--;

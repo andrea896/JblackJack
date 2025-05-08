@@ -110,28 +110,22 @@ public class ProfileManager {
                 .orElse(null);
     }
 
-    public void updateProfile (UserProfile updatedProfile){
-        if (updatedProfile != null && updatedProfile.getNickname() != null) {
-            // Aggiorna il profilo nella lista
-            for (int i = 0; i < profiles.size(); i++) {
-                if (profiles.get(i).getNickname().equals(updatedProfile.getNickname())) {
-                    profiles.set(i, updatedProfile);
-                    break;
-                }
-            }
-
-            try {
-                // Salva la lista aggiornata
-                String json = gson.toJson(profiles);
-                Files.write(Paths.get(PROFILE_PATH), json.getBytes());
-            } catch (IOException e) {
-                LOGGER.logError(e.getMessage(), e);
-            }
-        }
-    }
-
     public List<UserProfile> getProfiles() {
         return profiles;
     }
 
+    public void updateProfile(UserProfile updatedProfile) {
+        for (int i = 0; i < profilesArray.size(); i++) {
+            JsonObject profileObject = profilesArray.get(i).getAsJsonObject();
+            if (profileObject.get("nickname").getAsString().equals(updatedProfile.getNickname())) {
+                JsonObject statsObject = profileObject.getAsJsonObject("stats");
+                statsObject.addProperty("totalHandsPlayed", updatedProfile.getStats().getTotalHandsPlayed());
+                statsObject.addProperty("handsWon", updatedProfile.getStats().getHandsWon());
+                statsObject.addProperty("handsLost", updatedProfile.getStats().getHandsLost());
+                statsObject.addProperty("currentBalance", updatedProfile.getStats().getCurrentBalance());
+
+                break;
+            }
+        }
+    }
 }

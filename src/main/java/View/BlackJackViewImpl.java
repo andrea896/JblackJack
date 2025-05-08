@@ -33,9 +33,6 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
     private BlackjackActionListener actionListener;
     private BlackjackBettingListener bettingListener;
 
-    // Valori correnti
-    private int currentBet = 10;
-
     public BlackJackViewImpl(String cardBackDesign, String playerImagePath, int numberOfPlayers, String playerName, int balance) {
         CardImageService.setCardBackDesign(cardBackDesign);
 
@@ -79,7 +76,7 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
         // Elementi aggiuntivi
         statusMessageLabel = new Label();
         statusMessageLabel.getStyleClass().add("status-message");
-        statusMessageLabel.setVisible(false);
+        statusMessageLabel.setVisible(true);
 
         playAgainButton = new Button("Play Again");
         playAgainButton.getStyleClass().add("play-again-button");
@@ -97,7 +94,7 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
         AnchorPane.setRightAnchor(bottomControlsArea, 20.0); // Margine destro
 
         // Aggiungi tutti gli elementi al layout
-        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea);
+        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, statusMessageLabel, playAgainButton);
 
         // Configura gli event handlers
         setupEventHandlers();
@@ -175,11 +172,6 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
     public void setBettingListener(BlackjackBettingListener listener) {
         this.bettingListener = listener;
         bettingView.setBettingListener(listener);
-    }
-
-    @Override
-    public int getBetAmount() {
-        return currentBet;
     }
 
 }

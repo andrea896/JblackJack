@@ -84,4 +84,24 @@ public class GameManager {
         }
 
     }
+
+    public void updatePlayerStats(boolean hasWon, boolean isPush, int betAmount) {
+        if (currentProfile == null) {
+            logger.logWarning("Impossibile aggiornare le statistiche: profilo non trovato");
+            return;
+        }
+
+        currentProfile.getStats().setTotalHandsPlayed(currentProfile.getStats().getTotalHandsPlayed() + 1);
+
+        if (hasWon) {
+            currentProfile.getStats().setHandsWon(currentProfile.getStats().getHandsWon() + 1);
+            if (!isPush)
+                currentProfile.getStats().setCurrentBalance(currentProfile.getStats().getCurrentBalance() + betAmount);
+        } else if (!isPush) {
+            currentProfile.getStats().setHandsLost(currentProfile.getStats().getHandsLost() + 1);
+            currentProfile.getStats().setCurrentBalance(currentProfile.getStats().getCurrentBalance() - betAmount);
+        }
+
+        profileManager.updateProfile(currentProfile);
+    }
 }

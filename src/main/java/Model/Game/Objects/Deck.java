@@ -7,14 +7,14 @@ import java.util.List;
 public class Deck {
     private final List<Card> cards;
 
-    public Deck(int numDeck) {
+    public Deck() {
         cards = new ArrayList<>();
-        createDeck(numDeck);
+        createDeck();
         shuffle();
     }
 
-    private void createDeck(int numDecks) {
-        for (int i = 0; i < numDecks; i++) { // Creazione di più mazzi
+    private void createDeck() {
+        for (int i = 0; i < 2; i++) {
             for (Suit suit : Suit.values()) {
                 for (Rank rank : Rank.values()) {
                     cards.add(new Card(rank, suit));
@@ -28,10 +28,10 @@ public class Deck {
     }
 
     public Card drawCard() {
-        return cards.isEmpty() ? null : cards.remove(0);
-    }
-
-    public int remainingCards() {
-        return cards.size();
+        if (cards.isEmpty()){
+            createDeck();
+            return cards.remove(0);
+        }
+        return cards.remove(0);
     }
 }

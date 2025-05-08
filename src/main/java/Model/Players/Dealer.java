@@ -6,18 +6,15 @@ import Model.Players.StrategyPlay.PlayerStrategy;
 public class Dealer extends Player {
     private PlayerStrategy strategy;
     private Card hiddenCard;
-    private boolean revealHiddenCard;
 
     public Dealer(PlayerStrategy strategy) {
         super("Dealer", Integer.MAX_VALUE);
         this.strategy = strategy;
-        this.revealHiddenCard = false;
     }
 
     @Override
     public void resetHand(){
         super.resetHand();
-        revealHiddenCard = false;
         hiddenCard = null;
     }
 
@@ -33,7 +30,6 @@ public class Dealer extends Player {
     public void revealHiddenCard(){
         if (hiddenCard != null){
             super.addCard(hiddenCard);
-            revealHiddenCard = true;
             hiddenCard = null;
         }
     }

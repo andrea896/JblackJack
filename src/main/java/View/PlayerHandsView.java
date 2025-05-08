@@ -1,10 +1,15 @@
 package View;
 
 import Model.Game.Objects.Card;
+import javafx.animation.KeyFrame;
 import javafx.animation.ParallelTransition;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import java.util.ArrayList;
@@ -15,7 +20,6 @@ public class PlayerHandsView extends VBox {
     private final List<HandView> handViews;
 
     public PlayerHandsView(String playerName, boolean isAI) {
-        // Impostazioni base del layout
         setSpacing(10);
         setAlignment(Pos.TOP_CENTER);
         setPrefSize(322, 182);
@@ -29,16 +33,8 @@ public class PlayerHandsView extends VBox {
         handViews = new ArrayList<>();
         HandView initialHand = new HandView();
         handViews.add(initialHand);
-        // Assemblaggio componenti
-        getChildren().addAll(nameLabel, initialHand);
-    }
 
-    /**
-     * Aggiorna una mano con le carte specificate
-     */
-    public void updateHand(int handIndex, List<Card> cards, int handValue) {
-        ensureHandViews(handIndex + 1);
-        handViews.get(handIndex).updateHand(cards, handValue);
+        getChildren().addAll(nameLabel, initialHand);
     }
 
     /**
@@ -52,8 +48,8 @@ public class PlayerHandsView extends VBox {
     /**
      * Aggiorna la puntata visualizzata
      */
-    public void updateBet(int bet) {
-        handViews.get(0).updateBet(bet);
+    public void updateBet(int bet, int handIndex) {
+        handViews.get(handIndex).updateBet(bet);
     }
 
     /**
@@ -67,22 +63,63 @@ public class PlayerHandsView extends VBox {
     /**
      * Anima la separazione delle mani in caso di split
      */
-    public void animateSplitHands(List<Card> firstHand, List<Card> secondHand) {
+    public void animateSplitHands(Card newCard1, Card newCard2, int handValue1, int handValue2, int bet) {
         ensureHandViews(2);
 
-        // Aggiorna entrambe le mani
-        handViews.get(0).updateHand(firstHand, calculateHandValue(firstHand));
-        handViews.get(1).updateHand(secondHand, calculateHandValue(secondHand));
+        HandView firstHandView = handViews.get(0);
+        HandView secondHandView = handViews.get(1);
 
-        // Anima la separazione
-        TranslateTransition leftTransition = new TranslateTransition(Duration.millis(500), handViews.get(0));
-        leftTransition.setByX(-50);
+        // Ottieni il contenitore delle carte dalla prima mano
+        HBox firstHandContainer = (HBox) firstHandView.getChildren().get(1);
+        HBox secondHandContainer = (HBox) secondHandView.getChildren().get(1);
 
-        TranslateTransition rightTransition = new TranslateTransition(Duration.millis(500), handViews.get(1));
-        rightTransition.setByX(50);
+        // 2. Verifica che ci siano almeno due carte nella prima mano
+        if (firstHandContainer.getChildren().size() >= 2) {
+            ImageView cardToMove = (ImageView) firstHandContainer.getChildren().get(1);
 
-        ParallelTransition splitAnimation = new ParallelTransition(leftTransition, rightTransition);
-        splitAnimation.play();
+            firstHandContainer.getChildren().remove(cardToMove);
+
+            Bounds cardBounds = cardToMove.localToScene(cardToMove.getBoundsInLocal());
+            Bounds secondHandBounds = secondHandContainer.localToScene(secondHandContainer.getBoundsInLocal());
+
+            // Aggiungi la carta al pannello principale per l'animazione
+            getChildren().add(cardToMove);
+
+            // Posiziona la carta nella sua posizione originale
+            cardToMove.setTranslateX(cardBounds.getMinX() - getLayoutX());
+            cardToMove.setTranslateY(cardBounds.getMinY() - getLayoutY());
+
+            // 3. Animazione per spostare la carta nella seconda mano
+            TranslateTransition moveCard = new TranslateTransition(Duration.millis(500), cardToMove);
+            moveCard.setToX(secondHandBounds.getMinX() - getLayoutX() + 5);
+            moveCard.setToY(secondHandBounds.getMinY() - getLayoutY() + 5);
+
+            // 4. Dopo lo spostamento, aggiungi la carta alla seconda mano
+            moveCard.setOnFinished(e -> {
+                getChildren().remove(cardToMove);
+
+                secondHandContainer.getChildren().add(cardToMove);
+
+                // Resetta la traslazione
+                cardToMove.setTranslateX(0);
+                cardToMove.setTranslateY(0);
+
+                // 5. Ora aggiungi le nuove carte con animazione
+                firstHandView.animateCardDealt(newCard1, handValue1, false);
+
+                // Aggiungi un piccolo ritardo prima di animare la seconda carta
+                Timeline delay = new Timeline(new KeyFrame(Duration.millis(300), evt -> {
+                    secondHandView.animateCardDealt(newCard2, handValue2, false);
+                }));
+                delay.play();
+
+                // 6. Aggiorna le scommesse
+                secondHandView.updateBet(bet);
+            });
+
+            // Avvia l'animazione
+            moveCard.play();
+        }
     }
 
     /**
@@ -99,36 +136,7 @@ public class PlayerHandsView extends VBox {
         while (handViews.size() < requiredCount) {
             HandView newHand = new HandView();
             handViews.add(newHand);
-
-            // La seconda mano viene aggiunta al container solo quando necessario
-            if (handViews.size() == 2) {
-                // Non aggiungere automaticamente al container
-            } else if (handViews.size() > 2) {
-                getChildren().add(newHand);
-            }
+            getChildren().add(newHand);
         }
-    }
-
-    /**
-     * Calcola il valore di una mano di carte
-     */
-    private int calculateHandValue(List<Card> cards) {
-        int total = 0;
-        int aceCount = 0;
-
-        for (Card card : cards) {
-            total += card.getValue();
-            if (card.isAce()) {
-                aceCount++;
-            }
-        }
-
-        // Aggiusta il valore degli assi se necessario
-        while (total > 21 && aceCount > 0) {
-            total -= 10;
-            aceCount--;
-        }
-
-        return total;
     }
 }
