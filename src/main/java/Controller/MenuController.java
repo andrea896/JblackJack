@@ -183,7 +183,6 @@ public class MenuController {
             showTransitionScreen("Nessun profilo selezionato, accedi al tuo profilo");
             return;
         }
-        // Raccogli le opzioni selezionate dall'utente
         int numPlayers = getSelectedNumberOfPlayers();
         String cardBackDesign = getSelectedCardBackDesign();
         showTransitionScreen("STARTING GAME");

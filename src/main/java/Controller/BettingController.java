@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Game.GameEvent;
 import Model.Game.GameModel;
+import Model.Players.Player;
 import View.BlackJackViewImpl;
 
 public class BettingController implements BlackjackBettingListener{

@@ -2,6 +2,8 @@ package Model.Game;
 
 import Model.Game.Objects.Card;
 import Model.Game.Objects.Deck;
+import Model.Game.Objects.Rank;
+import Model.Game.Objects.Suit;
 import Model.Players.AIPlayer;
 import Model.Players.Dealer;
 import Model.Players.Player;
@@ -26,7 +28,6 @@ public class TurnManager extends Observable {
     private ResultCalculator resultCalculator;
     private boolean insurancePaid;
     private BankManager bankManager;
-    private int currentBet;
     private Random random;
 
     /**
@@ -56,11 +57,6 @@ public class TurnManager extends Observable {
     public void startRound() {
         // Inizializza il mazzo e le mani
         deck.shuffle();
-        humanPlayer.resetHand();
-        dealer.resetHand();
-
-        for (Player player : players)
-            player.resetHand();
 
         // Imposta scommesse casuali per i giocatori AI
         int i = 0;
@@ -117,11 +113,13 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali a tutti i giocatori e al dealer.
      */
     private void dealInitialCards() {
-        Card humanCard1 = deck.drawCard();
+        //Card humanCard1 = deck.drawCard();
+        Card humanCard1 = new Card(Rank.EIGHT, Suit.CLUBS);
         humanPlayer.addCard(humanCard1);
         createCardDealtEvent(humanPlayer, humanCard1, currentHandIndex, false);
 
-        Card humanCard2 = deck.drawCard();
+        //Card humanCard2 = deck.drawCard();
+        Card humanCard2 = new Card(Rank.EIGHT, Suit.HEARTS);
         humanPlayer.addCard(humanCard2);
         createCardDealtEvent(humanPlayer, humanCard2, currentHandIndex, false);
 
@@ -137,10 +135,10 @@ public class TurnManager extends Observable {
         }
         Card dealerCard1 = deck.drawCard();
         dealer.addCard(dealerCard1);
-        createCardDealtEvent(dealer, dealerCard1, 0, false);
+        createCardDealtEvent(dealer, dealerCard1, 0, true);
         Card dealerCard2 = deck.drawCard();
         dealer.addCard(dealerCard2);
-        createCardDealtEvent(dealer, dealerCard2, currentHandIndex, true);
+        createCardDealtEvent(dealer, dealerCard2, currentHandIndex, false);
     }
 
     /**
@@ -241,7 +239,7 @@ public class TurnManager extends Observable {
             playAITurns();
         } else {
             currentHandIndex++;
-            notifyObservers();
+            //notifyObservers();
         }
     }
 
@@ -300,10 +298,21 @@ public class TurnManager extends Observable {
         if (gameState != GameState.PLAYER_TURN) return false;
 
         boolean success = humanPlayer.canSplit(currentHandIndex) &&
-                                bankManager.handleSplit(humanPlayer, currentHandIndex) &&
-                                humanPlayer.splitHand(currentHandIndex, deck.drawCard(), deck.drawCard());
+                                bankManager.handleSplit(humanPlayer, currentHandIndex);
+
         if (success) {
-            notifyObservers();
+            // Ottieni le nuove carte da aggiungere dopo lo split
+            Card newCard1 = deck.drawCard();
+            Card newCard2 = deck.drawCard();
+            humanPlayer.splitHand(currentHandIndex, newCard1, newCard2);
+            // Notifica l'evento di split con informazioni sulle carte
+            notifyObserversWithEvent(GameEventType.HAND_SPLIT,
+                    "player", humanPlayer,
+                    "newCard1", newCard1,
+                    "newCard2", newCard2,
+                    "handValue1", humanPlayer.getHandValue(currentHandIndex),
+                    "handValue2", humanPlayer.getHandValue(currentHandIndex + 1),
+                    "bet", humanPlayer.getCurrentBet());
             return true;
         }
 
@@ -317,7 +326,7 @@ public class TurnManager extends Observable {
      */
     public boolean takeInsurance() {
         if (gameState == GameState.PLAYER_TURN &&
-                dealer.getHand(0).get(0).isAce() &&
+                dealer.getHand(0).get(1).isAce() &&
                 !humanPlayer.hasInsurance()) {
 
             boolean success = humanPlayer.takeInsurance() && bankManager.placeInsurance(humanPlayer);
@@ -358,7 +367,8 @@ public class TurnManager extends Observable {
                                     aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     notifyObserversWithEvent(GameEventType.HAND_SPLIT,
                                             "player", aiPlayer,
-                                            "handIndex", handIndex);
+                                            "newCard1", newCard1,
+                                            "newCard2", newCard2);
 
                                     createCardDealtEvent(player, newCard1, handIndex, false);
                                     createCardDealtEvent(player, newCard2, handIndex, false);
@@ -398,7 +408,7 @@ public class TurnManager extends Observable {
                                         "handIndex", handIndex,
                                         "value", aiPlayer.getHandValue(handIndex));
 
-                                continuePlaying = false; // Dopo Double Down il turno termina
+                                continuePlaying = false;
                                 continue;
                             }
                         }
@@ -419,12 +429,10 @@ public class TurnManager extends Observable {
                             // Notifica hit
                             Card card = deck.drawCard();
                             aiPlayer.addCard(handIndex, card);
-
                             notifyObserversWithEvent(GameEventType.PLAYER_HIT,
                                     "player", aiPlayer,
                                     "card", card,
                                     "handIndex", handIndex);
-
 
                             // Se sballa, termina il turno per questa mano
                             if (aiPlayer.getHandValue(handIndex) > 21) {
@@ -447,7 +455,6 @@ public class TurnManager extends Observable {
 
         // Dopo che tutti i giocatori AI hanno completato i loro turni, passa al dealer
         gameState = GameState.DEALER_TURN;
-        notifyObservers();
         playDealerTurn();
     }
 
@@ -456,8 +463,8 @@ public class TurnManager extends Observable {
      */
     private void playDealerTurn() {
         // Prima rivela la carta nascosta del dealer
-        dealer.revealHiddenCard();
         notifyObserversWithEvent(GameEventType.DEALER_TURN_STARTED, "card", dealer.getHiddenCard());
+        dealer.revealHiddenCard();
         // Verifica se tutti i giocatori hanno sballato
         boolean allPlayersBusted = isAllPlayersBusted();
         // Se tutti i giocatori hanno sballato, il dealer non pesca e vince automaticamente
@@ -466,7 +473,7 @@ public class TurnManager extends Observable {
             // Il dealer deve giocare secondo le regole standard
             while (strategy.shouldDraw(dealer.getHandValue(0))) {
                 Card newCard = deck.drawCard();
-                dealer.addCard(newCard);
+                dealer.addCard(0, newCard);
                 createCardDealtEvent(dealer, newCard, 0, false);
                 // Interrompi se il dealer sballa
                 if (dealer.isBusted(0)) {
@@ -520,6 +527,11 @@ public class TurnManager extends Observable {
         resultCalculator.calculateResults(humanPlayer, players, dealer);
         // Aggiorna lo stato del gioco
         gameState = GameState.GAME_OVER;
+        humanPlayer.resetHand();
+        dealer.resetHand();
+
+        for (Player player : players)
+            player.resetHand();
     }
 
     /**
@@ -550,10 +562,6 @@ public class TurnManager extends Observable {
      */
     public int getCurrentHandIndex() {
         return currentHandIndex;
-    }
-
-    public int getCurrentbet(){
-        return currentBet;
     }
 
     /**

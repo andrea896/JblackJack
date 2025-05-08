@@ -26,7 +26,7 @@ public class Player {
     public Player(String name, int initialBalance) {
         this.name = name;
         this.hands = new ArrayList<>();
-        this.hands.add(new Hand()); // Aggiungo una mano vuota di default
+        this.hands.add(new Hand());
         this.balance = initialBalance;
         this.currentBet = 0;
         this.hasInsurance = false;
@@ -220,20 +220,19 @@ public class Player {
         if (!canSplit(handIndex)) return false;
 
         Hand originalHand = hands.get(handIndex);
-        int bet = originalHand.getBet();
 
         // Crea una nuova mano con la seconda carta dell'originale
         Card secondCard = originalHand.splitSecondCard();
         if (secondCard == null) return false;
 
         // Crea la nuova mano con la stessa scommessa
-        Hand newHand = new Hand(bet);
+        Hand newHand = new Hand(currentBet);
         newHand.addCard(secondCard);
 
         // Aggiungi le nuove carte
         originalHand.addCard(newCard1);
         newHand.addCard(newCard2);
-        currentBet += bet;
+        currentBet += currentBet;
 
         // Aggiungi la nuova mano alla lista
         hands.add(newHand);

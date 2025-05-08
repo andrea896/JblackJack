@@ -5,6 +5,7 @@ import Model.Game.GameEventType;
 import Model.Game.GameModel;
 import Model.Game.Objects.Card;
 import View.BlackJackViewImpl;
+import javafx.application.Platform;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,18 +20,14 @@ public class MainController implements Observer {
         this.model = model;
         this.view = view;
 
-        // Crea i controller specializzati
         this.gameController = new GameController(model, view);
         this.actionController = new ActionController(model, view);
         this.bettingController = new BettingController(model, view);
-        // Registra questo controller come observer del model
         model.getTurnManager().addObserver(this);
-        // Inizializza i controller
         initialize();
     }
 
     private void initialize() {
-        // Inizializza i controller
         gameController.initialize();
         actionController.initialize();
         bettingController.initialize();
@@ -40,14 +37,18 @@ public class MainController implements Observer {
     public void update(Observable o, Object arg) {
         if (o.equals(model.getTurnManager()) && arg instanceof GameEvent) {
             GameEvent event = (GameEvent) arg;
-            dispatchEvent(event);
+
+            Platform.runLater(() -> {
+                dispatchEvent(event);
+            });
         }
     }
 
     private void dispatchEvent(GameEvent event) {
+        GameManager gameManager = GameManager.getInstance();
         GameEventType type = event.getType();
+        int bet;
 
-        // Smista gli eventi ai controller appropriati
         switch (type) {
             // Eventi del flusso di gioco → GameController
             case GAME_STARTED:
@@ -64,8 +65,6 @@ public class MainController implements Observer {
 
             // Eventi delle azioni → ActionController
             case CARD_DEALT:
-                actionController.handleEvent(event);
-                break;
             case HAND_UPDATED:
             case PLAYER_HIT:
             case PLAYER_STAND:
@@ -86,9 +85,22 @@ public class MainController implements Observer {
 
             // Eventi dei risultati (possono interessare più controller)
             case PLAYER_WINS:
+                bet = (int) event.getData().get("bet");
+                gameManager.updatePlayerStats(true, false, bet);
+                gameController.handleEvent(event);
+                bettingController.handleEvent(event);
+                break;
             case DEALER_WINS:
+                bet = (int) event.getData().get("bet");
+                gameManager.updatePlayerStats(false, false, bet);
+                gameController.handleEvent(event);
+                bettingController.handleEvent(event);
+                break;
             case PUSH:
             case BLACKJACK_ACHIEVED:
+                //bet = (int) event.getData().get("bet");
+                //bet *= (int) 1.5;
+                //gameManager.updatePlayerStats(true, false, bet);
                 gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;

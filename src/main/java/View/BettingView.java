@@ -20,9 +20,9 @@ public class BettingView extends VBox {
 
     public BettingView(int minBet, int maxBet) {
         setAlignment(Pos.CENTER);
-        setSpacing(10); // Spaziatura ridotta
+        setSpacing(10);
         setPadding(new Insets(10));
-        setPrefWidth(400); // Larghezza preferita per la zona scommesse
+        setPrefWidth(400);
 
         // Label per scommessa
         Label betLabel = new Label("Bet: ");
@@ -102,7 +102,7 @@ public class BettingView extends VBox {
 
     public void showBettingControls(boolean visible) {
         placeBetButton.setVisible(visible);
-        //betAmountLabel.setVisible(visible);
+        betAmountLabel.setVisible(visible);
         betSlider.setVisible(visible);
     }
 
@@ -126,6 +126,6 @@ public class BettingView extends VBox {
         betSlider.setMax(maxBet);
         betSlider.setMajorTickUnit((maxBet - 10) / 4);
         betSlider.setBlockIncrement((maxBet - 10) / 10);
-        betSlider.setPrefWidth(160); // Larghezza fissa per lo slider
+        betSlider.setPrefWidth(160);
     }
 }

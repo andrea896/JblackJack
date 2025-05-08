@@ -1,10 +1,7 @@
 package View;
 
 import Model.Game.Objects.Card;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -21,7 +18,6 @@ public class HandView extends VBox {
 
     public HandView() {
         setAlignment(javafx.geometry.Pos.CENTER);
-        //setSpacing(-30);
 
         valueLabel = new Label();
         valueLabel.getStyleClass().add("hand-value");
@@ -44,7 +40,7 @@ public class HandView extends VBox {
     }
 
     public void setHandlabel(boolean visible){
-        betLabel.setVisible(false);
+        betLabel.setVisible(visible);
     }
 
     public void updateHand(List<Card> cards, int handValue) {
@@ -61,20 +57,60 @@ public class HandView extends VBox {
 
     public void animateCardDealt(Card card, int handValue, boolean isHiddenCard) {
         ImageView cardView;
-
         if (isHiddenCard)
             cardView = CardImageService.getCardBackImageView();
         else
             cardView = CardImageService.createCardImageView(card);
 
-        cardView.setTranslateY(-200);
+
+        // Calcola il punto di partenza (posizione del dealer)
+        double dealerX = 15; // Posizione X del dealer nella scena
+        double dealerY = 400; // Posizione Y del dealer nella scena
+
+        // Converti in coordinate relative al contenitore
+        double startX = dealerX - handContainer.getLayoutX() - handContainer.getBoundsInParent().getMinX();
+        double startY = dealerY - handContainer.getLayoutY() - handContainer.getBoundsInParent().getMinY();
+
+        // Posiziona la carta inizialmente presso il dealer
+        cardView.setTranslateX(startX);
+        cardView.setTranslateY(startY);
+
+        // Inizialmente la carta è più piccola (come se fosse più lontana)
+        cardView.setScaleX(0.7);
+        cardView.setScaleY(0.7);
+
+        // Aggiungi la carta al contenitore
         handContainer.getChildren().add(cardView);
-        // Anima l'entrata della carta
-        TranslateTransition transition = new TranslateTransition(Duration.millis(300), cardView);
-        transition.setToY(0);
-        transition.play();
+
+        // Crea l'animazione di movimento
+        TranslateTransition moveTransition = new TranslateTransition(Duration.millis(600), cardView);
+        moveTransition.setToX(0);
+        moveTransition.setToY(0);
+
+        // Animazione per ingrandire la carta mentre si avvicina
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(600), cardView);
+        scaleTransition.setToX(1.0);
+        scaleTransition.setToY(1.0);
+
+        // Opzionale: aggiungi un leggero effetto di oscillazione
+        RotateTransition wobbleTransition = new RotateTransition(Duration.millis(600), cardView);
+        wobbleTransition.setFromAngle(-5);
+        wobbleTransition.setToAngle(0);
+        wobbleTransition.setInterpolator(Interpolator.SPLINE(0.4, 0, 0.2, 1));
+
+        // Combina tutte le animazioni
+        ParallelTransition dealAnimation = new ParallelTransition(
+                moveTransition, scaleTransition, wobbleTransition
+        );
+
+        // Imposta cosa accade quando l'animazione termina
         valueLabel.setText("value: " + handValue);
-        //System.out.println("updateHand - contenitore contiene ora " + handContainer.getChildren().size() + " nodi");
+
+        // Animazione più fluida con un interpolatore personalizzato
+        dealAnimation.setInterpolator(Interpolator.EASE_OUT);
+
+        // Avvia l'animazione
+        AnimationQueue.queue(dealAnimation);
     }
 
     public void updateBet(int bet) {
@@ -85,7 +121,6 @@ public class HandView extends VBox {
         Label bustedLabel = new Label("BUSTED!");
         bustedLabel.getStyleClass().add("busted-label");
 
-        // Effetti di animazione
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300), bustedLabel);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
@@ -100,6 +135,6 @@ public class HandView extends VBox {
         getChildren().add(bustedLabel);
 
         ParallelTransition animation = new ParallelTransition(fadeIn, scaleUp);
-        animation.play();
+        AnimationQueue.queue(animation);
     }
 }
