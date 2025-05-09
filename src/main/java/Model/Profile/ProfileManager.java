@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ProfileManager {
     private static final LoggerUtility LOGGER = new LoggerUtility();
-    private static final String PROFILE_PATH = "C:\\progetti\\JBlackJack\\src\\main\\resources\\players.json";
+    private static final String PROFILE_PATH = "src/main/resources/players.json";
     private final Gson gson;
     private JsonArray profilesArray;
     private List<UserProfile> profiles;
@@ -123,7 +123,6 @@ public class ProfileManager {
                 statsObject.addProperty("handsWon", updatedProfile.getStats().getHandsWon());
                 statsObject.addProperty("handsLost", updatedProfile.getStats().getHandsLost());
                 statsObject.addProperty("currentBalance", updatedProfile.getStats().getCurrentBalance());
-
                 break;
             }
         }

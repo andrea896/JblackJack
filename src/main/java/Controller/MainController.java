@@ -4,19 +4,19 @@ import Model.Game.GameEvent;
 import Model.Game.GameEventType;
 import Model.Game.GameModel;
 import Model.Game.Objects.Card;
-import View.BlackJackViewImpl;
+import View.BlackJackView;
 import javafx.application.Platform;
 import java.util.Observable;
 import java.util.Observer;
 
 public class MainController implements Observer {
     private final GameModel model;
-    private final BlackJackViewImpl view;
+    private final BlackJackView view;
     private final GameController gameController;
     private final ActionController actionController;
     private final BettingController bettingController;
 
-    public MainController(GameModel model, BlackJackViewImpl view) {
+    public MainController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
 

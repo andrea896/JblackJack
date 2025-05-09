@@ -123,13 +123,6 @@ public class PlayerHandsView extends VBox {
     }
 
     /**
-     * Ottieni il nome del giocatore
-     */
-    public String getPlayerName() {
-        return nameLabel.getText();
-    }
-
-    /**
      * Assicura che ci siano abbastanza HandView disponibili
      */
     private void ensureHandViews(int requiredCount) {

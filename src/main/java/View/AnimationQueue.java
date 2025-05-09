@@ -18,17 +18,14 @@ public class AnimationQueue {
             animation.play();
         });
 
-        // Se non c'è già un'animazione in corso, avvia la prima
         if (!isAnimating)
             playNext();
     }
 
-    // Overload semplificato
     public static void queue(Animation animation) {
         queue(animation, null);
     }
 
-    // Metodo per aggiungere una funzione generica alla coda
     public static void queue(Runnable action) {
         animationQueue.add(() -> {
             action.run();
@@ -37,7 +34,6 @@ public class AnimationQueue {
 
         if (!isAnimating)
             playNext();
-
     }
 
     private static void playNext() {

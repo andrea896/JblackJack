@@ -332,7 +332,7 @@ java.lang.NullPointerException: URL must not be null
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1104)
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.<init>(Image.java:628)
 	at com.example.jblackjack/View.PlayerInfoView.<init>(PlayerInfoView.java:30)
-	at com.example.jblackjack/View.BlackJackViewImpl.<init>(BlackJackViewImpl.java:44)
+	at com.example.jblackjack/View.BlackJackView.<init>(BlackJackViewImpl.java:44)
 	at com.example.jblackjack/Controller.GameManager.startGame(GameManager.java:73)
 	at com.example.jblackjack/Controller.MenuController.lambda$onStartGameButtonClick$7(MenuController.java:194)
 	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.visitKeyFrame(TimelineClipCore.java:239)
@@ -416,7 +416,7 @@ java.lang.NullPointerException: URL must not be null
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1104)
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.<init>(Image.java:628)
 	at com.example.jblackjack/View.PlayerInfoView.<init>(PlayerInfoView.java:30)
-	at com.example.jblackjack/View.BlackJackViewImpl.<init>(BlackJackViewImpl.java:44)
+	at com.example.jblackjack/View.BlackJackView.<init>(BlackJackViewImpl.java:44)
 	at com.example.jblackjack/Controller.GameManager.startGame(GameManager.java:73)
 	at com.example.jblackjack/Controller.MenuController.lambda$onStartGameButtonClick$7(MenuController.java:194)
 	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.visitKeyFrame(TimelineClipCore.java:239)
@@ -584,7 +584,7 @@ java.lang.NullPointerException: URL must not be null
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1104)
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.<init>(Image.java:628)
 	at com.example.jblackjack/View.PlayerInfoView.<init>(PlayerInfoView.java:30)
-	at com.example.jblackjack/View.BlackJackViewImpl.<init>(BlackJackViewImpl.java:44)
+	at com.example.jblackjack/View.BlackJackView.<init>(BlackJackViewImpl.java:44)
 	at com.example.jblackjack/Controller.GameManager.startGame(GameManager.java:73)
 	at com.example.jblackjack/Controller.MenuController.lambda$onStartGameButtonClick$7(MenuController.java:194)
 	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.visitKeyFrame(TimelineClipCore.java:239)
@@ -701,7 +701,7 @@ java.lang.NullPointerException: URL must not be null
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1104)
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.<init>(Image.java:628)
 	at com.example.jblackjack/View.PlayerInfoView.<init>(PlayerInfoView.java:30)
-	at com.example.jblackjack/View.BlackJackViewImpl.<init>(BlackJackViewImpl.java:44)
+	at com.example.jblackjack/View.BlackJackView.<init>(BlackJackViewImpl.java:44)
 	at com.example.jblackjack/Controller.GameManager.startGame(GameManager.java:73)
 	at com.example.jblackjack/Controller.MenuController.lambda$onStartGameButtonClick$7(MenuController.java:193)
 	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.visitKeyFrame(TimelineClipCore.java:239)
@@ -965,7 +965,7 @@ java.lang.NullPointerException: URL must not be null
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1104)
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.<init>(Image.java:628)
 	at com.example.jblackjack/View.PlayerInfoView.<init>(PlayerInfoView.java:30)
-	at com.example.jblackjack/View.BlackJackViewImpl.<init>(BlackJackViewImpl.java:44)
+	at com.example.jblackjack/View.BlackJackView.<init>(BlackJackViewImpl.java:44)
 	at com.example.jblackjack/Controller.GameManager.startGame(GameManager.java:73)
 	at com.example.jblackjack/Controller.MenuController.lambda$onStartGameButtonClick$7(MenuController.java:193)
 	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.visitKeyFrame(TimelineClipCore.java:239)
@@ -996,7 +996,7 @@ java.lang.NullPointerException: URL must not be null
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1104)
 	at javafx.graphics@20.0.1/javafx.scene.image.Image.<init>(Image.java:628)
 	at com.example.jblackjack/View.PlayerInfoView.<init>(PlayerInfoView.java:30)
-	at com.example.jblackjack/View.BlackJackViewImpl.<init>(BlackJackViewImpl.java:44)
+	at com.example.jblackjack/View.BlackJackView.<init>(BlackJackViewImpl.java:44)
 	at com.example.jblackjack/Controller.GameManager.startGame(GameManager.java:73)
 	at com.example.jblackjack/Controller.MenuController.lambda$onStartGameButtonClick$7(MenuController.java:193)
 	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.visitKeyFrame(TimelineClipCore.java:239)
@@ -1318,5 +1318,449 @@ mag 07, 2025 11:50:45 AM Utility.LoggerUtility logInfo
 INFO: [Model.Profile.ProfileManager.loadProfiles()] 
 Trovati 15 profili
 mag 07, 2025 11:50:55 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:35:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:35:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:35:24 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_blue5.png
+mag 08, 2025 4:37:42 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:37:42 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:37:52 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:49:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:49:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:49:24 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:52:52 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:52:52 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:53:03 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:53:33 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:53:33 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:53:44 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:55:02 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:55:02 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:55:13 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:56:00 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:56:00 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:56:10 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:57:31 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:57:31 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:57:42 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 08, 2025 4:58:07 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: C:\progetti\JBlackJack\src\main\resources\players.json
+mag 08, 2025 4:58:07 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 08, 2025 4:58:18 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 09, 2025 10:15:45 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:15:45 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 09, 2025 10:15:57 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+mag 09, 2025 10:36:30 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:36:30 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 15 profili
+mag 09, 2025 10:36:50 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 09, 2025 10:36:51 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo Mastro creato con successo
+mag 09, 2025 10:36:51 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:Mastro
+mag 09, 2025 10:43:18 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:43:18 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 16 profili
+mag 09, 2025 10:44:38 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:44:38 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 16 profili
+mag 09, 2025 10:45:46 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 09, 2025 10:45:46 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo Matteo creato con successo
+mag 09, 2025 10:45:46 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:Matteo
+mag 09, 2025 10:46:28 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:46:28 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 10:52:29 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:52:29 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 10:54:53 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:54:53 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 10:56:59 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:56:59 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 10:57:02 AM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.updateUIFromProfile()] 
+Field del testo vuota
+mag 09, 2025 10:57:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:57:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 10:57:35 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:57:35 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 10:58:48 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:58:48 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 10:59:31 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 10:59:31 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 11:02:35 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:02:35 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 11:05:58 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:05:58 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 11:06:03 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:07:36 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:07:36 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 17 profili
+mag 09, 2025 11:07:40 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:07:47 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: 'C:\progetti\JBlackJack\src\main\resources\GameMenu\Images\avatar4.png'
+mag 09, 2025 11:07:47 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: 'C:\progetti\JBlackJack\src\main\resources\GameMenu\Images\avatar4.png'
+mag 09, 2025 11:07:55 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:07:55 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:07:55 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:08:00 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:08:00 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:08:00 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:08:00 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:08:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 09, 2025 11:08:19 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo Andreww creato con successo
+mag 09, 2025 11:08:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:Andreww
+mag 09, 2025 11:08:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar2.png'
+mag 09, 2025 11:11:33 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:11:33 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 18 profili
+mag 09, 2025 11:11:41 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: 'C:\progetti\JBlackJack\src\main\resources\GameMenu\Images\avatar4.png'
+mag 09, 2025 11:11:52 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:11:52 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:01 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:01 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:01 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:03 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:03 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:03 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:03 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:12:18 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 09, 2025 11:12:18 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo GEsu creato con successo
+mag 09, 2025 11:12:18 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:GEsu
+mag 09, 2025 11:12:18 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar2.png'
+mag 09, 2025 11:12:43 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 09, 2025 11:12:43 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo ooo creato con successo
+mag 09, 2025 11:12:43 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:ooo
+mag 09, 2025 11:12:43 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar2.png'
+mag 09, 2025 11:15:18 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:15:18 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 20 profili
+mag 09, 2025 11:15:24 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: 'C:\progetti\JBlackJack\src\main\resources\GameMenu\Images\avatar4.png'
+mag 09, 2025 11:15:32 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:15:32 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:15:36 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:15:36 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:15:36 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:15:58 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 09, 2025 11:15:58 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo Leo creato con successo
+mag 09, 2025 11:15:58 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:Leo
+mag 09, 2025 11:15:58 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:09 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:16:09 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:16:09 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:16:09 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/images/avatar2.png'
+mag 09, 2025 11:16:15 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:15 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:15 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:15 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:15 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:19 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.updateUIFromProfile()] 
+Percorso avatar salvato nel profilo: '/GameMenu/Images/avatar3.png'
+mag 09, 2025 11:16:53 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:16:53 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 21 profili
+mag 09, 2025 11:18:31 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:18:31 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 0 profili
+mag 09, 2025 11:18:51 AM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 09, 2025 11:18:51 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo Andrew creato con successo
+mag 09, 2025 11:18:51 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:Andrew
+mag 09, 2025 11:19:08 AM Utility.LoggerUtility logError
+SEVERE: [Controller.GameManager.startGame()] 
+Errore nell'avvio del gioco: Invalid URL: Invalid URL or resource not found
+java.lang.IllegalArgumentException: Invalid URL: Invalid URL or resource not found
+	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1138)
+	at javafx.graphics@20.0.1/javafx.scene.image.Image.<init>(Image.java:628)
+	at com.example.jblackjack/View.PlayerInfoView.<init>(PlayerInfoView.java:30)
+	at com.example.jblackjack/View.BlackJackView.<init>(BlackJackView.java:44)
+	at com.example.jblackjack/Controller.GameManager.startGame(GameManager.java:73)
+	at com.example.jblackjack/Controller.MenuController.lambda$onStartGameButtonClick$8(MenuController.java:200)
+	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.visitKeyFrame(TimelineClipCore.java:239)
+	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.TimelineClipCore.playTo(TimelineClipCore.java:180)
+	at javafx.graphics@20.0.1/javafx.animation.Timeline.doPlayTo(Timeline.java:172)
+	at javafx.graphics@20.0.1/javafx.animation.AnimationAccessorImpl.playTo(AnimationAccessorImpl.java:39)
+	at javafx.graphics@20.0.1/com.sun.scenario.animation.shared.SingleLoopClipEnvelope.timePulse(SingleLoopClipEnvelope.java:103)
+	at javafx.graphics@20.0.1/javafx.animation.Animation.doTimePulse(Animation.java:1189)
+	at javafx.graphics@20.0.1/javafx.animation.Animation$1.lambda$timePulse$0(Animation.java:207)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at javafx.graphics@20.0.1/javafx.animation.Animation$1.timePulse(Animation.java:206)
+	at javafx.graphics@20.0.1/com.sun.scenario.animation.AbstractPrimaryTimer.timePulseImpl(AbstractPrimaryTimer.java:343)
+	at javafx.graphics@20.0.1/com.sun.scenario.animation.AbstractPrimaryTimer$MainLoop.run(AbstractPrimaryTimer.java:266)
+	at javafx.graphics@20.0.1/com.sun.javafx.tk.quantum.QuantumToolkit.pulse(QuantumToolkit.java:588)
+	at javafx.graphics@20.0.1/com.sun.javafx.tk.quantum.QuantumToolkit.pulse(QuantumToolkit.java:572)
+	at javafx.graphics@20.0.1/com.sun.javafx.tk.quantum.QuantumToolkit.pulseFromQueue(QuantumToolkit.java:565)
+	at javafx.graphics@20.0.1/com.sun.javafx.tk.quantum.QuantumToolkit.lambda$runToolkit$11(QuantumToolkit.java:352)
+	at javafx.graphics@20.0.1/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@20.0.1/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@20.0.1/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+Caused by: java.lang.IllegalArgumentException: Invalid URL or resource not found
+	at javafx.graphics@20.0.1/javafx.scene.image.Image.validateUrl(Image.java:1123)
+	... 24 more
+
+mag 09, 2025 11:20:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 09, 2025 11:20:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 1 profili
+mag 09, 2025 11:20:23 AM Utility.LoggerUtility logInfo
 INFO: [Controller.GameManager.startGame()] 
 Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png

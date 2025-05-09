@@ -2,14 +2,13 @@ package Controller;
 
 import Model.Game.GameEvent;
 import Model.Game.GameModel;
-import Model.Players.Player;
-import View.BlackJackViewImpl;
+import View.BlackJackView;
 
 public class BettingController implements BlackjackBettingListener{
     protected final GameModel model;
-    protected final BlackJackViewImpl view;
+    protected final BlackJackView view;
 
-    public BettingController(GameModel model, BlackJackViewImpl view) {
+    public BettingController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
     }

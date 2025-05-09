@@ -3,13 +3,13 @@ package Controller;
 import Model.Game.GameEvent;
 import Model.Game.GameModel;
 import Model.Game.GameState;
-import View.BlackJackViewImpl;
+import View.BlackJackView;
 
 public class GameController {
     protected final GameModel model;
-    protected final BlackJackViewImpl view;
+    protected final BlackJackView view;
 
-    public GameController(GameModel model, BlackJackViewImpl view) {
+    public GameController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
     }

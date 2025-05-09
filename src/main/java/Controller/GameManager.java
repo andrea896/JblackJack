@@ -4,7 +4,7 @@ import Model.Game.GameModel;
 import Model.Profile.ProfileManager;
 import Model.Profile.UserProfile;
 import Utility.LoggerUtility;
-import View.BlackJackViewImpl;
+import View.BlackJackView;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -70,7 +70,7 @@ public class GameManager {
             Scene gameScene = new Scene(tempRoot, 1355, 944);
             gameScene.getStylesheets().add(getClass().getResource("/GameView/blackjack.css").toExternalForm());
             gameModel = new GameModel(playerName, initialBalance, numberOfPlayers);
-            BlackJackViewImpl blackjackView = new BlackJackViewImpl(cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers, currentProfile.getNickname(), currentProfile.getStats().getCurrentBalance());
+            BlackJackView blackjackView = new BlackJackView(cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers, currentProfile.getNickname(), currentProfile.getStats().getCurrentBalance());
             gameScene.setRoot(blackjackView);
             MainController mainController = new MainController(gameModel, blackjackView);
             gameModel.addObserver(mainController);

@@ -5,21 +5,21 @@ import Model.Game.GameModel;
 import Model.Game.GameState;
 import Model.Game.Objects.Card;
 import Model.Players.Player;
-import View.BlackJackViewImpl;
+import View.BlackJackView;
 
 import java.util.Map;
 
 public class ActionController implements BlackjackActionListener {
     protected final GameModel model;
-    protected final BlackJackViewImpl view;
+    protected final BlackJackView view;
 
-    public ActionController(GameModel model, BlackJackViewImpl view) {
+    public ActionController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
     }
 
     public void initialize() {
-        view.getControlPanelView().setActionListener(this);
+        view.setActionListener(this);
         updatePlayerControls();
     }
 

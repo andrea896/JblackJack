@@ -12,7 +12,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
+public class BlackJackView extends AnchorPane {
     // Componenti principali
     private final DealerView dealerView;
     private final PlayerInfoView playerView;
@@ -33,7 +33,7 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
     private BlackjackActionListener actionListener;
     private BlackjackBettingListener bettingListener;
 
-    public BlackJackViewImpl(String cardBackDesign, String playerImagePath, int numberOfPlayers, String playerName, int balance) {
+    public BlackJackView(String cardBackDesign, String playerImagePath, int numberOfPlayers, String playerName, int balance) {
         CardImageService.setCardBackDesign(cardBackDesign);
 
         setPrefSize(1355, 944);
@@ -50,7 +50,7 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
         dealerView.setPrefSize(400, 250);
         dealerView.getStyleClass().add("dealer-area");
 
-        // ===== SEZIONE IA MANI =====
+        // ===== SEZIONE MANI GIOCATORI=====
         playerHandsView = new PlayerHandsView("Your Hands", false);
         aiHandsViews = new ArrayList<>();
 
@@ -96,7 +96,6 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
         // Aggiungi tutti gli elementi al layout
         getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, statusMessageLabel, playAgainButton);
 
-        // Configura gli event handlers
         setupEventHandlers();
     }
 
@@ -104,7 +103,6 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
      * Configura gli event handlers per i pulsanti e altri controlli
      */
     private void setupEventHandlers() {
-        // Pulsante gioca ancora
         playAgainButton.setOnAction(e -> {
             if (bettingListener != null) {
                 showPlayAgainButton(false);
@@ -112,7 +110,6 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
         });
     }
 
-    @Override
     public void updateStatusMessage(String message) {
         statusMessageLabel.setText(message);
         statusMessageLabel.setVisible(true);
@@ -122,53 +119,43 @@ public class BlackJackViewImpl extends AnchorPane implements BlackjJackView {
         pause.play();
     }
 
-    @Override
     public void showGameStartAnimation() {
         updateStatusMessage("Game Started!");
     }
 
-    @Override
     public void showPlayAgainButton(boolean visible) {
         playAgainButton.setVisible(visible);
     }
 
-    @Override
     public PlayerInfoView getPlayerView() {
         return playerView;
     }
 
-    @Override
     public DealerView getDealerView() {
         return dealerView;
     }
 
-    @Override
     public PlayerHandsView getPlayerHands() {
         return playerHandsView;
     }
 
-    @Override
     public List<PlayerHandsView> getAIPlayerViews() {
         return aiHandsViews;
     }
 
-    @Override
     public ControlPanelView getControlPanelView() {
         return controlPanelView;
     }
 
-    @Override
     public BettingView getBettingView() {
         return bettingView;
     }
 
-    @Override
     public void setActionListener(BlackjackActionListener listener) {
         this.actionListener = listener;
         controlPanelView.setActionListener(listener);
     }
 
-    @Override
     public void setBettingListener(BlackjackBettingListener listener) {
         this.bettingListener = listener;
         bettingView.setBettingListener(listener);

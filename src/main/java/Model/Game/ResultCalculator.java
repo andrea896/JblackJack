@@ -25,19 +25,13 @@ public class ResultCalculator {
         int dealerValue = dealer.getHandValue(0);
         boolean dealerBusted = dealerValue > 21;
 
-        // Elabora i risultati per il giocatore umano
-        for (int i = 0; i < humanPlayer.getHandCount(); i++) {
+        for (int i = 0; i < humanPlayer.getHandCount(); i++)
             processHandOutcome(humanPlayer, i, dealerValue, dealerBusted);
-        }
 
-        // Elabora i risultati per i giocatori AI
-        for (Player player : players) {
-            if (player != humanPlayer) {
-                for (int i = 0; i < player.getHandCount(); i++) {
+        for (Player player : players)
+            if (player != humanPlayer)
+                for (int i = 0; i < player.getHandCount(); i++)
                     processHandOutcome(player, i, dealerValue, dealerBusted);
-                }
-            }
-        }
     }
     /**
      * Elabora i risultati dell'assicurazione.
