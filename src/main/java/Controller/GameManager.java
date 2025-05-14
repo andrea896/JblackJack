@@ -73,7 +73,6 @@ public class GameManager {
             BlackJackView blackjackView = new BlackJackView(cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers, currentProfile.getNickname(), currentProfile.getStats().getCurrentBalance());
             gameScene.setRoot(blackjackView);
             MainController mainController = new MainController(gameModel, blackjackView);
-            gameModel.addObserver(mainController);
             primaryStage.setScene(gameScene);
             primaryStage.setResizable(false);
             primaryStage.show();

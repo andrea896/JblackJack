@@ -54,7 +54,7 @@ public class ActionController implements BlackjackActionListener {
                 view.getControlPanelView().updateControls(false,false,false,false);
                 break;
 
-            // Altri eventi...
+
         }
     }
 
@@ -65,12 +65,9 @@ public class ActionController implements BlackjackActionListener {
 
         if (player.equals(model.getHumanPlayer())) {
             int handIndex = (int) data.get("handIndex");
-            // Carta al giocatore umano
             view.getPlayerHands().animateCardDealt(handIndex, card, player.getHandValue(handIndex));
-            //view.getPlayerHands().updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
 
         } else if (player.equals(model.getDealer())) {
-            // Carta al dealer
             boolean isHiddenCard = (boolean) data.get("isHiddenCard");
             view.getDealerView().animateCardDealt(card, isHiddenCard, player.getHandValue(0));
 

@@ -57,8 +57,8 @@ public class BettingView extends VBox {
         insuranceButtons = new HBox(10, acceptInsuranceButton, declineInsuranceButton);
         insuranceButtons.setAlignment(Pos.CENTER);
 
-        insuranceBox = new VBox(5, insuranceLabel, insuranceButtons); // Spaziatura ridotta
-        insuranceBox.setAlignment(Pos.CENTER);
+        insuranceBox = new VBox(5, insuranceLabel, insuranceButtons);
+        insuranceBox.setAlignment(Pos.TOP_CENTER);
         insuranceBox.setVisible(false);
         insuranceBox.getStyleClass().add("game-component");
 
@@ -83,7 +83,6 @@ public class BettingView extends VBox {
 
         declineInsuranceButton.setOnAction(e -> {
             if (bettingListener != null) {
-                bettingListener.onInsuranceDeclined();
                 hideInsuranceOption();
             }
         });

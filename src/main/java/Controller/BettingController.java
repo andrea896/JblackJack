@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Game.GameEvent;
 import Model.Game.GameModel;
+import Model.Players.AIPlayer;
+import Model.Players.Player;
 import View.BlackJackView;
 
 public class BettingController implements BlackjackBettingListener{
@@ -34,13 +36,22 @@ public class BettingController implements BlackjackBettingListener{
 
             case INSURANCE_OFFERED:
                 view.getBettingView().showInsuranceOption();
+                view.getControlPanelView().updateControls(false, false, false, false);
                 break;
 
             case INSURANCE_ACCEPTED:
+                Player player = (Player) event.getData().get("player");
                 int insuranceAmount = (int) event.getData().get("amount");
                 int currentBalance = (int) event.getData().get("balance");
-                view.getBettingView().updateInsuranceDisplay(insuranceAmount);
-                view.getPlayerView().updateBalance(currentBalance);
+                int handIndex_ = (int) event.getData().get("handIndex");
+
+                if (player instanceof AIPlayer){
+                    int playerIndex = model.getPlayers().indexOf(player);
+                    view.getAIPlayerViews().get(playerIndex).updateInsurance(insuranceAmount, handIndex_);
+                } else {
+                    view.getPlayerHands().updateInsurance(insuranceAmount, handIndex_);
+                    view.getPlayerView().updateBalance(currentBalance);
+                }
                 break;
 
             case DOUBLE_DOWN_EXECUTED:
@@ -70,16 +81,10 @@ public class BettingController implements BlackjackBettingListener{
         view.getPlayerView().updateCurrentBet(amount);
         view.getPlayerHands().updateBet(amount, 0);
         model.startGame(amount);
-
     }
 
     @Override
     public void onInsuranceAccepted() {
-        model.getHumanPlayer().takeInsurance();
-    }
-
-    @Override
-    public void onInsuranceDeclined() {
-
+        model.takeInsurance();
     }
 }

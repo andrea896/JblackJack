@@ -53,6 +53,13 @@ public class PlayerHandsView extends VBox {
     }
 
     /**
+     * Aggiorna l'assicurazione visualizzata
+     */
+    public void updateInsurance(int insuranceAmount, int handIndex) {
+        handViews.get(handIndex).updateInsurance(insuranceAmount);
+    }
+
+    /**
      * Mostra l'indicatore "BUSTED" su una mano
      */
     public void showBusted(int handIndex) {

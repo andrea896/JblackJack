@@ -50,7 +50,6 @@ public class BlackJackView extends AnchorPane {
         dealerView.setPrefSize(400, 250);
         dealerView.getStyleClass().add("dealer-area");
 
-        // ===== SEZIONE MANI GIOCATORI=====
         playerHandsView = new PlayerHandsView("Your Hands", false);
         aiHandsViews = new ArrayList<>();
 
@@ -80,18 +79,18 @@ public class BlackJackView extends AnchorPane {
 
         playAgainButton = new Button("Play Again");
         playAgainButton.getStyleClass().add("play-again-button");
-        playAgainButton.setVisible(true);
+        playAgainButton.setVisible(false);
 
         // Posiziona gli elementi nell'AnchorPane
         AnchorPane.setTopAnchor(dealerView, 15.0);
         AnchorPane.setLeftAnchor(dealerView, 465.0);
 
-        AnchorPane.setTopAnchor(allHandsArea, 350.0);
+        AnchorPane.setTopAnchor(allHandsArea, 300.0);
         AnchorPane.setLeftAnchor(allHandsArea, 5.0);
 
-        AnchorPane.setTopAnchor(bottomControlsArea, 700.0);
-        AnchorPane.setLeftAnchor(bottomControlsArea, 20.0);  // Margine sinistro
-        AnchorPane.setRightAnchor(bottomControlsArea, 20.0); // Margine destro
+        AnchorPane.setTopAnchor(bottomControlsArea, 675.0);
+        AnchorPane.setLeftAnchor(bottomControlsArea, 20.0);
+        AnchorPane.setRightAnchor(bottomControlsArea, 20.0);
 
         // Aggiungi tutti gli elementi al layout
         getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, statusMessageLabel, playAgainButton);

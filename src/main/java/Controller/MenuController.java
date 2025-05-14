@@ -77,7 +77,6 @@ public class MenuController {
             .map(path -> new Image(getClass().getResourceAsStream(path)))
             .collect(Collectors.toList());
 
-
     /**
      * Inizializza il controller dopo che i componenti FXML sono stati caricati.
      * Imposta la posizione iniziale dei menu fuori dallo schermo.
@@ -92,7 +91,6 @@ public class MenuController {
         gameManager = gameManager.getInstance();
         newAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
         loadAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
-        // Configura le colonne della TableView
         playerNameColumn.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         valueColumn.setCellValueFactory(cellData -> {
             UserProfile user = cellData.getValue();

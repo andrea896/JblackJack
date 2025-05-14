@@ -23,21 +23,17 @@ public class DealerView extends VBox {
         // Mano del dealer
         handView = new HandView();
         handView.setHandlabel(false);
+        handView.setInsuranceLabel(false);
 
         getChildren().addAll(nameLabel, handView);
 
     }
 
     public void revealHiddenCard(Card hiddenCard) {
-        // Ottieni il contenitore delle carte (handContainer) dall'handView
         HBox handContainer = (HBox) handView.getChildren().get(1);
 
-        // Verifica che ci siano carte nel contenitore
         if (handContainer.getChildren().size() > 1) {
-            // La seconda carta è quella nascosta (indice 1)
             ImageView cardView = (ImageView) handContainer.getChildren().get(0);
-
-            // Crea la nuova ImageView per la carta rivelata
             ImageView newCardView = CardImageService.createCardImageView(hiddenCard);
 
             // Animazione per girare la carta

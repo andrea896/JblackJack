@@ -10,14 +10,13 @@ import Model.Players.PlayerFactory;
 import Model.Players.StrategyPlay.PlayerStrategy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 
 /**
  * Modello principale del gioco BlackJack.
  * Coordina i componenti e gestisce lo stato del gioco.
  */
-public class GameModel extends Observable {
+public class GameModel {
     private Deck deck;
     private Player humanPlayer;
     private List<Player> players;

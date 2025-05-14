@@ -5,7 +5,6 @@ import Model.Game.GameEventType;
 import Model.Game.GameModel;
 import Model.Game.Objects.Card;
 import View.BlackJackView;
-import javafx.application.Platform;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,10 +23,6 @@ public class MainController implements Observer {
         this.actionController = new ActionController(model, view);
         this.bettingController = new BettingController(model, view);
         model.getTurnManager().addObserver(this);
-        initialize();
-    }
-
-    private void initialize() {
         gameController.initialize();
         actionController.initialize();
         bettingController.initialize();
@@ -37,10 +32,7 @@ public class MainController implements Observer {
     public void update(Observable o, Object arg) {
         if (o.equals(model.getTurnManager()) && arg instanceof GameEvent) {
             GameEvent event = (GameEvent) arg;
-
-            Platform.runLater(() -> {
-                dispatchEvent(event);
-            });
+            dispatchEvent(event);
         }
     }
 
@@ -78,12 +70,11 @@ public class MainController implements Observer {
             case BET_PLACED:
             case INSURANCE_OFFERED:
             case INSURANCE_ACCEPTED:
-            case INSURANCE_DECLINED:
             case WINNINGS_PAID:
+                actionController.updatePlayerControls();
                 bettingController.handleEvent(event);
                 break;
 
-            // Eventi dei risultati (possono interessare più controller)
             case PLAYER_WINS:
                 bet = (int) event.getData().get("bet");
                 gameManager.updatePlayerStats(true, false, bet);
