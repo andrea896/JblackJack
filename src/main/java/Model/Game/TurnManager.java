@@ -83,6 +83,7 @@ public class TurnManager extends Observable {
                     !humanPlayer.hasInsurance()) {
                 notifyObserversWithEvent(GameEventType.INSURANCE_OFFERED);
             }
+            notifyObserversWithEvent(GameEventType.HAND_UPDATED);
         }
     }
 
@@ -115,8 +116,8 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali a tutti i giocatori e al dealer.
      */
     private void dealInitialCards() {
-        //Card humanCard1 = deck.drawCard();
-        Card humanCard1 = new Card(Rank.EIGHT, Suit.CLUBS);
+        Card humanCard1 = deck.drawCard();
+        //Card humanCard1 = new Card(Rank.EIGHT, Suit.CLUBS);
         humanPlayer.addCard(humanCard1);
         createCardDealtEvent(humanPlayer, humanCard1, currentHandIndex, false);
 
@@ -126,20 +127,20 @@ public class TurnManager extends Observable {
         createCardDealtEvent(humanPlayer, humanCard2, currentHandIndex, false);
 
         for (Player player : players) {
-            if (player != humanPlayer) {
                 Card card1 = deck.drawCard();
+                //Card card1 = new Card(Rank.ACE, Suit.SPADES);
                 player.addCard(card1);
                 createCardDealtEvent(player, card1, 0, false);
-                Card card2 = deck.drawCard();
+                //Card card2 = deck.drawCard();
+                Card card2 = new Card(Rank.ACE, Suit.SPADES);
                 player.addCard(card2);
                 createCardDealtEvent(player, card2, 0, false);
-            }
         }
         Card dealerCard1 = deck.drawCard();
         dealer.addCard(dealerCard1);
         createCardDealtEvent(dealer, dealerCard1, 0, true);
-        //Card dealerCard2 = deck.drawCard();
-        Card dealerCard2 = new Card(Rank.ACE, Suit.HEARTS);
+        Card dealerCard2 = deck.drawCard();
+        //Card dealerCard2 = new Card(Rank.ACE, Suit.HEARTS);
         dealer.addCard(dealerCard2);
         createCardDealtEvent(dealer, dealerCard2, currentHandIndex, false);
     }
@@ -196,7 +197,6 @@ public class TurnManager extends Observable {
      */
     private void processBlackjackResult(Player player, boolean playerBlackjack, boolean dealerBlackjack) {
         if (dealerBlackjack && playerBlackjack) {
-            // Pareggio - entrambi hanno blackjack
             bankManager.payPush(player, 0);
 
             notifyObserversWithEvent(GameEventType.PUSH,
@@ -282,9 +282,10 @@ public class TurnManager extends Observable {
             humanPlayer.addCard(currentHandIndex, card);
             createCardDealtEvent(humanPlayer, card, currentHandIndex, false);
             notifyObserversWithEvent(GameEventType.DOUBLE_DOWN_EXECUTED,
-                    "currentBet", humanPlayer.getCurrentBet(),
+                    "player", humanPlayer,
                     "currentHandIndex", currentHandIndex,
-                    "humanPlayer", humanPlayer);
+                    "newBet", humanPlayer.getHands().get(currentHandIndex).getBet(),
+                    "currentBet", humanPlayer.getCurrentBet());
             handleHandTransition();
             return true;
         }
@@ -380,29 +381,13 @@ public class TurnManager extends Observable {
                                             "player", aiPlayer,
                                             "newCard1", newCard1,
                                             "newCard2", newCard2,
-                                            "handValue1", aiPlayer.getHandValue(currentHandIndex),
-                                            "handValue2", humanPlayer.getHandValue(currentHandIndex + 1),
+                                            "handValue1", aiPlayer.getHandValue(handIndex),
+                                            "handValue2", aiPlayer.getHandValue(handIndex + 1),
                                             "bet", aiPlayer.getCurrentBet());
-
-                                    createCardDealtEvent(player, newCard1, handIndex, false);
-                                    createCardDealtEvent(player, newCard2, handIndex++, false);
-
-                                    // Notifica l'aggiornamento dei valori delle mani
-                                    notifyObserversWithEvent(GameEventType.HAND_UPDATED,
-                                            "player", aiPlayer,
-                                            "handIndex", handIndex,
-                                            "value", aiPlayer.getHandValue(handIndex));
-
-                                    notifyObserversWithEvent(GameEventType.HAND_UPDATED,
-                                            "player", aiPlayer,
-                                            "handIndex", handIndex++,
-                                            "value", aiPlayer.getHandValue(handIndex + 1));
-
                                     continue;
                                 }
                             }
                         }
-
                         // Verifica se fare Double Down (seconda priorità)
                         if (aiPlayer.getHands().get(handIndex).getCards().size() == 2 &&
                                 strategy.shouldPlayDoubleDown(handValue, dealerUpCard)) {
@@ -412,23 +397,16 @@ public class TurnManager extends Observable {
 
                                 notifyObserversWithEvent(GameEventType.DOUBLE_DOWN_EXECUTED,
                                         "player", aiPlayer,
-                                        "handIndex", handIndex,
+                                        "currentHandIndex", handIndex,
                                         "newBet", aiPlayer.getHands().get(handIndex).getBet(),
                                         "handValue", aiPlayer.getHandValue(handIndex));
 
                                 createCardDealtEvent(aiPlayer, card, handIndex, false);
-                                // Notifica l'aggiornamento della mano
-                                notifyObserversWithEvent(GameEventType.HAND_UPDATED,
-                                        "player", aiPlayer,
-                                        "handIndex", handIndex,
-                                        "value", aiPlayer.getHandValue(handIndex));
-
                                 continuePlaying = false;
                                 continue;
                             }
                         }
 
-                        // Verifica se prendere l'Insurance (solo per la prima mano)
                         if (handIndex == 0 && dealerUpCard.isAce() &&
                                 strategy.shouldTakeInsurance(handValue, dealerUpCard) &&
                                 aiPlayer.getHand(handIndex).size() <= 2) {
@@ -448,10 +426,6 @@ public class TurnManager extends Observable {
                             Card card = deck.drawCard();
                             aiPlayer.addCard(handIndex, card);
                             createCardDealtEvent(player, card, handIndex, false);
-                            notifyObserversWithEvent(GameEventType.HAND_UPDATED,
-                                    "player", aiPlayer,
-                                    "handIndex", handIndex,
-                                    "value", aiPlayer.getHandValue(handIndex));
 
                             // Se sballa, termina il turno per questa mano
                             if (aiPlayer.getHandValue(handIndex) > 21) {

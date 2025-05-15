@@ -4,9 +4,9 @@ import Model.Game.GameEvent;
 import Model.Game.GameModel;
 import Model.Game.GameState;
 import Model.Game.Objects.Card;
+import Model.Players.AIPlayer;
 import Model.Players.Player;
 import View.BlackJackView;
-
 import java.util.Map;
 
 public class ActionController implements BlackjackActionListener {
@@ -79,7 +79,6 @@ public class ActionController implements BlackjackActionListener {
 
         if (player == model.getHumanPlayer()) {
             view.getPlayerHands().showBusted(handIndex);
-            view.updateStatusMessage("Hai sballato!");
         } else {
             int playerIndex = model.getPlayers().indexOf(player);
             if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
@@ -92,8 +91,20 @@ public class ActionController implements BlackjackActionListener {
 
     private void handleDoubleDownEvent(GameEvent event) {
         Map<String, Object> data = event.getData();
-        int currentBet = (int) data.get("currentBet");
-        view.getPlayerView().updateCurrentBet(currentBet);
+        int currentHandIndex = (int) data.get("currentHandIndex");
+        Player player = (Player) data.get("player");
+        int newBet = (int) data.get("newBet");
+        if (player instanceof AIPlayer) {
+            int playerIndex = model.getPlayers().indexOf(player);
+            view.getAIPlayerViews().get(playerIndex).updateBet(newBet, currentHandIndex);
+        }
+        else {
+            int currentBet = (int) data.get("currentBet");
+            view.getPlayerHands().updateBet(newBet, currentHandIndex);
+            view.getPlayerView().updateCurrentBet(currentBet);
+            view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
+        }
+        updatePlayerControls();
     }
 
     private void handleSplitEvent(GameEvent event) {
@@ -103,7 +114,11 @@ public class ActionController implements BlackjackActionListener {
         int bet = (int) event.getData().get("bet");
         int handValue1 = (int) event.getData().get("handValue1");
         int handValue2 = (int) event.getData().get("handValue2");
-        if (!player.equals(model.getDealer())) {
+        if (player instanceof AIPlayer) {
+            int playerIndex = model.getPlayers().indexOf(player);
+            view.getAIPlayerViews().get(playerIndex).animateSplitHands(newCard1, newCard2, handValue1, handValue2, bet);
+        }
+        else {
             view.getPlayerHands().animateSplitHands(newCard1, newCard2, handValue1, handValue2, bet);
             view.getPlayerView().updateBalance(player.getBalance());
             view.getPlayerView().updateCurrentBet(player.getCurrentBet());

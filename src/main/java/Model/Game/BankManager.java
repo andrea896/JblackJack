@@ -3,6 +3,8 @@ package Model.Game;
 import Model.Game.Objects.Hand;
 import Model.Players.Player;
 
+import java.util.List;
+
 /**
  * Gestisce tutte le transazioni finanziarie nel gioco di BlackJack.
  * Centralizza la logica di scommesse, pagamenti e gestione del saldo.
@@ -139,12 +141,14 @@ public class BankManager {
         if (player.getBalance() < bet)
             return false;
 
-        player.setBalance(player.getBalance() - bet);
-        player.setCurrentBet(bet);
         hand.doubleDown();
+        player.setBalance(player.getBalance() - bet);
 
-        if (handIndex == 0)
-            player.setCurrentBet(bet * 2);
+        int totalBet = player.getHands().stream()
+                .mapToInt(h -> h.getBet())
+                .sum();
+
+        player.setCurrentBet(totalBet);
 
         return true;
     }
