@@ -29,7 +29,7 @@ public class GameModel {
      *
      * @param playerName Nome del giocatore umano
      * @param initialBalance Saldo iniziale del giocatore
-     * @param numOfPlayers Numero di giocatori AI da creare
+     * @param numOfPlayers Numero di giocatori AI
      */
     public GameModel(String playerName, int initialBalance, int numOfPlayers) {
         this.deck = new Deck();
@@ -115,6 +115,10 @@ public class GameModel {
      */
     public void takeInsurance() {
         turnManager.takeInsurance();
+    }
+
+    public void declineInsurance() {
+        turnManager.declineInsurance();
     }
 
     /**

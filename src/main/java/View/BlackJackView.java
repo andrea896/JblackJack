@@ -36,7 +36,7 @@ public class BlackJackView extends AnchorPane {
     public BlackJackView(String cardBackDesign, String playerImagePath, int numberOfPlayers, String playerName, int balance) {
         CardImageService.setCardBackDesign(cardBackDesign);
 
-        setPrefSize(1355, 944);
+        setPrefSize(1155, 744);
         getStyleClass().add("blackjack-table");
 
         // Crea le componenti principali
@@ -62,7 +62,7 @@ public class BlackJackView extends AnchorPane {
         allHandsArea.getChildren().add(playerHandsView);
         allHandsArea.getChildren().addAll(aiHandsViews);
         allHandsArea.setAlignment(Pos.TOP_CENTER);
-        allHandsArea.setSpacing(5);
+        allHandsArea.setSpacing(7);
         allHandsArea.getStyleClass().add("ai-player-area");
 
         // Container per tutti i controlli inferiori
@@ -82,13 +82,13 @@ public class BlackJackView extends AnchorPane {
         playAgainButton.setVisible(false);
 
         // Posiziona gli elementi nell'AnchorPane
-        AnchorPane.setTopAnchor(dealerView, 15.0);
+        AnchorPane.setTopAnchor(dealerView, 10.0);
         AnchorPane.setLeftAnchor(dealerView, 465.0);
 
-        AnchorPane.setTopAnchor(allHandsArea, 300.0);
+        AnchorPane.setTopAnchor(allHandsArea, 270.0);
         AnchorPane.setLeftAnchor(allHandsArea, 5.0);
 
-        AnchorPane.setTopAnchor(bottomControlsArea, 675.0);
+        AnchorPane.setTopAnchor(bottomControlsArea, 615.0);
         AnchorPane.setLeftAnchor(bottomControlsArea, 20.0);
         AnchorPane.setRightAnchor(bottomControlsArea, 20.0);
 

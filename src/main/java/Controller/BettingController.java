@@ -39,6 +39,10 @@ public class BettingController implements BlackjackBettingListener{
                 view.getControlPanelView().updateControls(false, false, false, false);
                 break;
 
+            case INSURANCE_DECLINED:
+                view.getBettingView().hideInsuranceOption();
+                break;
+
             case INSURANCE_ACCEPTED:
                 Player player = (Player) event.getData().get("player");
                 int insuranceAmount = (int) event.getData().get("amount");
@@ -86,5 +90,10 @@ public class BettingController implements BlackjackBettingListener{
     @Override
     public void onInsuranceAccepted() {
         model.takeInsurance();
+    }
+
+    @Override
+    public void onInsuranceDeclined() {
+        model.declineInsurance();
     }
 }

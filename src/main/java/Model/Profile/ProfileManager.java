@@ -81,7 +81,6 @@ public class ProfileManager {
         newProfile.setAvatarPath(avatarPath);
         newProfile.setStats(new GameStats());
 
-        // Aggiungi alla lista dei profili
         profiles.add(newProfile);
 
         // Crea e aggiungi al JsonArray

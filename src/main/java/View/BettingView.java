@@ -83,6 +83,7 @@ public class BettingView extends VBox {
 
         declineInsuranceButton.setOnAction(e -> {
             if (bettingListener != null) {
+                bettingListener.onInsuranceDeclined();
                 hideInsuranceOption();
             }
         });

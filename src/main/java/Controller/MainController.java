@@ -68,8 +68,9 @@ public class MainController implements Observer {
 
             // Eventi delle scommesse → BettingController
             case BET_PLACED:
-            case INSURANCE_OFFERED:
             case INSURANCE_ACCEPTED:
+            case INSURANCE_DECLINED:
+            case INSURANCE_OFFERED:
             case WINNINGS_PAID:
                 actionController.updatePlayerControls();
                 bettingController.handleEvent(event);

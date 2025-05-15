@@ -25,15 +25,11 @@ public class ActionController implements BlackjackActionListener {
 
     public void handleEvent(GameEvent event) {
         switch (event.getType()) {
-            case CARD_DEALT:
+            case CARD_DEALT, PLAYER_HIT:
                 handleCardDealtEvent(event);
                 break;
 
-            case PLAYER_HIT:
-                handleCardDealtEvent(event);
-                break;
-
-            case PLAYER_STAND:
+            case PLAYER_STAND, HAND_UPDATED:
                 updatePlayerControls();
                 break;
 
@@ -41,20 +37,14 @@ public class ActionController implements BlackjackActionListener {
                 handlePlayerBustedEvent(event);
                 break;
 
-            case HAND_UPDATED:
-                updateHandDisplay(event);
-                updatePlayerControls();
-                break;
-
             case HAND_SPLIT:
                 handleSplitEvent(event);
                 break;
 
             case DOUBLE_DOWN_EXECUTED:
-                view.getControlPanelView().updateControls(false,false,false,false);
+                handleDoubleDownEvent(event);
+                updatePlayerControls();
                 break;
-
-
         }
     }
 
@@ -100,8 +90,10 @@ public class ActionController implements BlackjackActionListener {
         updatePlayerControls();
     }
 
-    private void updateHandDisplay(GameEvent event) {
-        // Simile a handleCardDealtEvent ma senza animazione
+    private void handleDoubleDownEvent(GameEvent event) {
+        Map<String, Object> data = event.getData();
+        int currentBet = (int) data.get("currentBet");
+        view.getPlayerView().updateCurrentBet(currentBet);
     }
 
     private void handleSplitEvent(GameEvent event) {
@@ -113,6 +105,8 @@ public class ActionController implements BlackjackActionListener {
         int handValue2 = (int) event.getData().get("handValue2");
         if (!player.equals(model.getDealer())) {
             view.getPlayerHands().animateSplitHands(newCard1, newCard2, handValue1, handValue2, bet);
+            view.getPlayerView().updateBalance(player.getBalance());
+            view.getPlayerView().updateCurrentBet(player.getCurrentBet());
             updatePlayerControls();
         }
     }

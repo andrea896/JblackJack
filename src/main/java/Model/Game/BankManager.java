@@ -84,11 +84,8 @@ public class BankManager {
         int insuranceAmount = player.getCurrentBet() / 2;
 
         if (player.getBalance() >= insuranceAmount) {
-            // Detrae l'importo dell'assicurazione
             player.setBalance(player.getBalance() - insuranceAmount);
-            // Imposta lo stato di assicurazione
             player.setInsurance(true, insuranceAmount);
-            // Imposta l'assicurazione sulla prima mano
             if (!player.getHands().isEmpty()) {
                 player.getHands().get(0).takeInsurance();
             }
@@ -139,18 +136,13 @@ public class BankManager {
         Hand hand = player.getHands().get(handIndex);
         int bet = hand.getBet();
 
-        if (player.getBalance() < bet) {
+        if (player.getBalance() < bet)
             return false;
-        }
 
-        // Detrae l'importo aggiuntivo dal saldo
         player.setBalance(player.getBalance() - bet);
         player.setCurrentBet(bet);
-
-        // Raddoppia la scommessa nella mano
         hand.doubleDown();
 
-        // Se è la prima mano, aggiorna anche currentBet
         if (handIndex == 0)
             player.setCurrentBet(bet * 2);
 
@@ -171,7 +163,6 @@ public class BankManager {
         if (player.getBalance() < bet || !player.canSplit(handIndex))
             return false;
 
-        // Detrae l'importo per la nuova mano
         player.setBalance(player.getBalance() - bet);
         player.setCurrentBet(bet);
 

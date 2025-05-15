@@ -236,7 +236,6 @@ public class TurnManager extends Observable {
     private void handleHandTransition(){
         if (humanPlayer.getHandCount() <= 1 || currentHandIndex >= humanPlayer.getHandCount() - 1) {
             gameState = GameState.AI_PLAYER_TURN;
-            notifyObserversWithEvent(GameEventType.PLAYER_STAND);
             playAITurns();
         } else {
             currentHandIndex++;
@@ -282,6 +281,10 @@ public class TurnManager extends Observable {
             Card card = deck.drawCard();
             humanPlayer.addCard(currentHandIndex, card);
             createCardDealtEvent(humanPlayer, card, currentHandIndex, false);
+            notifyObserversWithEvent(GameEventType.DOUBLE_DOWN_EXECUTED,
+                    "currentBet", humanPlayer.getCurrentBet(),
+                    "currentHandIndex", currentHandIndex,
+                    "humanPlayer", humanPlayer);
             handleHandTransition();
             return true;
         }
@@ -301,9 +304,9 @@ public class TurnManager extends Observable {
                                 bankManager.handleSplit(humanPlayer, currentHandIndex);
 
         if (success) {
-            // Ottieni le nuove carte da aggiungere dopo lo split
             Card newCard1 = deck.drawCard();
             Card newCard2 = deck.drawCard();
+            int bet = humanPlayer.getCurrentBet();
             humanPlayer.splitHand(currentHandIndex, newCard1, newCard2);
             // Notifica l'evento di split con informazioni sulle carte
             notifyObserversWithEvent(GameEventType.HAND_SPLIT,
@@ -312,7 +315,7 @@ public class TurnManager extends Observable {
                     "newCard2", newCard2,
                     "handValue1", humanPlayer.getHandValue(currentHandIndex),
                     "handValue2", humanPlayer.getHandValue(currentHandIndex + 1),
-                    "bet", humanPlayer.getCurrentBet());
+                    "bet", bet);
             return true;
         }
 
@@ -341,6 +344,10 @@ public class TurnManager extends Observable {
         }
 
         return false;
+    }
+
+    public void declineInsurance(){
+        notifyObserversWithEvent(GameEventType.INSURANCE_DECLINED);
     }
 
     /**
