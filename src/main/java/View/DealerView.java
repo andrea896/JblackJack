@@ -26,27 +26,23 @@ public class DealerView extends VBox {
         handView.setInsuranceLabel(false);
 
         getChildren().addAll(nameLabel, handView);
-
     }
 
-    public void revealHiddenCard(Card hiddenCard) {
+    public void revealHiddenCard(Card hiddenCard,int handValue) {
         HBox handContainer = (HBox) handView.getChildren().get(1);
+        handView.updateHandValue(handValue);
 
         if (handContainer.getChildren().size() > 1) {
             ImageView cardView = (ImageView) handContainer.getChildren().get(0);
             ImageView newCardView = CardImageService.createCardImageView(hiddenCard);
 
-            // Animazione per girare la carta
             RotateTransition rotateOut = new RotateTransition(Duration.millis(1000), cardView);
             rotateOut.setAxis(Rotate.Y_AXIS);
             rotateOut.setFromAngle(0);
             rotateOut.setToAngle(90);
 
             rotateOut.setOnFinished(e -> {
-                // Sostituisci la carta nel contenitore
                 handContainer.getChildren().set(0, newCardView);
-
-                // Animazione per mostrare la nuova carta
                 RotateTransition rotateIn = new RotateTransition(Duration.millis(150), newCardView);
                 rotateIn.setAxis(Rotate.Y_AXIS);
                 rotateIn.setFromAngle(-90);
@@ -54,7 +50,7 @@ public class DealerView extends VBox {
                 rotateIn.play();
             });
 
-            rotateOut.play();
+            AnimationQueue.queue(rotateOut);
         }
     }
 

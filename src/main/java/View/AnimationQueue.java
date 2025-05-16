@@ -1,6 +1,8 @@
 package View;
 
 import javafx.animation.Animation;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -8,28 +10,12 @@ public class AnimationQueue {
     private static final Queue<Runnable> animationQueue = new LinkedList<>();
     private static boolean isAnimating = false;
 
-    public static void queue(Animation animation, Runnable afterAnimation) {
-        animationQueue.add(() -> {
-            animation.setOnFinished(e -> {
-                if (afterAnimation != null)
-                    afterAnimation.run();
-                playNext();
-            });
-            animation.play();
-        });
-
-        if (!isAnimating)
-            playNext();
-    }
-
     public static void queue(Animation animation) {
-        queue(animation, null);
-    }
-
-    public static void queue(Runnable action) {
         animationQueue.add(() -> {
-            action.run();
-            playNext();
+            animation.play();
+            PauseTransition pause = new PauseTransition(Duration.millis(700));
+            pause.setOnFinished(e -> playNext());
+            pause.play();
         });
 
         if (!isAnimating)

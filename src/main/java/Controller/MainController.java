@@ -42,7 +42,6 @@ public class MainController implements Observer {
         int bet;
 
         switch (type) {
-            // Eventi del flusso di gioco → GameController
             case GAME_STARTED:
             case ROUND_STARTED:
             case ROUND_ENDED:
@@ -51,8 +50,8 @@ public class MainController implements Observer {
                 break;
             case DEALER_TURN_STARTED:
                 Card hiddenCard = (Card) event.getData().get("card");
-                gameController.handleEvent(event);
-                view.getDealerView().revealHiddenCard(hiddenCard);
+                int handValue = (int) event.getData().get("handValue");
+                view.getDealerView().revealHiddenCard(hiddenCard, handValue);
                 break;
 
             // Eventi delle azioni → ActionController
@@ -79,7 +78,6 @@ public class MainController implements Observer {
             case PLAYER_WINS:
                 bet = (int) event.getData().get("bet");
                 gameManager.updatePlayerStats(true, false, bet);
-                gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
             case DEALER_WINS:

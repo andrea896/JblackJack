@@ -59,7 +59,7 @@ public class GameController {
 
             case GAME_OVER:
                 view.updateStatusMessage("Game Over");
-                view.showPlayAgainButton(true);
+                view.showPlayAgainButton(false);
                 break;
         }
     }

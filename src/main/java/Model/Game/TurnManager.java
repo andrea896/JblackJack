@@ -131,8 +131,8 @@ public class TurnManager extends Observable {
                 //Card card1 = new Card(Rank.ACE, Suit.SPADES);
                 player.addCard(card1);
                 createCardDealtEvent(player, card1, 0, false);
-                //Card card2 = deck.drawCard();
-                Card card2 = new Card(Rank.ACE, Suit.SPADES);
+                Card card2 = deck.drawCard();
+                //Card card2 = new Card(Rank.ACE, Suit.SPADES);
                 player.addCard(card2);
                 createCardDealtEvent(player, card2, 0, false);
         }
@@ -175,7 +175,6 @@ public class TurnManager extends Observable {
 
         // Rivela la carta nascosta del dealer poiché almeno qualcuno ha blackjack
         dealer.revealHiddenCard();
-        notifyObserversWithEvent(GameEventType.DEALER_CARD_REVEALED);
 
         // Gestisci i risultati per il giocatore umano
         processBlackjackResult(humanPlayer, humanBlackjack, dealerBlackjack);
@@ -445,8 +444,6 @@ public class TurnManager extends Observable {
                 }
             }
         }
-
-        // Dopo che tutti i giocatori AI hanno completato i loro turni, passa al dealer
         gameState = GameState.DEALER_TURN;
         playDealerTurn();
     }
@@ -455,20 +452,16 @@ public class TurnManager extends Observable {
      * Gestisce il turno del dealer.
      */
     private void playDealerTurn() {
-        // Prima rivela la carta nascosta del dealer
-        notifyObserversWithEvent(GameEventType.DEALER_TURN_STARTED, "card", dealer.getHiddenCard());
+        Card hiddenCard = dealer.getHiddenCard();
         dealer.revealHiddenCard();
-        // Verifica se tutti i giocatori hanno sballato
+        notifyObserversWithEvent(GameEventType.DEALER_TURN_STARTED, "card", hiddenCard, "handValue", dealer.getHandValue(0));
         boolean allPlayersBusted = isAllPlayersBusted();
-        // Se tutti i giocatori hanno sballato, il dealer non pesca e vince automaticamente
         if (!allPlayersBusted) {
             PlayerStrategy strategy = dealer.getStrategy();
-            // Il dealer deve giocare secondo le regole standard
             while (strategy.shouldDraw(dealer.getHandValue(0))) {
                 Card newCard = deck.drawCard();
                 dealer.addCard(0, newCard);
                 createCardDealtEvent(dealer, newCard, 0, false);
-                // Interrompi se il dealer sballa
                 if (dealer.isBusted(0)) {
                     notifyObserversWithEvent(GameEventType.DEALER_BUSTED);
                     break;
@@ -506,20 +499,15 @@ public class TurnManager extends Observable {
      * Termina il round e determina i risultati.
      */
     private void endRound() {
-        // Gestisci l'assicurazione se il dealer ha un blackjack
         if (dealer.hasBlackjack(0) && !insurancePaid) {
-            // Paga l'assicurazione a tutti i giocatori che l'hanno presa
             resultCalculator.processInsuranceOutcomes(humanPlayer, players, dealer, insurancePaid);
             insurancePaid = true;
         } else {
-            // Se il dealer non ha blackjack, tutti perdono le assicurazioni
             resultCalculator.clearInsurance(humanPlayer, players);
         }
-        // Calcola i risultati per tutti i giocatori
-        resultCalculator.calculateResults(humanPlayer, players, dealer);
-        // Aggiorna lo stato del gioco
-        gameState = GameState.GAME_OVER;
 
+        resultCalculator.calculateResults(humanPlayer, players, dealer);
+        gameState = GameState.GAME_OVER;
         humanPlayer.resetHand();
         dealer.resetHand();
 
@@ -534,11 +522,8 @@ public class TurnManager extends Observable {
      * @param keyValuePairs Coppie chiave-valore per i dati dell'evento
      */
     private void notifyObserversWithEvent(GameEventType eventType, Object... keyValuePairs) {
-        // Crea l'evento utilizzando il metodo helper di GameEvent
         GameEvent event = GameEvent.create(eventType, keyValuePairs);
-        // Imposta l'evento come argomento della notifica
         setChanged();
-        // Notifica tutti gli osservatori con l'evento
         notifyObservers(event);
         event = null;
     }

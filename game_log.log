@@ -3645,3 +3645,192 @@ Trovati 2 profili
 mag 15, 2025 1:11:56 PM Utility.LoggerUtility logInfo
 INFO: [Controller.GameManager.startGame()] 
 Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 6:32:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 6:32:13 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 6:32:23 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 6:32:56 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 6:32:56 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 6:33:06 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 6:34:45 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 6:34:45 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 6:35:09 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 6:45:17 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 6:45:17 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 6:45:28 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 6:57:52 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 6:57:52 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 6:58:03 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 6:58:26 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 6:58:26 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 6:58:36 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 6:58:53 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 6:58:53 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 6:59:02 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 7:12:34 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 7:12:34 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 7:12:43 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 15, 2025 7:14:51 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 15, 2025 7:14:51 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 15, 2025 7:15:00 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:06:21 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:06:21 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:06:32 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:07:25 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:07:25 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:07:36 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:13:07 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:13:07 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:13:18 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:14:04 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:14:04 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:14:20 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:18:17 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:18:17 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:19:06 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 2, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:19:40 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:19:40 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:19:50 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:20:22 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:20:22 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:20:33 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:20:38 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:20:38 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:20:48 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:22:05 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:22:05 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:22:17 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:23:01 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:23:01 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:23:11 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 11:41:28 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 11:41:28 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 11:41:44 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 16, 2025 2:13:15 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 16, 2025 2:13:15 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 2 profili
+mag 16, 2025 2:13:25 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png

@@ -115,6 +115,10 @@ public class HandView extends VBox {
         insuranceLabel.setText("Insur: " + insuranceAmount);
     }
 
+    public void updateHandValue(int handValue){
+        valueLabel.setText("value: " + handValue);
+    }
+
     public void showBusted() {
         Label bustedLabel = new Label("BUSTED!");
         bustedLabel.getStyleClass().add("busted-label");

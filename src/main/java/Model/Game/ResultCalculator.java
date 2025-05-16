@@ -42,21 +42,20 @@ public class ResultCalculator {
      * @param insurancePaid Flag per evitare pagamenti doppi
      */
     public void processInsuranceOutcomes(Player humanPlayer, List<Player> players, Dealer dealer, boolean insurancePaid) {
-        if (insurancePaid) return; // Evita di pagare l'assicurazione due volte
+        if (insurancePaid) return;
 
         for (Player player : players) {
-            if (player.hasInsurance()) {
+            if (player.hasInsurance())
                 manager.payInsurance(player);
-            } else if (player != humanPlayer) {
+            else if (player != humanPlayer)
                 manager.handleInsuranceLoss(player);
-            }
+
         }
 
-        if (humanPlayer.hasInsurance()) {
+        if (humanPlayer.hasInsurance())
             manager.payInsurance(humanPlayer);
-        } else {
+        else
             manager.handleInsuranceLoss(humanPlayer);
-        }
     }
 
     /**
@@ -66,11 +65,9 @@ public class ResultCalculator {
      * @param players Lista di tutti i giocatori
      */
     public void clearInsurance(Player humanPlayer, List<Player> players) {
-        for (Player player : players) {
-            if (player != humanPlayer) {
+        for (Player player : players)
+            if (player != humanPlayer)
                 manager.handleInsuranceLoss(player);
-            }
-        }
 
         manager.handleInsuranceLoss(humanPlayer);
     }
