@@ -88,9 +88,9 @@ public class MainController implements Observer {
                 break;
             case PUSH:
             case BLACKJACK_ACHIEVED:
-                //bet = (int) event.getData().get("bet");
-                //bet *= (int) 1.5;
-                //gameManager.updatePlayerStats(true, false, bet);
+                bet = (int) event.getData().get("bet");
+                bet *= (int) 1.5;
+                gameManager.updatePlayerStats(true, false, bet);
                 gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;

@@ -29,9 +29,8 @@ public class ResultCalculator {
             processHandOutcome(humanPlayer, i, dealerValue, dealerBusted);
 
         for (Player player : players)
-            if (player != humanPlayer)
-                for (int i = 0; i < player.getHandCount(); i++)
-                    processHandOutcome(player, i, dealerValue, dealerBusted);
+            for (int i = 0; i < player.getHandCount(); i++)
+                processHandOutcome(player, i, dealerValue, dealerBusted);
     }
     /**
      * Elabora i risultati dell'assicurazione.

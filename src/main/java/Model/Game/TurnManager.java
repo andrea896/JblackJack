@@ -556,7 +556,6 @@ public class TurnManager extends Observable {
                     "card", card,
                     "isHiddenCard", isHiddenCard);
         } else {
-            // Caso per i giocatori normali
             notifyObserversWithEvent(GameEventType.CARD_DEALT,
                     "player", player,
                     "handIndex", handIndex,
