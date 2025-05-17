@@ -122,6 +122,7 @@ public class ProfileManager {
                 statsObject.addProperty("handsWon", updatedProfile.getStats().getHandsWon());
                 statsObject.addProperty("handsLost", updatedProfile.getStats().getHandsLost());
                 statsObject.addProperty("currentBalance", updatedProfile.getStats().getCurrentBalance());
+                saveToJson();
                 break;
             }
         }

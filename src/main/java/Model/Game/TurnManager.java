@@ -10,9 +10,9 @@ import Model.Players.Player;
 import Model.Players.StrategyPlay.AggressiveStrategy;
 import Model.Players.StrategyPlay.ConservativeStrategy;
 import Model.Players.StrategyPlay.PlayerStrategy;
-import java.util.List;
-import java.util.Observable;
-import java.util.Random;
+import Model.Profile.GameStats;
+
+import java.util.*;
 
 /**
  * Gestisce il flusso di gioco e i turni nel BlackJack.
@@ -173,13 +173,10 @@ public class TurnManager extends Observable {
             return false;
         }
 
-        // Rivela la carta nascosta del dealer poiché almeno qualcuno ha blackjack
         dealer.revealHiddenCard();
 
-        // Gestisci i risultati per il giocatore umano
         processBlackjackResult(humanPlayer, humanBlackjack, dealerBlackjack);
 
-        // Gestisci i risultati per i giocatori AI
         for (Player player : players)
             if (player != humanPlayer)
                 processBlackjackResult(player, player.hasBlackjack(0), dealerBlackjack);
@@ -506,7 +503,15 @@ public class TurnManager extends Observable {
             resultCalculator.clearInsurance(humanPlayer, players);
         }
 
-        resultCalculator.calculateResults(humanPlayer, players, dealer);
+        Map<String, Integer> results = resultCalculator.calculateResults(humanPlayer, players, dealer);
+
+        // Notifica il risultato per aggiornare la UI e le statistiche
+        notifyObserversWithEvent(GameEventType.ROUND_ENDED,
+                "finalBalance", results.get("finalBalance"),
+                "wonHands", results.get("wonHands"),
+                "lostHands", results.get("lostHands"),
+                "totalHands", results.get("totalHands"));
+
         gameState = GameState.GAME_OVER;
         humanPlayer.resetHand();
         dealer.resetHand();

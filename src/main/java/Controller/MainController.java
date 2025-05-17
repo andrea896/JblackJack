@@ -45,6 +45,14 @@ public class MainController implements Observer {
             case GAME_STARTED:
             case ROUND_STARTED:
             case ROUND_ENDED:
+                int finalBalance = (int) event.getData().get("finalBalance");
+                int wonHands = (int) event.getData().get("wonHands");
+                int lostHands = (int) event.getData().get("lostHands");
+                int totalHands = (int) event.getData().get("totalHands");
+
+                gameManager.updatePlayerStats(finalBalance, totalHands, wonHands, lostHands);
+                view.getPlayerView().updateBalance(finalBalance);
+                break;
             case GAME_STATE_CHANGED:
                 actionController.updatePlayerControls();
                 break;
@@ -77,12 +85,12 @@ public class MainController implements Observer {
 
             case PLAYER_WINS:
                 bet = (int) event.getData().get("bet");
-                gameManager.updatePlayerStats(true, false, bet);
+                //gameManager.updatePlayerStats(true, false, bet);
                 bettingController.handleEvent(event);
                 break;
             case DEALER_WINS:
                 bet = (int) event.getData().get("bet");
-                gameManager.updatePlayerStats(false, false, bet);
+                //gameManager.updatePlayerStats(false, false, bet);
                 gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
@@ -90,7 +98,7 @@ public class MainController implements Observer {
             case BLACKJACK_ACHIEVED:
                 bet = (int) event.getData().get("bet");
                 bet *= (int) 1.5;
-                gameManager.updatePlayerStats(true, false, bet);
+                //gameManager.updatePlayerStats(true, false, bet);
                 gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
