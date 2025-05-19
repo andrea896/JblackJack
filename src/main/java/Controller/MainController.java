@@ -5,10 +5,15 @@ import Model.Game.GameEventType;
 import Model.Game.GameModel;
 import Model.Game.Objects.Card;
 import View.BlackJackView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.util.Observable;
 import java.util.Observer;
 
-public class MainController implements Observer {
+public class MainController implements Observer, RoundEndListener {
     private final GameModel model;
     private final BlackJackView view;
     private final GameController gameController;
@@ -18,12 +23,11 @@ public class MainController implements Observer {
     public MainController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
-
         this.gameController = new GameController(model, view);
         this.actionController = new ActionController(model, view);
         this.bettingController = new BettingController(model, view);
         model.getTurnManager().addObserver(this);
-        gameController.initialize();
+        view.setRoundEndListener(this);
         actionController.initialize();
         bettingController.initialize();
     }
@@ -52,6 +56,8 @@ public class MainController implements Observer {
 
                 gameManager.updatePlayerStats(finalBalance, totalHands, wonHands, lostHands);
                 view.getPlayerView().updateBalance(finalBalance);
+                int minimumBet = 10;
+                view.showEndRoundPanel(finalBalance, minimumBet);
                 break;
             case GAME_STATE_CHANGED:
                 actionController.updatePlayerControls();
@@ -84,10 +90,9 @@ public class MainController implements Observer {
                 break;
 
             case PLAYER_WINS:
-                bet = (int) event.getData().get("bet");
-                //gameManager.updatePlayerStats(true, false, bet);
                 bettingController.handleEvent(event);
                 break;
+
             case DEALER_WINS:
                 bet = (int) event.getData().get("bet");
                 //gameManager.updatePlayerStats(false, false, bet);
@@ -96,18 +101,49 @@ public class MainController implements Observer {
                 break;
             case PUSH:
             case BLACKJACK_ACHIEVED:
-                bet = (int) event.getData().get("bet");
-                bet *= (int) 1.5;
-                //gameManager.updatePlayerStats(true, false, bet);
+                actionController.handleEvent(event);
                 gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
 
-            // Altri eventi - inviare a tutti i controller
             default:
-                //gameController.handleEvent(event);
-                //actionController.handleEvent(event);
-                //bettingController.handleEvent(event);
+                break;
+        }
+    }
+
+    @Override
+    public void onNewRoundRequested() {
+        view.resetViewForNewRound();
+        view.getBettingView().setMaxBetSlider(model.getHumanPlayer().getBalance());
+        view.getBettingView().showBettingControls(true);
+    }
+
+    @Override
+    public void onExitRequested() {
+        navigateToMainMenu();
+    }
+
+    @Override
+    public void onBalanceReloadRequested(int amount) {
+        int currentBalance = model.getHumanPlayer().getBalance();
+        int newBalance = currentBalance + amount;
+
+        model.getHumanPlayer().setBalance(newBalance);
+        view.getPlayerView().updateBalance(newBalance);
+        GameManager.getInstance().updatePlayerStats(newBalance, 0, 0, 0);
+        onNewRoundRequested();
+    }
+
+    private void navigateToMainMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameMenu/MenuView.fxml"));
+            Parent root = loader.load();
+            Scene menuScene = new Scene(root);
+            Stage primaryStage = (Stage) view.getScene().getWindow();
+            primaryStage.setScene(menuScene);
+        } catch (Exception e) {
+            System.err.println("Errore durante la navigazione al menu: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

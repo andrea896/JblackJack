@@ -14,10 +14,6 @@ public class GameController {
         this.view = view;
     }
 
-    public void initialize() {
-        // Configura listener per l'avvio di una nuova partita
-    }
-
     public void handleEvent(GameEvent event) {
         switch (event.getType()) {
             case GAME_STARTED:

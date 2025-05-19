@@ -27,6 +27,7 @@ public class ActionController implements BlackjackActionListener {
         switch (event.getType()) {
             case CARD_DEALT, PLAYER_HIT:
                 handleCardDealtEvent(event);
+                updatePlayerControls();
                 break;
 
             case PLAYER_STAND, HAND_UPDATED:
@@ -39,13 +40,34 @@ public class ActionController implements BlackjackActionListener {
 
             case HAND_SPLIT:
                 handleSplitEvent(event);
+                updatePlayerControls();
                 break;
 
             case DOUBLE_DOWN_EXECUTED:
                 handleDoubleDownEvent(event);
                 updatePlayerControls();
                 break;
+            case BLACKJACK_ACHIEVED:
+                handleBlackjackEvent(event);
+                updatePlayerControls();
         }
+    }
+
+    private void handleBlackjackEvent(GameEvent event) {
+        Map<String, Object> data = event.getData();
+        Player player = (Player) data.get("player");
+        int handIndex = (int) data.get("handIndex");
+
+        if (player == model.getHumanPlayer()) {
+            view.getPlayerHands().showBlackjack(handIndex);
+        } else {
+            int playerIndex = model.getPlayers().indexOf(player);
+            if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
+                view.getAIPlayerViews().get(playerIndex).showBlackjack(handIndex);
+            }
+        }
+
+        updatePlayerControls();
     }
 
     private void handleCardDealtEvent(GameEvent event) {
@@ -68,8 +90,6 @@ public class ActionController implements BlackjackActionListener {
                 view.getAIPlayerViews().get(playerIndex).animateCardDealt(handIndex, card, player.getHandValue(handIndex));
             }
         }
-
-        updatePlayerControls();
     }
 
     private void handlePlayerBustedEvent(GameEvent event) {
@@ -85,8 +105,6 @@ public class ActionController implements BlackjackActionListener {
                 view.getAIPlayerViews().get(playerIndex).showBusted(handIndex);
             }
         }
-
-        updatePlayerControls();
     }
 
     private void handleDoubleDownEvent(GameEvent event) {
@@ -104,7 +122,6 @@ public class ActionController implements BlackjackActionListener {
             view.getPlayerView().updateCurrentBet(currentBet);
             view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
         }
-        updatePlayerControls();
     }
 
     private void handleSplitEvent(GameEvent event) {
@@ -122,7 +139,6 @@ public class ActionController implements BlackjackActionListener {
             view.getPlayerHands().animateSplitHands(newCard1, newCard2, handValue1, handValue2, bet);
             view.getPlayerView().updateBalance(player.getBalance());
             view.getPlayerView().updateCurrentBet(player.getCurrentBet());
-            updatePlayerControls();
         }
     }
 

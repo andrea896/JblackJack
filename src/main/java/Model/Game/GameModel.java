@@ -74,8 +74,8 @@ public class GameModel {
      * @param betAmount Importo della scommessa
      * @return true se il gioco è stato avviato con successo, false altrimenti
      */
-    public boolean startGame(int betAmount) {
-        if (betAmount <= 0 || betAmount > humanPlayer.getBalance())
+    public boolean startRound(int betAmount) {
+        if (betAmount <= 0 || humanPlayer.getBalance() < 0)
             return false;
 
         turnManager.startRound();

@@ -101,32 +101,30 @@ public class ResultCalculator {
         int handValue = player.getHandValue(handIndex);
         boolean handBusted = player.isBusted(handIndex);
         boolean handBlackjack = player.hasBlackjack(handIndex);
-        String result;
 
         if (handBusted) {
             manager.handleLoss(player, handIndex);
-            result = "loss";
+            return "loss";
         } else if (dealerBusted) {
             // Il dealer ha sballato, la mano vince (pagamento 1:1)
             manager.payWin(player, handIndex);
-            result = "win";
+            return "win";
         } else if (handBlackjack && !dealerBusted && dealerValue != 21) {
             // La mano ha blackjack, il dealer no (pagamento 3:2)
             manager.payBlackjack(player, handIndex);
-            result = "win";
+            return "win";
         } else if (handValue > dealerValue) {
             // La mano ha un valore più alto (pagamento 1:1)
             manager.payWin(player, handIndex);
-            result = "win";
+            return "win";
         } else if (handValue < dealerValue) {
             // Il dealer ha un valore più alto
             manager.handleLoss(player, handIndex);
-            result = "loss";
+            return "loss";
         } else {
             // Stesso valore, pareggio (restituzione della scommessa)
             manager.payPush(player, handIndex);
-            result = "win";
+            return "win";
         }
-        return result;
     }
 }

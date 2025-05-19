@@ -3,8 +3,6 @@ package Model.Game;
 import Model.Game.Objects.Hand;
 import Model.Players.Player;
 
-import java.util.List;
-
 /**
  * Gestisce tutte le transazioni finanziarie nel gioco di BlackJack.
  * Centralizza la logica di scommesse, pagamenti e gestione del saldo.
@@ -14,9 +12,8 @@ public class BankManager {
     private void resetBet(Player player, int handIndex){
         Hand hand = player.getHands().get(handIndex);
         hand.setBet(0);
-        if (handIndex == 0){
+        if (handIndex == 0)
             player.setCurrentBet(0);
-        }
     }
 
     /**
@@ -28,10 +25,7 @@ public class BankManager {
     public void payWin(Player player, int handIndex) {
         Hand hand = player.getHands().get(handIndex);
         int bet = hand.getBet();
-
-        // Paga la scommessa originale + la vincita (1:1)
         player.setBalance(player.getBalance() + bet * 2);
-
         resetBet(player, handIndex);
     }
 
@@ -60,9 +54,7 @@ public class BankManager {
     public void payPush(Player player, int handIndex) {
         Hand hand = player.getHands().get(handIndex);
         int bet = hand.getBet();
-        // Restituisce solo la scommessa originale
         player.setBalance(player.getBalance() + bet);
-
         resetBet(player, handIndex);
     }
 
@@ -106,11 +98,7 @@ public class BankManager {
     public void payInsurance(Player player) {
         if (player.hasInsurance()) {
             int insuranceAmount = player.getInsuranceAmount();
-
-            // Paga l'assicurazione (2:1)
             player.setBalance(player.getBalance() + insuranceAmount * 3);
-
-            // Resetta lo stato dell'assicurazione
             player.setInsurance(false, 0);
         }
     }
@@ -121,10 +109,8 @@ public class BankManager {
      * @param player Il giocatore con assicurazione
      */
     public void handleInsuranceLoss(Player player) {
-        if (player.hasInsurance()) {
-            // Resetta solo lo stato dell'assicurazione, la scommessa è già persa
+        if (player.hasInsurance())
             player.setInsurance(false, 0);
-        }
     }
 
     /**

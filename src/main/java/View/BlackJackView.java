@@ -2,6 +2,7 @@ package View;
 
 import Controller.BlackjackActionListener;
 import Controller.BlackjackBettingListener;
+import Controller.RoundEndListener;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -28,10 +29,12 @@ public class BlackJackView extends AnchorPane {
     // Altri elementi UI
     private final Label statusMessageLabel;
     private final Button playAgainButton;
+    private EndRoundPanel endRoundPanel;
 
     // Listeners
     private BlackjackActionListener actionListener;
     private BlackjackBettingListener bettingListener;
+    private RoundEndListener roundEndListener;
 
     public BlackJackView(String cardBackDesign, String playerImagePath, int numberOfPlayers, String playerName, int balance) {
         CardImageService.setCardBackDesign(cardBackDesign);
@@ -81,7 +84,9 @@ public class BlackJackView extends AnchorPane {
         playAgainButton.getStyleClass().add("play-again-button");
         playAgainButton.setVisible(false);
 
-        // Posiziona gli elementi nell'AnchorPane
+        endRoundPanel = new EndRoundPanel();
+        endRoundPanel.toFront();
+
         AnchorPane.setTopAnchor(dealerView, 10.0);
         AnchorPane.setLeftAnchor(dealerView, 465.0);
 
@@ -92,8 +97,10 @@ public class BlackJackView extends AnchorPane {
         AnchorPane.setLeftAnchor(bottomControlsArea, 20.0);
         AnchorPane.setRightAnchor(bottomControlsArea, 20.0);
 
-        // Aggiungi tutti gli elementi al layout
-        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, statusMessageLabel, playAgainButton);
+        AnchorPane.setTopAnchor(endRoundPanel, 300.0);
+        AnchorPane.setRightAnchor(endRoundPanel, 0.0);
+
+        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, statusMessageLabel, playAgainButton, endRoundPanel);
 
         setupEventHandlers();
     }
@@ -104,7 +111,7 @@ public class BlackJackView extends AnchorPane {
     private void setupEventHandlers() {
         playAgainButton.setOnAction(e -> {
             if (bettingListener != null) {
-                showPlayAgainButton(false);
+                showPlayAgainButton(true);
             }
         });
     }
@@ -158,6 +165,45 @@ public class BlackJackView extends AnchorPane {
     public void setBettingListener(BlackjackBettingListener listener) {
         this.bettingListener = listener;
         bettingView.setBettingListener(listener);
+    }
+
+    /**
+     * Imposta il listener per gli eventi di fine round.
+     *
+     * @param listener L'oggetto listener
+     */
+    public void setRoundEndListener(RoundEndListener listener) {
+        this.roundEndListener = listener;
+        endRoundPanel.setEndRoundListener(listener);
+    }
+
+    /**
+     * Mostra il pannello di fine round in base al saldo.
+     *
+     * @param currentBalance Il saldo attuale
+     * @param minimumBet La scommessa minima
+     */
+    public void showEndRoundPanel(int currentBalance, int minimumBet) {
+        if (currentBalance < minimumBet) {
+            endRoundPanel.showForInsufficientFunds(currentBalance, minimumBet);
+        } else {
+            endRoundPanel.showForNewRound();
+        }
+    }
+
+    /**
+     * Resetta completamente la vista per un nuovo round.
+     */
+    public void resetViewForNewRound() {
+        playerHandsView.resetForNewRound();
+        dealerView.resetHandForNewRound();
+
+        for (PlayerHandsView aiHandsView : aiHandsViews)
+            aiHandsView.resetForNewRound();
+
+        playerView.updateCurrentBet(0);
+        controlPanelView.updateControls(false, false, false, false);
+        bettingView.setVisible(true);
     }
 
 }

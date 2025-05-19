@@ -9,13 +9,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import java.util.List;
 
 public class HandView extends VBox {
     private Label valueLabel;
     private Label betLabel;
     private HBox handContainer;
     private Label insuranceLabel;
+    private Label resultLabel;
+    private HBox labelsContainer;
 
     public HandView() {
         setAlignment(javafx.geometry.Pos.CENTER);
@@ -28,8 +29,9 @@ public class HandView extends VBox {
         insuranceLabel = new Label("Insur: ");
         insuranceLabel.getStyleClass().add("bet-label");
         insuranceLabel.setAlignment(javafx.geometry.Pos.CENTER);
+        resultLabel = new Label();
 
-        HBox labelsContainer = new HBox(5);
+        labelsContainer = new HBox(5);
         labelsContainer.setSpacing(30);
         labelsContainer.setAlignment(javafx.geometry.Pos.CENTER);
         labelsContainer.getChildren().addAll(valueLabel, betLabel, insuranceLabel);
@@ -50,18 +52,6 @@ public class HandView extends VBox {
         insuranceLabel.setVisible(visible);
     }
 
-    public void updateHand(List<Card> cards, int handValue) {
-        handContainer.getChildren().clear();
-
-        for (Card card : cards) {
-            ImageView cardView = CardImageService.createCardImageView(card);
-            handContainer.getChildren().add(cardView);
-            cardView.toFront();
-        }
-
-        valueLabel.setText("value: " + handValue);
-    }
-
     public void animateCardDealt(Card card, int handValue, boolean isHiddenCard) {
         ImageView cardView;
         if (isHiddenCard)
@@ -69,8 +59,8 @@ public class HandView extends VBox {
         else
             cardView = CardImageService.createCardImageView(card);
 
-        double dealerX = 15; // Posizione X del dealer nella scena
-        double dealerY = 400; // Posizione Y del dealer nella scena
+        double dealerX = 15;
+        double dealerY = 400;
 
         double startX = dealerX - handContainer.getLayoutX() - handContainer.getBoundsInParent().getMinX();
         double startY = dealerY - handContainer.getLayoutY() - handContainer.getBoundsInParent().getMinY();
@@ -119,24 +109,60 @@ public class HandView extends VBox {
         valueLabel.setText("value: " + handValue);
     }
 
+    /**
+     * Mostra il risultato "BUSTED!"
+     */
     public void showBusted() {
-        Label bustedLabel = new Label("BUSTED!");
-        bustedLabel.getStyleClass().add("busted-label");
+        showResult("BUSTED!", "busted-label");
+    }
 
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(300), bustedLabel);
+    /**
+     * Mostra il risultato "BLACKJACK!"
+     */
+    public void showBlackjack() {
+        showResult("BLACKJACK!", "blackjack-label");
+    }
+
+    /**
+     * Mostra un risultato nella label del risultato.
+     *
+     * @param text Il testo da mostrare
+     * @param styleClass La classe CSS da applicare alla label
+     */
+    public void showResult(String text, String styleClass) {
+        resultLabel.setText(text);
+        resultLabel.getStyleClass().clear();
+        resultLabel.getStyleClass().add(styleClass);
+
+        getChildren().add(resultLabel);
+
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(300), resultLabel);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
 
-        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(300), bustedLabel);
+        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(300), resultLabel);
         scaleUp.setFromX(0.5);
         scaleUp.setFromY(0.5);
         scaleUp.setToX(1.2);
         scaleUp.setToY(1.2);
 
-        // Aggiungi la label e avvia l'animazione
-        getChildren().add(bustedLabel);
-
         ParallelTransition animation = new ParallelTransition(fadeIn, scaleUp);
         AnimationQueue.queue(animation);
+    }
+
+    /**
+     * Resetta completamente la vista della mano, rimuovendo tutte le carte
+     * e ripristinando le etichette ai valori predefiniti.
+     */
+    public void reset() {
+        handContainer.getChildren().clear();
+        getChildren().remove(resultLabel);
+        valueLabel.setText("value: ");
+        betLabel.setText("Bet: ");
+        insuranceLabel.setText("Insur: ");
+    }
+
+    public HBox getHandContainer() {
+        return handContainer;
     }
 }

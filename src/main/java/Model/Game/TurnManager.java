@@ -10,8 +10,6 @@ import Model.Players.Player;
 import Model.Players.StrategyPlay.AggressiveStrategy;
 import Model.Players.StrategyPlay.ConservativeStrategy;
 import Model.Players.StrategyPlay.PlayerStrategy;
-import Model.Profile.GameStats;
-
 import java.util.*;
 
 /**
@@ -55,15 +53,12 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali e avvia il gioco.
      */
     public void startRound() {
-        // Inizializza il mazzo e le mani
         deck.shuffle();
-
-        // Imposta scommesse casuali per i giocatori AI
         int i = 0;
         for (Player player : players)
             if (player instanceof AIPlayer aiPlayer) {
                 int aiBet = getAIBetAmount(aiPlayer);
-                aiPlayer.placeBet(aiBet, currentHandIndex);
+                aiPlayer.placeBet(aiBet, 0);
                 // Notifica l'evento di scommessa piazzata per l'AI
                 notifyObserversWithEvent(GameEventType.BET_PLACED,
                         "player", aiPlayer.getName(),
@@ -71,20 +66,19 @@ public class TurnManager extends Observable {
                         "indexHand", currentHandIndex,
                         "index", i++);
             }
-
+        currentHandIndex = 0;
         dealInitialCards();
-        if (checkForNaturalBlackjacks()) {
-            gameState = GameState.GAME_OVER;
-        } else {
-            currentHandIndex = 0;
-            gameState = GameState.PLAYER_TURN;
-            if (gameState == GameState.PLAYER_TURN &&
-                    dealer.getHand(0).get(0).isAce() &&
-                    !humanPlayer.hasInsurance()) {
+        gameState = GameState.PLAYER_TURN;
+        if (gameState == GameState.PLAYER_TURN &&
+                dealer.getHand(0).get(0).isAce() &&
+                !humanPlayer.hasInsurance()) {
                 notifyObserversWithEvent(GameEventType.INSURANCE_OFFERED);
-            }
-            notifyObserversWithEvent(GameEventType.HAND_UPDATED);
         }
+        if (humanPlayer.hasBlackjack(currentHandIndex)) {
+            notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED, "player", humanPlayer, "handIndex", currentHandIndex);
+            playerStand();
+        }
+        notifyObserversWithEvent(GameEventType.HAND_UPDATED);
     }
 
     /**
@@ -116,13 +110,13 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali a tutti i giocatori e al dealer.
      */
     private void dealInitialCards() {
-        Card humanCard1 = deck.drawCard();
-        //Card humanCard1 = new Card(Rank.EIGHT, Suit.CLUBS);
+        //Card humanCard1 = deck.drawCard();
+        Card humanCard1 = new Card(Rank.TEN, Suit.CLUBS);
         humanPlayer.addCard(humanCard1);
         createCardDealtEvent(humanPlayer, humanCard1, currentHandIndex, false);
 
         //Card humanCard2 = deck.drawCard();
-        Card humanCard2 = new Card(Rank.EIGHT, Suit.HEARTS);
+        Card humanCard2 = new Card(Rank.TEN, Suit.HEARTS);
         humanPlayer.addCard(humanCard2);
         createCardDealtEvent(humanPlayer, humanCard2, currentHandIndex, false);
 
@@ -135,6 +129,8 @@ public class TurnManager extends Observable {
                 //Card card2 = new Card(Rank.ACE, Suit.SPADES);
                 player.addCard(card2);
                 createCardDealtEvent(player, card2, 0, false);
+                if (player.hasBlackjack(currentHandIndex))
+                    notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED, "player", player, "handIndex", currentHandIndex);
         }
         Card dealerCard1 = deck.drawCard();
         dealer.addCard(dealerCard1);
@@ -143,90 +139,6 @@ public class TurnManager extends Observable {
         //Card dealerCard2 = new Card(Rank.ACE, Suit.HEARTS);
         dealer.addCard(dealerCard2);
         createCardDealtEvent(dealer, dealerCard2, currentHandIndex, false);
-    }
-
-    /**
-     * Controlla se ci sono blackjack naturali all'inizio del round.
-     *
-     * @return true se il round termina immediatamente, false altrimenti
-     */
-    private boolean checkForNaturalBlackjacks() {
-        boolean dealerBlackjack = dealer.hasBlackjack(0);
-
-        // Verifica se qualcuno ha blackjack (dealer o giocatori)
-        boolean anyBlackjack = dealerBlackjack;
-
-        // Controlla il giocatore umano
-        boolean humanBlackjack = humanPlayer.hasBlackjack(0);
-        if (humanBlackjack)
-            anyBlackjack = true;
-
-
-        for (Player player : players) {
-            if (player.hasBlackjack(0)) {
-                anyBlackjack = true;
-                break;
-            }
-        }
-
-        if (!anyBlackjack) {
-            return false;
-        }
-
-        dealer.revealHiddenCard();
-
-        processBlackjackResult(humanPlayer, humanBlackjack, dealerBlackjack);
-
-        for (Player player : players)
-            if (player != humanPlayer)
-                processBlackjackResult(player, player.hasBlackjack(0), dealerBlackjack);
-
-        return true;
-    }
-
-    /**
-     * Elabora i risultati del blackjack naturale per un giocatore.
-     *
-     * @param player Il giocatore da elaborare
-     * @param playerBlackjack Se il giocatore ha blackjack
-     * @param dealerBlackjack Se il dealer ha blackjack
-     */
-    private void processBlackjackResult(Player player, boolean playerBlackjack, boolean dealerBlackjack) {
-        if (dealerBlackjack && playerBlackjack) {
-            bankManager.payPush(player, 0);
-
-            notifyObserversWithEvent(GameEventType.PUSH,
-                    "player", player.getName(),
-                    "handIndex", 0);
-
-        } else if (playerBlackjack) {
-            // Il giocatore vince con blackjack (paga 3:2)
-            bankManager.payBlackjack(player, 0);
-
-            notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED,
-                    "player", player.getName(),
-                    "handIndex", 0);
-
-        } else if (dealerBlackjack) {
-            // Il dealer vince con blackjack
-            if (player.hasInsurance()) {
-                bankManager.payInsurance(player);
-                if (player == humanPlayer) {
-                    insurancePaid = true;
-                }
-
-                notifyObserversWithEvent(GameEventType.WINNINGS_PAID,
-                        "player", player.getName(),
-                        "type", "insurance",
-                        "amount", player.getInsuranceAmount() * 2);
-            } else {
-                bankManager.handleLoss(player, 0);
-
-                notifyObserversWithEvent(GameEventType.DEALER_WINS,
-                        "player", player.getName(),
-                        "handIndex", 0);
-            }
-        }
     }
 
     private void handleHandTransition(){
@@ -372,7 +284,6 @@ public class TurnManager extends Observable {
                                     // Notifica lo split
                                     Card newCard1 = deck.drawCard();
                                     Card newCard2 = deck.drawCard();
-                                    aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     notifyObserversWithEvent(GameEventType.HAND_SPLIT,
                                             "player", aiPlayer,
                                             "newCard1", newCard1,
@@ -380,6 +291,7 @@ public class TurnManager extends Observable {
                                             "handValue1", aiPlayer.getHandValue(handIndex),
                                             "handValue2", aiPlayer.getHandValue(handIndex + 1),
                                             "bet", aiPlayer.getCurrentBet());
+                                    aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     continue;
                                 }
                             }
@@ -413,7 +325,7 @@ public class TurnManager extends Observable {
                                     "player", aiPlayer,
                                     "amount", aiPlayer.getInsuranceAmount(),
                                     "balance", aiPlayer.getBalance(),
-                                    "handIndex", 0);
+                                    "handIndex", handIndex);
                         }
 
                         // Infine, decide se pescare o stare
@@ -481,9 +393,9 @@ public class TurnManager extends Observable {
                 humanBusted = false;
                 break;
             }
-        // Se il giocatore umano non ha sballato, almeno un giocatore non ha sballato
+
         if (!humanBusted) return false;
-        // Controlla tutti gli altri giocatori AI
+
         for (Player player : players)
             if (player != humanPlayer)
                 for (int i = 0; i < player.getHandCount(); i++)
@@ -503,14 +415,13 @@ public class TurnManager extends Observable {
             resultCalculator.clearInsurance(humanPlayer, players);
         }
 
-        Map<String, Integer> results = resultCalculator.calculateResults(humanPlayer, players, dealer);
+        Map<String, Integer> humanPlayerResults = resultCalculator.calculateResults(humanPlayer, players, dealer);
 
-        // Notifica il risultato per aggiornare la UI e le statistiche
         notifyObserversWithEvent(GameEventType.ROUND_ENDED,
-                "finalBalance", results.get("finalBalance"),
-                "wonHands", results.get("wonHands"),
-                "lostHands", results.get("lostHands"),
-                "totalHands", results.get("totalHands"));
+                "finalBalance", humanPlayerResults.get("finalBalance"),
+                "wonHands", humanPlayerResults.get("wonHands"),
+                "lostHands", humanPlayerResults.get("lostHands"),
+                "totalHands", humanPlayerResults.get("totalHands"));
 
         gameState = GameState.GAME_OVER;
         humanPlayer.resetHand();
@@ -548,7 +459,8 @@ public class TurnManager extends Observable {
     }
 
     /**
-     * Crea un evento per notificare che una carta è stata distribuita
+     * Crea un evento per notificare che una carta è stata distribuita.
+     *
      * @param player Il giocatore che ha ricevuto la carta
      * @param card La carta distribuita
      * @param handIndex L'indice della mano (per supportare split)

@@ -57,4 +57,8 @@ public class DealerView extends VBox {
     public void animateCardDealt(Card card, boolean faceDown, int handValue) {
         handView.animateCardDealt(card, handValue, faceDown);
     }
+
+    public void resetHandForNewRound(){
+        handView.reset();
+    }
 }

@@ -66,7 +66,6 @@ public class BettingController implements BlackjackBettingListener{
                 break;
 
             case PLAYER_WINS:
-            case BLACKJACK_ACHIEVED:
             case PUSH:
                 updatePlayerBalanceFromEvent();
                 break;
@@ -84,7 +83,7 @@ public class BettingController implements BlackjackBettingListener{
         view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
         view.getPlayerView().updateCurrentBet(amount);
         view.getPlayerHands().updateBet(amount, 0);
-        model.startGame(amount);
+        model.startRound(amount);
     }
 
     @Override
