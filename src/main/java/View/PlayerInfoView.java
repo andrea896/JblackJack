@@ -27,7 +27,7 @@ public class PlayerInfoView extends VBox {
         nameLabel.getStyleClass().add("player-name");
 
         // Immagine profilo
-        profileImageView = new ImageView(new Image(imagePath));
+        profileImageView = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
         profileImageView.setFitWidth(86);
         profileImageView.setFitHeight(86);
         profileImageView.setPreserveRatio(true);
@@ -66,12 +66,5 @@ public class PlayerInfoView extends VBox {
      */
     public void updateCurrentBet(int bet) {
         currentBetLabel.setText("Current Bet: " + bet);
-    }
-
-    /**
-     * Restituisce il nome del giocatore
-     */
-    public String getPlayerName() {
-        return nameLabel.getText();
     }
 }

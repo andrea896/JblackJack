@@ -2,7 +2,6 @@ package View;
 
 import Model.Game.Objects.Card;
 import javafx.animation.KeyFrame;
-import javafx.animation.ParallelTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Bounds;
@@ -24,15 +23,16 @@ public class PlayerHandsView extends VBox {
         setAlignment(Pos.TOP_CENTER);
         setPrefSize(322, 182);
         getStyleClass().add("ai-player-area");
-        // Label per il nome del giocatore
+
         nameLabel = new Label(playerName);
         nameLabel.setPrefSize(324, 10);
         nameLabel.getStyleClass().add(isAI ? "ai-name" : "player-name");
         nameLabel.setAlignment(Pos.CENTER);
-        // Inizializza le mani
+
         handViews = new ArrayList<>();
         HandView initialHand = new HandView();
         handViews.add(initialHand);
+
 
         getChildren().addAll(nameLabel, initialHand);
     }
@@ -53,11 +53,26 @@ public class PlayerHandsView extends VBox {
     }
 
     /**
+     * Aggiorna l'assicurazione visualizzata
+     */
+    public void updateInsurance(int insuranceAmount, int handIndex) {
+        handViews.get(handIndex).updateInsurance(insuranceAmount);
+    }
+
+    /**
      * Mostra l'indicatore "BUSTED" su una mano
      */
     public void showBusted(int handIndex) {
         ensureHandViews(handIndex + 1);
         handViews.get(handIndex).showBusted();
+    }
+
+    /**
+     * Mostra l'indicatore "BLACKJACK" su una mano
+     */
+    public void showBlackjack(int handIndex) {
+        ensureHandViews(handIndex + 1);
+        handViews.get(handIndex).showBlackjack();
     }
 
     /**
@@ -68,10 +83,8 @@ public class PlayerHandsView extends VBox {
 
         HandView firstHandView = handViews.get(0);
         HandView secondHandView = handViews.get(1);
-
-        // Ottieni il contenitore delle carte dalla prima mano
-        HBox firstHandContainer = (HBox) firstHandView.getChildren().get(1);
-        HBox secondHandContainer = (HBox) secondHandView.getChildren().get(1);
+        HBox firstHandContainer = firstHandView.getHandContainer();
+        HBox secondHandContainer = secondHandView.getHandContainer();
 
         // 2. Verifica che ci siano almeno due carte nella prima mano
         if (firstHandContainer.getChildren().size() >= 2) {
@@ -99,34 +112,19 @@ public class PlayerHandsView extends VBox {
                 getChildren().remove(cardToMove);
 
                 secondHandContainer.getChildren().add(cardToMove);
-
-                // Resetta la traslazione
                 cardToMove.setTranslateX(0);
                 cardToMove.setTranslateY(0);
-
-                // 5. Ora aggiungi le nuove carte con animazione
                 firstHandView.animateCardDealt(newCard1, handValue1, false);
-
-                // Aggiungi un piccolo ritardo prima di animare la seconda carta
                 Timeline delay = new Timeline(new KeyFrame(Duration.millis(300), evt -> {
                     secondHandView.animateCardDealt(newCard2, handValue2, false);
                 }));
                 delay.play();
 
-                // 6. Aggiorna le scommesse
                 secondHandView.updateBet(bet);
             });
 
-            // Avvia l'animazione
             moveCard.play();
         }
-    }
-
-    /**
-     * Ottieni il nome del giocatore
-     */
-    public String getPlayerName() {
-        return nameLabel.getText();
     }
 
     /**
@@ -138,5 +136,27 @@ public class PlayerHandsView extends VBox {
             handViews.add(newHand);
             getChildren().add(newHand);
         }
+    }
+
+    /**
+     * Rimuove tutte le mani aggiuntive create durante uno split
+     * e mantiene solo la mano principale.
+     */
+    private void removeAdditionalHands() {
+        for (int i = handViews.size() - 1; i > 0; i--) {
+            HandView handView = handViews.remove(i);
+            getChildren().remove(handView);
+        }
+
+    }
+
+    private void resetMainHand(){
+        HandView mainHand = handViews.get(0);
+        mainHand.reset();
+    }
+
+    public void resetForNewRound() {
+        removeAdditionalHands();
+        resetMainHand();
     }
 }

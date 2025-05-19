@@ -23,34 +23,26 @@ public class DealerView extends VBox {
         // Mano del dealer
         handView = new HandView();
         handView.setHandlabel(false);
+        handView.setInsuranceLabel(false);
 
         getChildren().addAll(nameLabel, handView);
-
     }
 
-    public void revealHiddenCard(Card hiddenCard) {
-        // Ottieni il contenitore delle carte (handContainer) dall'handView
+    public void revealHiddenCard(Card hiddenCard,int handValue) {
         HBox handContainer = (HBox) handView.getChildren().get(1);
+        handView.updateHandValue(handValue);
 
-        // Verifica che ci siano carte nel contenitore
         if (handContainer.getChildren().size() > 1) {
-            // La seconda carta è quella nascosta (indice 1)
             ImageView cardView = (ImageView) handContainer.getChildren().get(0);
-
-            // Crea la nuova ImageView per la carta rivelata
             ImageView newCardView = CardImageService.createCardImageView(hiddenCard);
 
-            // Animazione per girare la carta
             RotateTransition rotateOut = new RotateTransition(Duration.millis(1000), cardView);
             rotateOut.setAxis(Rotate.Y_AXIS);
             rotateOut.setFromAngle(0);
             rotateOut.setToAngle(90);
 
             rotateOut.setOnFinished(e -> {
-                // Sostituisci la carta nel contenitore
                 handContainer.getChildren().set(0, newCardView);
-
-                // Animazione per mostrare la nuova carta
                 RotateTransition rotateIn = new RotateTransition(Duration.millis(150), newCardView);
                 rotateIn.setAxis(Rotate.Y_AXIS);
                 rotateIn.setFromAngle(-90);
@@ -58,11 +50,15 @@ public class DealerView extends VBox {
                 rotateIn.play();
             });
 
-            rotateOut.play();
+            AnimationQueue.queue(rotateOut);
         }
     }
 
     public void animateCardDealt(Card card, boolean faceDown, int handValue) {
         handView.animateCardDealt(card, handValue, faceDown);
+    }
+
+    public void resetHandForNewRound(){
+        handView.reset();
     }
 }

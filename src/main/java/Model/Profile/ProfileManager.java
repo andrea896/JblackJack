@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ProfileManager {
     private static final LoggerUtility LOGGER = new LoggerUtility();
-    private static final String PROFILE_PATH = "C:\\progetti\\JBlackJack\\src\\main\\resources\\players.json";
+    private static final String PROFILE_PATH = "src/main/resources/players.json";
     private final Gson gson;
     private JsonArray profilesArray;
     private List<UserProfile> profiles;
@@ -76,31 +76,30 @@ public class ProfileManager {
             }
         }
 
-            UserProfile newProfile = new UserProfile();
-            newProfile.setNickname(nickname);
-            newProfile.setAvatarPath(avatarPath);
-            newProfile.setStats(new GameStats());
+        UserProfile newProfile = new UserProfile();
+        newProfile.setNickname(nickname);
+        newProfile.setAvatarPath(avatarPath);
+        newProfile.setStats(new GameStats());
 
-            // Aggiungi alla lista dei profili
-            profiles.add(newProfile);
+        profiles.add(newProfile);
 
-            // Crea e aggiungi al JsonArray
-            JsonObject profileObject = new JsonObject();
-            profileObject.addProperty("nickname", newProfile.getNickname());
-            profileObject.addProperty("avatarUrl", newProfile.getAvatarPath());
+        // Crea e aggiungi al JsonArray
+        JsonObject profileObject = new JsonObject();
+        profileObject.addProperty("nickname", newProfile.getNickname());
+        profileObject.addProperty("avatarUrl", newProfile.getAvatarPath());
 
-            JsonObject statsObject = new JsonObject();
-            statsObject.addProperty("totalHandsPlayed", newProfile.getStats().getTotalHandsPlayed());
-            statsObject.addProperty("handsWon", newProfile.getStats().getHandsWon());
-            statsObject.addProperty("handsLost", newProfile.getStats().getHandsLost());
-            statsObject.addProperty("currentBalance", newProfile.getStats().getCurrentBalance());
+        JsonObject statsObject = new JsonObject();
+        statsObject.addProperty("totalHandsPlayed", newProfile.getStats().getTotalHandsPlayed());
+        statsObject.addProperty("handsWon", newProfile.getStats().getHandsWon());
+        statsObject.addProperty("handsLost", newProfile.getStats().getHandsLost());
+        statsObject.addProperty("currentBalance", newProfile.getStats().getCurrentBalance());
 
-            profileObject.add("stats", statsObject);
-            profilesArray.add(profileObject);
+        profileObject.add("stats", statsObject);
+        profilesArray.add(profileObject);
 
-            saveToJson();
-            LOGGER.logInfo("Profilo " + newProfile.getNickname() + " creato con successo");
-            return newProfile;
+        saveToJson();
+        LOGGER.logInfo("Profilo " + newProfile.getNickname() + " creato con successo");
+        return newProfile;
     }
 
     public UserProfile loadProfile(String nickname) {
@@ -123,7 +122,7 @@ public class ProfileManager {
                 statsObject.addProperty("handsWon", updatedProfile.getStats().getHandsWon());
                 statsObject.addProperty("handsLost", updatedProfile.getStats().getHandsLost());
                 statsObject.addProperty("currentBalance", updatedProfile.getStats().getCurrentBalance());
-
+                saveToJson();
                 break;
             }
         }

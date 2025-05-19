@@ -10,14 +10,13 @@ import Model.Players.PlayerFactory;
 import Model.Players.StrategyPlay.PlayerStrategy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 
 /**
  * Modello principale del gioco BlackJack.
  * Coordina i componenti e gestisce lo stato del gioco.
  */
-public class GameModel extends Observable {
+public class GameModel {
     private Deck deck;
     private Player humanPlayer;
     private List<Player> players;
@@ -30,7 +29,7 @@ public class GameModel extends Observable {
      *
      * @param playerName Nome del giocatore umano
      * @param initialBalance Saldo iniziale del giocatore
-     * @param numOfPlayers Numero di giocatori AI da creare
+     * @param numOfPlayers Numero di giocatori AI
      */
     public GameModel(String playerName, int initialBalance, int numOfPlayers) {
         this.deck = new Deck();
@@ -75,8 +74,8 @@ public class GameModel extends Observable {
      * @param betAmount Importo della scommessa
      * @return true se il gioco è stato avviato con successo, false altrimenti
      */
-    public boolean startGame(int betAmount) {
-        if (betAmount <= 0 || betAmount > humanPlayer.getBalance())
+    public boolean startRound(int betAmount) {
+        if (betAmount <= 0 || humanPlayer.getBalance() < 0)
             return false;
 
         turnManager.startRound();
@@ -116,6 +115,10 @@ public class GameModel extends Observable {
      */
     public void takeInsurance() {
         turnManager.takeInsurance();
+    }
+
+    public void declineInsurance() {
+        turnManager.declineInsurance();
     }
 
     /**

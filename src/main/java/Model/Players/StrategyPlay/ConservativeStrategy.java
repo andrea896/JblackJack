@@ -17,9 +17,9 @@ public class ConservativeStrategy implements PlayerStrategy {
     @Override
     public boolean shouldSplitHand(Card card1, Card card2, Card dealerCard) {
         if (card1.getRank() != card2.getRank()) return false; // Può splittare solo coppie
-        if (card1.getRank() == Rank.ACE || card1.getRank() == Rank.EIGHT) {
+        if (card1.getRank() == Rank.ACE || card1.getRank() == Rank.EIGHT)
             return dealerCard.getValue() < 7; // Splitta solo se il Dealer ha una carta debole
-        }
+
         return false;
     }
 

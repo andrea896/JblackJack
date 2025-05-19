@@ -4,7 +4,7 @@ import Model.Game.GameModel;
 import Model.Profile.ProfileManager;
 import Model.Profile.UserProfile;
 import Utility.LoggerUtility;
-import View.BlackJackViewImpl;
+import View.BlackJackView;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -67,13 +67,12 @@ public class GameManager {
 
         try {
             BorderPane tempRoot = new BorderPane();
-            Scene gameScene = new Scene(tempRoot, 1355, 944);
+            Scene gameScene = new Scene(tempRoot, 1355, 885);
             gameScene.getStylesheets().add(getClass().getResource("/GameView/blackjack.css").toExternalForm());
             gameModel = new GameModel(playerName, initialBalance, numberOfPlayers);
-            BlackJackViewImpl blackjackView = new BlackJackViewImpl(cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers, currentProfile.getNickname(), currentProfile.getStats().getCurrentBalance());
+            BlackJackView blackjackView = new BlackJackView(cardBackDesign, currentProfile.getAvatarPath(), numberOfPlayers, currentProfile.getNickname(), currentProfile.getStats().getCurrentBalance());
             gameScene.setRoot(blackjackView);
             MainController mainController = new MainController(gameModel, blackjackView);
-            gameModel.addObserver(mainController);
             primaryStage.setScene(gameScene);
             primaryStage.setResizable(false);
             primaryStage.show();
@@ -85,23 +84,23 @@ public class GameManager {
 
     }
 
-    public void updatePlayerStats(boolean hasWon, boolean isPush, int betAmount) {
-        if (currentProfile == null) {
-            logger.logWarning("Impossibile aggiornare le statistiche: profilo non trovato");
-            return;
-        }
+    public void updatePlayerStats(int finalBalance, int totalHands, int wonHands, int lostHands) {
+        currentProfile.getStats().setCurrentBalance(finalBalance);
 
-        currentProfile.getStats().setTotalHandsPlayed(currentProfile.getStats().getTotalHandsPlayed() + 1);
+        currentProfile.getStats().setTotalHandsPlayed(
+                currentProfile.getStats().getTotalHandsPlayed() + totalHands);
 
-        if (hasWon) {
-            currentProfile.getStats().setHandsWon(currentProfile.getStats().getHandsWon() + 1);
-            if (!isPush)
-                currentProfile.getStats().setCurrentBalance(currentProfile.getStats().getCurrentBalance() + betAmount);
-        } else if (!isPush) {
-            currentProfile.getStats().setHandsLost(currentProfile.getStats().getHandsLost() + 1);
-            currentProfile.getStats().setCurrentBalance(currentProfile.getStats().getCurrentBalance() - betAmount);
-        }
+        currentProfile.getStats().setHandsWon(
+                currentProfile.getStats().getHandsWon() + wonHands);
+
+        currentProfile.getStats().setHandsLost(
+                currentProfile.getStats().getHandsLost() + lostHands);
 
         profileManager.updateProfile(currentProfile);
+
+        logger.logInfo("Statistiche aggiornate: balance=" + finalBalance +
+                ", mani giocate=" + totalHands +
+                ", vinte=" + wonHands +
+                ", perse=" + lostHands);
     }
 }

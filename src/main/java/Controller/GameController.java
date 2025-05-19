@@ -3,19 +3,15 @@ package Controller;
 import Model.Game.GameEvent;
 import Model.Game.GameModel;
 import Model.Game.GameState;
-import View.BlackJackViewImpl;
+import View.BlackJackView;
 
 public class GameController {
     protected final GameModel model;
-    protected final BlackJackViewImpl view;
+    protected final BlackJackView view;
 
-    public GameController(GameModel model, BlackJackViewImpl view) {
+    public GameController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
-    }
-
-    public void initialize() {
-        // Configura listener per l'avvio di una nuova partita
     }
 
     public void handleEvent(GameEvent event) {
@@ -59,7 +55,7 @@ public class GameController {
 
             case GAME_OVER:
                 view.updateStatusMessage("Game Over");
-                view.showPlayAgainButton(true);
+                view.showPlayAgainButton(false);
                 break;
         }
     }

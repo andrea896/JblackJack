@@ -10,9 +10,7 @@ import Model.Players.Player;
 import Model.Players.StrategyPlay.AggressiveStrategy;
 import Model.Players.StrategyPlay.ConservativeStrategy;
 import Model.Players.StrategyPlay.PlayerStrategy;
-import java.util.List;
-import java.util.Observable;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Gestisce il flusso di gioco e i turni nel BlackJack.
@@ -55,15 +53,12 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali e avvia il gioco.
      */
     public void startRound() {
-        // Inizializza il mazzo e le mani
         deck.shuffle();
-
-        // Imposta scommesse casuali per i giocatori AI
         int i = 0;
         for (Player player : players)
             if (player instanceof AIPlayer aiPlayer) {
                 int aiBet = getAIBetAmount(aiPlayer);
-                aiPlayer.placeBet(aiBet, currentHandIndex);
+                aiPlayer.placeBet(aiBet, 0);
                 // Notifica l'evento di scommessa piazzata per l'AI
                 notifyObserversWithEvent(GameEventType.BET_PLACED,
                         "player", aiPlayer.getName(),
@@ -71,17 +66,19 @@ public class TurnManager extends Observable {
                         "indexHand", currentHandIndex,
                         "index", i++);
             }
-
+        currentHandIndex = 0;
         dealInitialCards();
-        // Controlla blackjack naturali
-        if (checkForNaturalBlackjacks()) {
-            gameState = GameState.GAME_OVER;
-        } else {
-            // Inizia con il giocatore umano
-            currentHandIndex = 0;
-            gameState = GameState.PLAYER_TURN;
-            notifyObserversWithEvent(GameEventType.GAME_STATE_CHANGED);
+        gameState = GameState.PLAYER_TURN;
+        if (gameState == GameState.PLAYER_TURN &&
+                dealer.getHand(0).get(0).isAce() &&
+                !humanPlayer.hasInsurance()) {
+                notifyObserversWithEvent(GameEventType.INSURANCE_OFFERED);
         }
+        if (humanPlayer.hasBlackjack(currentHandIndex)) {
+            notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED, "player", humanPlayer, "handIndex", currentHandIndex);
+            playerStand();
+        }
+        notifyObserversWithEvent(GameEventType.HAND_UPDATED);
     }
 
     /**
@@ -114,132 +111,42 @@ public class TurnManager extends Observable {
      */
     private void dealInitialCards() {
         //Card humanCard1 = deck.drawCard();
-        Card humanCard1 = new Card(Rank.EIGHT, Suit.CLUBS);
+        Card humanCard1 = new Card(Rank.TEN, Suit.CLUBS);
         humanPlayer.addCard(humanCard1);
         createCardDealtEvent(humanPlayer, humanCard1, currentHandIndex, false);
 
         //Card humanCard2 = deck.drawCard();
-        Card humanCard2 = new Card(Rank.EIGHT, Suit.HEARTS);
+        Card humanCard2 = new Card(Rank.TEN, Suit.HEARTS);
         humanPlayer.addCard(humanCard2);
         createCardDealtEvent(humanPlayer, humanCard2, currentHandIndex, false);
 
         for (Player player : players) {
-            if (player != humanPlayer) {
                 Card card1 = deck.drawCard();
+                //Card card1 = new Card(Rank.ACE, Suit.SPADES);
                 player.addCard(card1);
                 createCardDealtEvent(player, card1, 0, false);
                 Card card2 = deck.drawCard();
+                //Card card2 = new Card(Rank.ACE, Suit.SPADES);
                 player.addCard(card2);
                 createCardDealtEvent(player, card2, 0, false);
-            }
+                if (player.hasBlackjack(currentHandIndex))
+                    notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED, "player", player, "handIndex", currentHandIndex);
         }
         Card dealerCard1 = deck.drawCard();
         dealer.addCard(dealerCard1);
         createCardDealtEvent(dealer, dealerCard1, 0, true);
         Card dealerCard2 = deck.drawCard();
+        //Card dealerCard2 = new Card(Rank.ACE, Suit.HEARTS);
         dealer.addCard(dealerCard2);
         createCardDealtEvent(dealer, dealerCard2, currentHandIndex, false);
-    }
-
-    /**
-     * Controlla se ci sono blackjack naturali all'inizio del round.
-     *
-     * @return true se il round termina immediatamente, false altrimenti
-     */
-    private boolean checkForNaturalBlackjacks() {
-        boolean dealerBlackjack = dealer.hasBlackjack(0);
-
-        // Verifica se qualcuno ha blackjack (dealer o giocatori)
-        boolean anyBlackjack = dealerBlackjack;
-
-        // Controlla il giocatore umano
-        boolean humanBlackjack = humanPlayer.hasBlackjack(0);
-        if (humanBlackjack) {
-            anyBlackjack = true;
-        }
-
-        // Controlla i giocatori AI
-        for (Player player : players) {
-            if (player.hasBlackjack(0)) {
-                anyBlackjack = true;
-                break;
-            }
-        }
-
-        // Se nessuno ha blackjack, il round continua normalmente
-        if (!anyBlackjack) {
-            return false;
-        }
-
-        // Rivela la carta nascosta del dealer poiché almeno qualcuno ha blackjack
-        dealer.revealHiddenCard();
-        notifyObserversWithEvent(GameEventType.DEALER_CARD_REVEALED);
-
-        // Gestisci i risultati per il giocatore umano
-        processBlackjackResult(humanPlayer, humanBlackjack, dealerBlackjack);
-
-        // Gestisci i risultati per i giocatori AI
-        for (Player player : players)
-            if (player != humanPlayer)
-                processBlackjackResult(player, player.hasBlackjack(0), dealerBlackjack);
-
-        return true;
-    }
-
-    /**
-     * Elabora i risultati del blackjack naturale per un giocatore.
-     *
-     * @param player Il giocatore da elaborare
-     * @param playerBlackjack Se il giocatore ha blackjack
-     * @param dealerBlackjack Se il dealer ha blackjack
-     */
-    private void processBlackjackResult(Player player, boolean playerBlackjack, boolean dealerBlackjack) {
-        if (dealerBlackjack && playerBlackjack) {
-            // Pareggio - entrambi hanno blackjack
-            bankManager.payPush(player, 0);
-
-            notifyObserversWithEvent(GameEventType.PUSH,
-                    "player", player.getName(),
-                    "handIndex", 0);
-
-        } else if (playerBlackjack) {
-            // Il giocatore vince con blackjack (paga 3:2)
-            bankManager.payBlackjack(player, 0);
-
-            notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED,
-                    "player", player.getName(),
-                    "handIndex", 0);
-
-        } else if (dealerBlackjack) {
-            // Il dealer vince con blackjack
-            if (player.hasInsurance()) {
-                bankManager.payInsurance(player);
-                if (player == humanPlayer) {
-                    insurancePaid = true;
-                }
-
-                notifyObserversWithEvent(GameEventType.WINNINGS_PAID,
-                        "player", player.getName(),
-                        "type", "insurance",
-                        "amount", player.getInsuranceAmount() * 2);
-            } else {
-                bankManager.handleLoss(player, 0);
-
-                notifyObserversWithEvent(GameEventType.DEALER_WINS,
-                        "player", player.getName(),
-                        "handIndex", 0);
-            }
-        }
     }
 
     private void handleHandTransition(){
         if (humanPlayer.getHandCount() <= 1 || currentHandIndex >= humanPlayer.getHandCount() - 1) {
             gameState = GameState.AI_PLAYER_TURN;
-            notifyObserversWithEvent(GameEventType.PLAYER_STAND);
             playAITurns();
         } else {
             currentHandIndex++;
-            //notifyObservers();
         }
     }
 
@@ -282,6 +189,11 @@ public class TurnManager extends Observable {
             Card card = deck.drawCard();
             humanPlayer.addCard(currentHandIndex, card);
             createCardDealtEvent(humanPlayer, card, currentHandIndex, false);
+            notifyObserversWithEvent(GameEventType.DOUBLE_DOWN_EXECUTED,
+                    "player", humanPlayer,
+                    "currentHandIndex", currentHandIndex,
+                    "newBet", humanPlayer.getHands().get(currentHandIndex).getBet(),
+                    "currentBet", humanPlayer.getCurrentBet());
             handleHandTransition();
             return true;
         }
@@ -301,9 +213,9 @@ public class TurnManager extends Observable {
                                 bankManager.handleSplit(humanPlayer, currentHandIndex);
 
         if (success) {
-            // Ottieni le nuove carte da aggiungere dopo lo split
             Card newCard1 = deck.drawCard();
             Card newCard2 = deck.drawCard();
+            int bet = humanPlayer.getCurrentBet();
             humanPlayer.splitHand(currentHandIndex, newCard1, newCard2);
             // Notifica l'evento di split con informazioni sulle carte
             notifyObserversWithEvent(GameEventType.HAND_SPLIT,
@@ -312,7 +224,7 @@ public class TurnManager extends Observable {
                     "newCard2", newCard2,
                     "handValue1", humanPlayer.getHandValue(currentHandIndex),
                     "handValue2", humanPlayer.getHandValue(currentHandIndex + 1),
-                    "bet", humanPlayer.getCurrentBet());
+                    "bet", bet);
             return true;
         }
 
@@ -326,17 +238,25 @@ public class TurnManager extends Observable {
      */
     public boolean takeInsurance() {
         if (gameState == GameState.PLAYER_TURN &&
-                dealer.getHand(0).get(1).isAce() &&
+                dealer.getHand(0).get(0).isAce() &&
                 !humanPlayer.hasInsurance()) {
 
             boolean success = humanPlayer.takeInsurance() && bankManager.placeInsurance(humanPlayer);
             if (success) {
-                notifyObservers();
+                notifyObserversWithEvent(GameEventType.INSURANCE_ACCEPTED,
+                        "player", humanPlayer,
+                        "amount", humanPlayer.getInsuranceAmount(),
+                        "balance", humanPlayer.getBalance(),
+                        "handIndex", currentHandIndex);
                 return true;
             }
         }
 
         return false;
+    }
+
+    public void declineInsurance(){
+        notifyObserversWithEvent(GameEventType.INSURANCE_DECLINED);
     }
 
     /**
@@ -364,31 +284,18 @@ public class TurnManager extends Observable {
                                     // Notifica lo split
                                     Card newCard1 = deck.drawCard();
                                     Card newCard2 = deck.drawCard();
-                                    aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     notifyObserversWithEvent(GameEventType.HAND_SPLIT,
                                             "player", aiPlayer,
                                             "newCard1", newCard1,
-                                            "newCard2", newCard2);
-
-                                    createCardDealtEvent(player, newCard1, handIndex, false);
-                                    createCardDealtEvent(player, newCard2, handIndex, false);
-
-                                    // Notifica l'aggiornamento dei valori delle mani
-                                    notifyObserversWithEvent(GameEventType.HAND_UPDATED,
-                                            "player", aiPlayer,
-                                            "handIndex", handIndex,
-                                            "value", aiPlayer.getHandValue(handIndex));
-
-                                    notifyObserversWithEvent(GameEventType.HAND_UPDATED,
-                                            "player", aiPlayer,
-                                            "handIndex", handIndex + 1,
-                                            "value", aiPlayer.getHandValue(handIndex + 1));
-
+                                            "newCard2", newCard2,
+                                            "handValue1", aiPlayer.getHandValue(handIndex),
+                                            "handValue2", aiPlayer.getHandValue(handIndex + 1),
+                                            "bet", aiPlayer.getCurrentBet());
+                                    aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     continue;
                                 }
                             }
                         }
-
                         // Verifica se fare Double Down (seconda priorità)
                         if (aiPlayer.getHands().get(handIndex).getCards().size() == 2 &&
                                 strategy.shouldPlayDoubleDown(handValue, dealerUpCard)) {
@@ -398,30 +305,27 @@ public class TurnManager extends Observable {
 
                                 notifyObserversWithEvent(GameEventType.DOUBLE_DOWN_EXECUTED,
                                         "player", aiPlayer,
-                                        "handIndex", handIndex,
-                                        "newBet", aiPlayer.getHands().get(handIndex).getBet());
+                                        "currentHandIndex", handIndex,
+                                        "newBet", aiPlayer.getHands().get(handIndex).getBet(),
+                                        "handValue", aiPlayer.getHandValue(handIndex));
 
                                 createCardDealtEvent(aiPlayer, card, handIndex, false);
-                                // Notifica l'aggiornamento della mano
-                                notifyObserversWithEvent(GameEventType.HAND_UPDATED,
-                                        "player", aiPlayer,
-                                        "handIndex", handIndex,
-                                        "value", aiPlayer.getHandValue(handIndex));
-
                                 continuePlaying = false;
                                 continue;
                             }
                         }
 
-                        // Verifica se prendere l'Insurance (solo per la prima mano)
                         if (handIndex == 0 && dealerUpCard.isAce() &&
                                 strategy.shouldTakeInsurance(handValue, dealerUpCard) &&
                                 aiPlayer.getHand(handIndex).size() <= 2) {
-                            aiPlayer.takeInsurance();
 
+                            player.takeInsurance();
+                            bankManager.placeInsurance(player);
                             notifyObserversWithEvent(GameEventType.INSURANCE_ACCEPTED,
                                     "player", aiPlayer,
-                                    "amount", aiPlayer.getInsuranceAmount());
+                                    "amount", aiPlayer.getInsuranceAmount(),
+                                    "balance", aiPlayer.getBalance(),
+                                    "handIndex", handIndex);
                         }
 
                         // Infine, decide se pescare o stare
@@ -429,10 +333,7 @@ public class TurnManager extends Observable {
                             // Notifica hit
                             Card card = deck.drawCard();
                             aiPlayer.addCard(handIndex, card);
-                            notifyObserversWithEvent(GameEventType.PLAYER_HIT,
-                                    "player", aiPlayer,
-                                    "card", card,
-                                    "handIndex", handIndex);
+                            createCardDealtEvent(player, card, handIndex, false);
 
                             // Se sballa, termina il turno per questa mano
                             if (aiPlayer.getHandValue(handIndex) > 21) {
@@ -452,8 +353,6 @@ public class TurnManager extends Observable {
                 }
             }
         }
-
-        // Dopo che tutti i giocatori AI hanno completato i loro turni, passa al dealer
         gameState = GameState.DEALER_TURN;
         playDealerTurn();
     }
@@ -462,20 +361,16 @@ public class TurnManager extends Observable {
      * Gestisce il turno del dealer.
      */
     private void playDealerTurn() {
-        // Prima rivela la carta nascosta del dealer
-        notifyObserversWithEvent(GameEventType.DEALER_TURN_STARTED, "card", dealer.getHiddenCard());
+        Card hiddenCard = dealer.getHiddenCard();
         dealer.revealHiddenCard();
-        // Verifica se tutti i giocatori hanno sballato
+        notifyObserversWithEvent(GameEventType.DEALER_TURN_STARTED, "card", hiddenCard, "handValue", dealer.getHandValue(0));
         boolean allPlayersBusted = isAllPlayersBusted();
-        // Se tutti i giocatori hanno sballato, il dealer non pesca e vince automaticamente
         if (!allPlayersBusted) {
             PlayerStrategy strategy = dealer.getStrategy();
-            // Il dealer deve giocare secondo le regole standard
             while (strategy.shouldDraw(dealer.getHandValue(0))) {
                 Card newCard = deck.drawCard();
                 dealer.addCard(0, newCard);
                 createCardDealtEvent(dealer, newCard, 0, false);
-                // Interrompi se il dealer sballa
                 if (dealer.isBusted(0)) {
                     notifyObserversWithEvent(GameEventType.DEALER_BUSTED);
                     break;
@@ -498,15 +393,14 @@ public class TurnManager extends Observable {
                 humanBusted = false;
                 break;
             }
-        // Se il giocatore umano non ha sballato, almeno un giocatore non ha sballato
+
         if (!humanBusted) return false;
-        // Controlla tutti gli altri giocatori AI
+
         for (Player player : players)
             if (player != humanPlayer)
                 for (int i = 0; i < player.getHandCount(); i++)
                     if (!player.isBusted(i))
-                        return false; // Trovato almeno un giocatore che non ha sballato
-        // Se arriviamo qui, tutti i giocatori hanno sballato
+                        return false;
         return true;
     }
 
@@ -514,18 +408,21 @@ public class TurnManager extends Observable {
      * Termina il round e determina i risultati.
      */
     private void endRound() {
-        // Gestisci l'assicurazione se il dealer ha un blackjack
-        if (dealer.hasBlackjack(currentHandIndex) && !insurancePaid) {
-            // Paga l'assicurazione a tutti i giocatori che l'hanno presa
+        if (dealer.hasBlackjack(0) && !insurancePaid) {
             resultCalculator.processInsuranceOutcomes(humanPlayer, players, dealer, insurancePaid);
             insurancePaid = true;
         } else {
-            // Se il dealer non ha blackjack, tutti perdono le assicurazioni
             resultCalculator.clearInsurance(humanPlayer, players);
         }
-        // Calcola i risultati per tutti i giocatori
-        resultCalculator.calculateResults(humanPlayer, players, dealer);
-        // Aggiorna lo stato del gioco
+
+        Map<String, Integer> humanPlayerResults = resultCalculator.calculateResults(humanPlayer, players, dealer);
+
+        notifyObserversWithEvent(GameEventType.ROUND_ENDED,
+                "finalBalance", humanPlayerResults.get("finalBalance"),
+                "wonHands", humanPlayerResults.get("wonHands"),
+                "lostHands", humanPlayerResults.get("lostHands"),
+                "totalHands", humanPlayerResults.get("totalHands"));
+
         gameState = GameState.GAME_OVER;
         humanPlayer.resetHand();
         dealer.resetHand();
@@ -541,11 +438,8 @@ public class TurnManager extends Observable {
      * @param keyValuePairs Coppie chiave-valore per i dati dell'evento
      */
     private void notifyObserversWithEvent(GameEventType eventType, Object... keyValuePairs) {
-        // Crea l'evento utilizzando il metodo helper di GameEvent
         GameEvent event = GameEvent.create(eventType, keyValuePairs);
-        // Imposta l'evento come argomento della notifica
         setChanged();
-        // Notifica tutti gli osservatori con l'evento
         notifyObservers(event);
         event = null;
     }
@@ -565,7 +459,8 @@ public class TurnManager extends Observable {
     }
 
     /**
-     * Crea un evento per notificare che una carta è stata distribuita
+     * Crea un evento per notificare che una carta è stata distribuita.
+     *
      * @param player Il giocatore che ha ricevuto la carta
      * @param card La carta distribuita
      * @param handIndex L'indice della mano (per supportare split)
@@ -578,7 +473,6 @@ public class TurnManager extends Observable {
                     "card", card,
                     "isHiddenCard", isHiddenCard);
         } else {
-            // Caso per i giocatori normali
             notifyObserversWithEvent(GameEventType.CARD_DEALT,
                     "player", player,
                     "handIndex", handIndex,

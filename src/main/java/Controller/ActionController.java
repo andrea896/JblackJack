@@ -4,36 +4,33 @@ import Model.Game.GameEvent;
 import Model.Game.GameModel;
 import Model.Game.GameState;
 import Model.Game.Objects.Card;
+import Model.Players.AIPlayer;
 import Model.Players.Player;
-import View.BlackJackViewImpl;
-
+import View.BlackJackView;
 import java.util.Map;
 
 public class ActionController implements BlackjackActionListener {
     protected final GameModel model;
-    protected final BlackJackViewImpl view;
+    protected final BlackJackView view;
 
-    public ActionController(GameModel model, BlackJackViewImpl view) {
+    public ActionController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
     }
 
     public void initialize() {
-        view.getControlPanelView().setActionListener(this);
+        view.setActionListener(this);
         updatePlayerControls();
     }
 
     public void handleEvent(GameEvent event) {
         switch (event.getType()) {
-            case CARD_DEALT:
+            case CARD_DEALT, PLAYER_HIT:
                 handleCardDealtEvent(event);
+                updatePlayerControls();
                 break;
 
-            case PLAYER_HIT:
-                handleCardDealtEvent(event);
-                break;
-
-            case PLAYER_STAND:
+            case PLAYER_STAND, HAND_UPDATED:
                 updatePlayerControls();
                 break;
 
@@ -41,21 +38,36 @@ public class ActionController implements BlackjackActionListener {
                 handlePlayerBustedEvent(event);
                 break;
 
-            case HAND_UPDATED:
-                updateHandDisplay(event);
+            case HAND_SPLIT:
+                handleSplitEvent(event);
                 updatePlayerControls();
                 break;
 
-            case HAND_SPLIT:
-                handleSplitEvent(event);
-                break;
-
             case DOUBLE_DOWN_EXECUTED:
-                view.getControlPanelView().updateControls(false,false,false,false);
+                handleDoubleDownEvent(event);
+                updatePlayerControls();
                 break;
-
-            // Altri eventi...
+            case BLACKJACK_ACHIEVED:
+                handleBlackjackEvent(event);
+                updatePlayerControls();
         }
+    }
+
+    private void handleBlackjackEvent(GameEvent event) {
+        Map<String, Object> data = event.getData();
+        Player player = (Player) data.get("player");
+        int handIndex = (int) data.get("handIndex");
+
+        if (player == model.getHumanPlayer()) {
+            view.getPlayerHands().showBlackjack(handIndex);
+        } else {
+            int playerIndex = model.getPlayers().indexOf(player);
+            if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
+                view.getAIPlayerViews().get(playerIndex).showBlackjack(handIndex);
+            }
+        }
+
+        updatePlayerControls();
     }
 
     private void handleCardDealtEvent(GameEvent event) {
@@ -65,12 +77,9 @@ public class ActionController implements BlackjackActionListener {
 
         if (player.equals(model.getHumanPlayer())) {
             int handIndex = (int) data.get("handIndex");
-            // Carta al giocatore umano
             view.getPlayerHands().animateCardDealt(handIndex, card, player.getHandValue(handIndex));
-            //view.getPlayerHands().updateHand(handIndex, player.getHand(handIndex), player.getHandValue(handIndex));
 
         } else if (player.equals(model.getDealer())) {
-            // Carta al dealer
             boolean isHiddenCard = (boolean) data.get("isHiddenCard");
             view.getDealerView().animateCardDealt(card, isHiddenCard, player.getHandValue(0));
 
@@ -81,8 +90,6 @@ public class ActionController implements BlackjackActionListener {
                 view.getAIPlayerViews().get(playerIndex).animateCardDealt(handIndex, card, player.getHandValue(handIndex));
             }
         }
-
-        updatePlayerControls();
     }
 
     private void handlePlayerBustedEvent(GameEvent event) {
@@ -92,19 +99,29 @@ public class ActionController implements BlackjackActionListener {
 
         if (player == model.getHumanPlayer()) {
             view.getPlayerHands().showBusted(handIndex);
-            view.updateStatusMessage("Hai sballato!");
         } else {
             int playerIndex = model.getPlayers().indexOf(player);
             if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
                 view.getAIPlayerViews().get(playerIndex).showBusted(handIndex);
             }
         }
-
-        updatePlayerControls();
     }
 
-    private void updateHandDisplay(GameEvent event) {
-        // Simile a handleCardDealtEvent ma senza animazione
+    private void handleDoubleDownEvent(GameEvent event) {
+        Map<String, Object> data = event.getData();
+        int currentHandIndex = (int) data.get("currentHandIndex");
+        Player player = (Player) data.get("player");
+        int newBet = (int) data.get("newBet");
+        if (player instanceof AIPlayer) {
+            int playerIndex = model.getPlayers().indexOf(player);
+            view.getAIPlayerViews().get(playerIndex).updateBet(newBet, currentHandIndex);
+        }
+        else {
+            int currentBet = (int) data.get("currentBet");
+            view.getPlayerHands().updateBet(newBet, currentHandIndex);
+            view.getPlayerView().updateCurrentBet(currentBet);
+            view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
+        }
     }
 
     private void handleSplitEvent(GameEvent event) {
@@ -114,9 +131,14 @@ public class ActionController implements BlackjackActionListener {
         int bet = (int) event.getData().get("bet");
         int handValue1 = (int) event.getData().get("handValue1");
         int handValue2 = (int) event.getData().get("handValue2");
-        if (!player.equals(model.getDealer())) {
+        if (player instanceof AIPlayer) {
+            int playerIndex = model.getPlayers().indexOf(player);
+            view.getAIPlayerViews().get(playerIndex).animateSplitHands(newCard1, newCard2, handValue1, handValue2, bet);
+        }
+        else {
             view.getPlayerHands().animateSplitHands(newCard1, newCard2, handValue1, handValue2, bet);
-            updatePlayerControls();
+            view.getPlayerView().updateBalance(player.getBalance());
+            view.getPlayerView().updateCurrentBet(player.getCurrentBet());
         }
     }
 

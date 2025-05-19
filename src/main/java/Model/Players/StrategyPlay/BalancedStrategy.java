@@ -19,9 +19,9 @@ public class BalancedStrategy implements PlayerStrategy{
     public boolean shouldSplitHand(Card card1, Card card2, Card dealerCard) {
         if (card1.getRank() != card2.getRank()) return false;
         if (card1.getRank() == Rank.EIGHT || card1.getRank() == Rank.ACE) return true; // Sempre splitta 8-8 e A-A
-        if (card1.getRank() == Rank.NINE || card1.getRank() == Rank.SEVEN) {
+        if (card1.getRank() == Rank.NINE || card1.getRank() == Rank.SEVEN)
             return dealerCard.getValue() < 7; // Splitta se il Dealer ha una carta debole
-        }
+
         return false;
     }
 

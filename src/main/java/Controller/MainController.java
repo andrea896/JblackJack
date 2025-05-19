@@ -4,31 +4,30 @@ import Model.Game.GameEvent;
 import Model.Game.GameEventType;
 import Model.Game.GameModel;
 import Model.Game.Objects.Card;
-import View.BlackJackViewImpl;
-import javafx.application.Platform;
+import View.BlackJackView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.util.Observable;
 import java.util.Observer;
 
-public class MainController implements Observer {
+public class MainController implements Observer, RoundEndListener {
     private final GameModel model;
-    private final BlackJackViewImpl view;
+    private final BlackJackView view;
     private final GameController gameController;
     private final ActionController actionController;
     private final BettingController bettingController;
 
-    public MainController(GameModel model, BlackJackViewImpl view) {
+    public MainController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
-
         this.gameController = new GameController(model, view);
         this.actionController = new ActionController(model, view);
         this.bettingController = new BettingController(model, view);
         model.getTurnManager().addObserver(this);
-        initialize();
-    }
-
-    private void initialize() {
-        gameController.initialize();
+        view.setRoundEndListener(this);
         actionController.initialize();
         bettingController.initialize();
     }
@@ -37,10 +36,7 @@ public class MainController implements Observer {
     public void update(Observable o, Object arg) {
         if (o.equals(model.getTurnManager()) && arg instanceof GameEvent) {
             GameEvent event = (GameEvent) arg;
-
-            Platform.runLater(() -> {
-                dispatchEvent(event);
-            });
+            dispatchEvent(event);
         }
     }
 
@@ -50,17 +46,26 @@ public class MainController implements Observer {
         int bet;
 
         switch (type) {
-            // Eventi del flusso di gioco → GameController
             case GAME_STARTED:
             case ROUND_STARTED:
             case ROUND_ENDED:
+                int finalBalance = (int) event.getData().get("finalBalance");
+                int wonHands = (int) event.getData().get("wonHands");
+                int lostHands = (int) event.getData().get("lostHands");
+                int totalHands = (int) event.getData().get("totalHands");
+
+                gameManager.updatePlayerStats(finalBalance, totalHands, wonHands, lostHands);
+                view.getPlayerView().updateBalance(finalBalance);
+                int minimumBet = 10;
+                view.showEndRoundPanel(finalBalance, minimumBet);
+                break;
             case GAME_STATE_CHANGED:
                 actionController.updatePlayerControls();
                 break;
             case DEALER_TURN_STARTED:
                 Card hiddenCard = (Card) event.getData().get("card");
-                gameController.handleEvent(event);
-                view.getDealerView().revealHiddenCard(hiddenCard);
+                int handValue = (int) event.getData().get("handValue");
+                view.getDealerView().revealHiddenCard(hiddenCard, handValue);
                 break;
 
             // Eventi delle azioni → ActionController
@@ -76,40 +81,69 @@ public class MainController implements Observer {
 
             // Eventi delle scommesse → BettingController
             case BET_PLACED:
-            case INSURANCE_OFFERED:
             case INSURANCE_ACCEPTED:
             case INSURANCE_DECLINED:
+            case INSURANCE_OFFERED:
             case WINNINGS_PAID:
+                actionController.updatePlayerControls();
                 bettingController.handleEvent(event);
                 break;
 
-            // Eventi dei risultati (possono interessare più controller)
             case PLAYER_WINS:
-                bet = (int) event.getData().get("bet");
-                gameManager.updatePlayerStats(true, false, bet);
-                gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
+
             case DEALER_WINS:
                 bet = (int) event.getData().get("bet");
-                gameManager.updatePlayerStats(false, false, bet);
+                //gameManager.updatePlayerStats(false, false, bet);
                 gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
             case PUSH:
             case BLACKJACK_ACHIEVED:
-                //bet = (int) event.getData().get("bet");
-                //bet *= (int) 1.5;
-                //gameManager.updatePlayerStats(true, false, bet);
+                actionController.handleEvent(event);
                 gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
 
-            // Altri eventi - inviare a tutti i controller
             default:
-                //gameController.handleEvent(event);
-                //actionController.handleEvent(event);
-                //bettingController.handleEvent(event);
+                break;
+        }
+    }
+
+    @Override
+    public void onNewRoundRequested() {
+        view.resetViewForNewRound();
+        view.getBettingView().setMaxBetSlider(model.getHumanPlayer().getBalance());
+        view.getBettingView().showBettingControls(true);
+    }
+
+    @Override
+    public void onExitRequested() {
+        navigateToMainMenu();
+    }
+
+    @Override
+    public void onBalanceReloadRequested(int amount) {
+        int currentBalance = model.getHumanPlayer().getBalance();
+        int newBalance = currentBalance + amount;
+
+        model.getHumanPlayer().setBalance(newBalance);
+        view.getPlayerView().updateBalance(newBalance);
+        GameManager.getInstance().updatePlayerStats(newBalance, 0, 0, 0);
+        onNewRoundRequested();
+    }
+
+    private void navigateToMainMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameMenu/MenuView.fxml"));
+            Parent root = loader.load();
+            Scene menuScene = new Scene(root);
+            Stage primaryStage = (Stage) view.getScene().getWindow();
+            primaryStage.setScene(menuScene);
+        } catch (Exception e) {
+            System.err.println("Errore durante la navigazione al menu: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

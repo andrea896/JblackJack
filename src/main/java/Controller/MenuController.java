@@ -23,6 +23,7 @@ import javafx.util.Duration;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller per il menu principale dell'applicazione. Gestisce la navigazione tra i diversi
@@ -63,13 +64,18 @@ public class MenuController {
     private VBox currentMenuBox;
     private boolean isMenuVisible = false;
 
-    private int currentAvatarIndex = 1;
-    private List<Image> avatarImages = Arrays.asList(
-            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar1.png"),
-            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar2.png"),
-            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar3.png"),
-            new Image("C:\\progetti\\JBlackJack\\src\\main\\resources\\GameMenu\\Images\\avatar4.png")
+    private int currentAvatarIndex = 0;
+
+    private List<String> avatarPaths = Arrays.asList(
+            "/GameMenu/Images/avatar1.png",
+            "/GameMenu/Images/avatar2.png",
+            "/GameMenu/Images/avatar3.png",
+            "/GameMenu/Images/avatar4.png"
     );
+
+    private List<Image> avatarImages = avatarPaths.stream()
+            .map(path -> new Image(getClass().getResourceAsStream(path)))
+            .collect(Collectors.toList());
 
     /**
      * Inizializza il controller dopo che i componenti FXML sono stati caricati.
@@ -85,7 +91,6 @@ public class MenuController {
         gameManager = gameManager.getInstance();
         newAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
         loadAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
-        // Configura le colonne della TableView
         playerNameColumn.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         valueColumn.setCellValueFactory(cellData -> {
             UserProfile user = cellData.getValue();
@@ -278,7 +283,7 @@ public class MenuController {
             UserProfile currentProfile = gameManager.loadExistingProfile(nickname);
             if (currentProfile != null) {
                 loadNameField.setText(currentProfile.getNickname());
-                Image avatarImage = new Image(currentProfile.getAvatarPath());
+                Image avatarImage = new Image(getClass().getResourceAsStream(currentProfile.getAvatarPath()));
                 loadAvatarCircle.setFill(new ImagePattern(avatarImage));
                 GameStats stats = currentProfile.getStats();
                 totalHandsLabel.setText(String.valueOf(stats.getTotalHandsPlayed()));
@@ -304,11 +309,12 @@ public class MenuController {
 
     public void onCreateProfileClick() {
         logger.logInfo("Aggiorno Nickname e creo il profilo");
-        ImagePattern pattern = (ImagePattern) newAvatarCircle.getFill();
-        gameManager.createNewProfile(newNameField.getText(), pattern.getImage().getUrl());
+        String avatarPath = avatarPaths.get(currentAvatarIndex);
+        gameManager.createNewProfile(newNameField.getText(), avatarPath);
         updateUIFromProfile(newNameField.getText());
     }
 
+    @FXML
     public void onLoadProfileClick() {
         loadProfileBox.setVisible(true);
         toggleMenu(loadProfileBox);
@@ -318,6 +324,7 @@ public class MenuController {
         });
     }
 
+    @FXML
     public void onNewProfileClick() {
         newProfileBox.setVisible(true);
         toggleMenu(newProfileBox);

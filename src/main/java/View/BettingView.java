@@ -24,27 +24,22 @@ public class BettingView extends VBox {
         setPadding(new Insets(10));
         setPrefWidth(400);
 
-        // Label per scommessa
         Label betLabel = new Label("Bet: ");
         betLabel.getStyleClass().add("bet-title");
 
-        // Label per visualizzare l'importo selezionato
         betAmountLabel = new Label(" " + minBet);
         betAmountLabel.getStyleClass().add("bet-amount");
 
-        // Slider per selezionare la scommessa (orizzontale)
         betSlider = new Slider(minBet, maxBet, minBet);
         betSlider.setShowTickMarks(true);
         betSlider.setShowTickLabels(true);
         betSlider.setMajorTickUnit((maxBet - minBet) / 4);
         betSlider.setBlockIncrement((maxBet - minBet) / 10);
-        betSlider.setPrefWidth(160); // Larghezza fissa per lo slider
+        betSlider.setPrefWidth(160);
 
-        // Bottone per confermare la scommessa
         placeBetButton = new Button("PLACE BET");
         placeBetButton.getStyleClass().add("bet-button");
 
-        // Panel per l'assicurazione (inizialmente nascosto)
         insuranceLabel = new Label("DO YOU WANT TO TAKE INSURANCE?");
         insuranceLabel.getStyleClass().add("insurance-label");
 
@@ -57,12 +52,11 @@ public class BettingView extends VBox {
         insuranceButtons = new HBox(10, acceptInsuranceButton, declineInsuranceButton);
         insuranceButtons.setAlignment(Pos.CENTER);
 
-        insuranceBox = new VBox(5, insuranceLabel, insuranceButtons); // Spaziatura ridotta
-        insuranceBox.setAlignment(Pos.CENTER);
+        insuranceBox = new VBox(5, insuranceLabel, insuranceButtons);
+        insuranceBox.setAlignment(Pos.TOP_CENTER);
         insuranceBox.setVisible(false);
         insuranceBox.getStyleClass().add("game-component");
 
-        // Setup listeners
         betSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             betAmountLabel.setText(" " + (int) newVal.doubleValue());
         });
@@ -88,16 +82,11 @@ public class BettingView extends VBox {
             }
         });
 
-        // Assembla il layout
         getChildren().addAll(betLabel, betAmountLabel, betSlider, placeBetButton, insuranceBox);
     }
 
     public void setBettingListener(BlackjackBettingListener listener) {
         this.bettingListener = listener;
-    }
-
-    public int getBetAmount() {
-        return (int) betSlider.getValue();
     }
 
     public void showBettingControls(boolean visible) {
@@ -112,11 +101,6 @@ public class BettingView extends VBox {
 
     public void hideInsuranceOption() {
         insuranceBox.setVisible(false);
-    }
-
-    public void updateInsuranceDisplay(int amount) {
-        insuranceLabel.setText("INSURANCE: " + amount);
-        insuranceButtons.setVisible(false);
     }
 
     public void setMaxBetSlider(int maxBet) {

@@ -153,9 +153,8 @@ public class Player {
      * @return true se la scommessa è andata a buon fine, false altrimenti
      */
     public boolean placeBet(int amount, int currentHandIndex) {
-        if (amount <= 0 || amount > balance) {
+        if (amount <= 0 || amount > balance)
             return false;
-        }
 
         balance -= amount;
         setCurrentBet(amount);
@@ -187,10 +186,7 @@ public class Player {
         if (!canDoubleDown(handIndex)) return false;
 
         Hand hand = hands.get(handIndex);
-        // Raddoppia la scommessa sulla mano
         hand.doubleDown();
-
-        // Aggiungi una carta
         addCard(handIndex, card);
 
         return true;
@@ -221,20 +217,14 @@ public class Player {
 
         Hand originalHand = hands.get(handIndex);
 
-        // Crea una nuova mano con la seconda carta dell'originale
         Card secondCard = originalHand.splitSecondCard();
         if (secondCard == null) return false;
 
-        // Crea la nuova mano con la stessa scommessa
         Hand newHand = new Hand(currentBet);
         newHand.addCard(secondCard);
-
-        // Aggiungi le nuove carte
         originalHand.addCard(newCard1);
         newHand.addCard(newCard2);
         currentBet += currentBet;
-
-        // Aggiungi la nuova mano alla lista
         hands.add(newHand);
 
         return true;
