@@ -4,10 +4,10 @@
       "nickname": "Andrew",
       "avatarUrl": "/GameMenu/Images/avatar1.png",
       "stats": {
-        "totalHandsPlayed": 116,
+        "totalHandsPlayed": 118,
         "handsWon": 84,
-        "handsLost": 32,
-        "currentBalance": 159
+        "handsLost": 34,
+        "currentBalance": 59
       }
     },
     {
