@@ -85,6 +85,12 @@ public class GameManager {
     }
 
     public void updatePlayerStats(int finalBalance, int totalHands, int wonHands, int lostHands) {
+        if(wonHands < lostHands){
+            AudioQueue.queue(AudioManager.SoundEffect.LOSE);
+        }
+        else{
+            AudioQueue.queue(AudioManager.SoundEffect.WIN);
+        }
         currentProfile.getStats().setCurrentBalance(finalBalance);
 
         currentProfile.getStats().setTotalHandsPlayed(

@@ -5,5 +5,4 @@ public interface BlackjackActionListener {
     void onStandButtonPressed();
     void onDoubleDownPressed();
     void onSplitButtonPressed();
-    void onExitButtonPressed();
 }

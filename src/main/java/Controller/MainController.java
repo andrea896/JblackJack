@@ -9,21 +9,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.util.Observable;
 import java.util.Observer;
 
 public class MainController implements Observer, RoundEndListener {
     private final GameModel model;
     private final BlackJackView view;
-    private final GameController gameController;
     private final ActionController actionController;
     private final BettingController bettingController;
 
     public MainController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
-        this.gameController = new GameController(model, view);
         this.actionController = new ActionController(model, view);
         this.bettingController = new BettingController(model, view);
         model.getTurnManager().addObserver(this);
@@ -43,10 +40,11 @@ public class MainController implements Observer, RoundEndListener {
     private void dispatchEvent(GameEvent event) {
         GameManager gameManager = GameManager.getInstance();
         GameEventType type = event.getType();
-        int bet;
 
         switch (type) {
             case GAME_STARTED:
+                AudioQueue.queue(AudioManager.SoundEffect.SHUFFLE);
+                break;
             case ROUND_STARTED:
             case ROUND_ENDED:
                 int finalBalance = (int) event.getData().get("finalBalance");
@@ -65,6 +63,7 @@ public class MainController implements Observer, RoundEndListener {
             case DEALER_TURN_STARTED:
                 Card hiddenCard = (Card) event.getData().get("card");
                 int handValue = (int) event.getData().get("handValue");
+                AudioQueue.queue(AudioManager.SoundEffect.SPLIT);
                 view.getDealerView().revealHiddenCard(hiddenCard, handValue);
                 break;
 
@@ -88,21 +87,8 @@ public class MainController implements Observer, RoundEndListener {
                 actionController.updatePlayerControls();
                 bettingController.handleEvent(event);
                 break;
-
-            case PLAYER_WINS:
-                bettingController.handleEvent(event);
-                break;
-
-            case DEALER_WINS:
-                bet = (int) event.getData().get("bet");
-                //gameManager.updatePlayerStats(false, false, bet);
-                gameController.handleEvent(event);
-                bettingController.handleEvent(event);
-                break;
-            case PUSH:
             case BLACKJACK_ACHIEVED:
                 actionController.handleEvent(event);
-                gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
 

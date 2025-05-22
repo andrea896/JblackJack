@@ -54,6 +54,7 @@ public class TurnManager extends Observable {
      */
     public void startRound() {
         deck.shuffle();
+        notifyObserversWithEvent(GameEventType.GAME_STARTED);
         int i = 0;
         for (Player player : players)
             if (player instanceof AIPlayer aiPlayer) {
@@ -92,8 +93,6 @@ public class TurnManager extends Observable {
         int minBet = 10;
         int maxBet = 300;
         int balance = aiPlayer.getBalance();
-
-        // Limita la scommessa massima al saldo disponibile
         maxBet = Math.min(maxBet, balance);
 
         if (strategy instanceof AggressiveStrategy) {
@@ -101,7 +100,6 @@ public class TurnManager extends Observable {
         } else if (strategy instanceof ConservativeStrategy) {
             return minBet + random.nextInt(Math.max(1, (maxBet - minBet) / 3));
         } else {
-            // BalancedStrategy
             return minBet + random.nextInt(Math.max(1, (maxBet - minBet) / 2));
         }
     }
@@ -110,13 +108,13 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali a tutti i giocatori e al dealer.
      */
     private void dealInitialCards() {
-        //Card humanCard1 = deck.drawCard();
-        Card humanCard1 = new Card(Rank.TEN, Suit.CLUBS);
+        Card humanCard1 = deck.drawCard();
+        //Card humanCard1 = new Card(Rank.TEN, Suit.CLUBS);
         humanPlayer.addCard(humanCard1);
         createCardDealtEvent(humanPlayer, humanCard1, currentHandIndex, false);
 
-        //Card humanCard2 = deck.drawCard();
-        Card humanCard2 = new Card(Rank.TEN, Suit.HEARTS);
+        Card humanCard2 = deck.drawCard();
+        //Card humanCard2 = new Card(Rank.TEN, Suit.HEARTS);
         humanPlayer.addCard(humanCard2);
         createCardDealtEvent(humanPlayer, humanCard2, currentHandIndex, false);
 
@@ -156,14 +154,17 @@ public class TurnManager extends Observable {
     public void playerHit() {
         if (gameState != GameState.PLAYER_TURN) return;
 
-        if (humanPlayer.isBusted(currentHandIndex) || humanPlayer.getHandValue(currentHandIndex) >= 21) return;
+        if (humanPlayer.isBusted(currentHandIndex))
+            return;
 
         Card card = deck.drawCard();
         humanPlayer.addCard(currentHandIndex, card);
         createCardDealtEvent(humanPlayer, card, currentHandIndex, false);
 
-        if (humanPlayer.getHandValue(currentHandIndex) >= 21)
+        if (humanPlayer.getHandValue(currentHandIndex) >= 21) {
+            notifyObserversWithEvent(GameEventType.PLAYER_BUSTED, "player", humanPlayer, "handIndex", currentHandIndex);
             handleHandTransition();
+        }
     }
 
     /**
@@ -217,7 +218,6 @@ public class TurnManager extends Observable {
             Card newCard2 = deck.drawCard();
             int bet = humanPlayer.getCurrentBet();
             humanPlayer.splitHand(currentHandIndex, newCard1, newCard2);
-            // Notifica l'evento di split con informazioni sulle carte
             notifyObserversWithEvent(GameEventType.HAND_SPLIT,
                     "player", humanPlayer,
                     "newCard1", newCard1,
@@ -265,13 +265,12 @@ public class TurnManager extends Observable {
     private void playAITurns() {
         for (Player player : players) {
             if (player instanceof AIPlayer aiPlayer) {
-                // Per ciascuna mano del giocatore AI (in caso di split)
                 for (int handIndex = 0; handIndex < aiPlayer.getHandCount(); handIndex++) {
                     PlayerStrategy strategy = aiPlayer.getStrategy();
                     boolean continuePlaying = true;
 
                     while (continuePlaying && aiPlayer.getHandValue(handIndex) < 21) {
-                        Card dealerUpCard = dealer.getHand(0).get(0); // La carta visibile del dealer
+                        Card dealerUpCard = dealer.getHand(0).get(0);
                         int handValue = aiPlayer.getHandValue(handIndex);
 
                         // Verifica se fare Split (ha priorità più alta)
@@ -281,9 +280,9 @@ public class TurnManager extends Observable {
 
                             if (strategy.shouldSplitHand(card1, card2, dealerUpCard)) {
                                 if (aiPlayer.canSplit(handIndex)) {
-                                    // Notifica lo split
                                     Card newCard1 = deck.drawCard();
                                     Card newCard2 = deck.drawCard();
+                                    aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     notifyObserversWithEvent(GameEventType.HAND_SPLIT,
                                             "player", aiPlayer,
                                             "newCard1", newCard1,
@@ -291,7 +290,6 @@ public class TurnManager extends Observable {
                                             "handValue1", aiPlayer.getHandValue(handIndex),
                                             "handValue2", aiPlayer.getHandValue(handIndex + 1),
                                             "bet", aiPlayer.getCurrentBet());
-                                    aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     continue;
                                 }
                             }

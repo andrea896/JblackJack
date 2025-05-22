@@ -97,6 +97,7 @@ public class MenuController {
             return new javafx.beans.property.SimpleIntegerProperty(getValueForCriteria(user, rankingCriteriaComboBox.getValue())).asObject();
         });
         rankingCriteriaComboBox.setOnAction(event -> loadRanking(rankingCriteriaComboBox.getValue()));
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.MENU_MUSIC);
     }
 
     /**
@@ -105,6 +106,7 @@ public class MenuController {
      */
     @FXML
     public void onPlayButtonClick(){
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         toggleMenu(playMenuBox);
     }
 
@@ -114,6 +116,7 @@ public class MenuController {
      */
     @FXML
     public void onProfileButtonClick(){
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         toggleMenu(profileMenuBox);
     }
 
@@ -122,14 +125,14 @@ public class MenuController {
      * Mostra o nasconde il menu della classifica con un'animazione di transizione.
      */
     @FXML
-    public void onRankButtonClick(){
+    public void onRankButtonClick() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         toggleMenu(rankMenuBox);
     }
 
     private void loadRanking(String criteria) {
         List<UserProfile> profiles = ProfileManager.getInstance().getProfiles();
 
-        // Ordina in base al criterio selezionato
         switch (criteria) {
             case "Hands Lost":
                 profiles.sort(Comparator.comparingInt(p -> p.getStats().getHandsLost()));
@@ -145,11 +148,9 @@ public class MenuController {
                 break;
         }
 
-        // Converte in ObservableList e aggiorna la TableView
         ObservableList<UserProfile> rankedProfiles = FXCollections.observableArrayList(profiles);
         rankingTableView.setItems(rankedProfiles);
 
-        // Aggiorna la colonna del ranking
         rankColumn.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleIntegerProperty(rankedProfiles.indexOf(cellData.getValue()) + 1).asObject()
         );
@@ -173,6 +174,7 @@ public class MenuController {
      */
     @FXML
     public void onExitButtonClick(){
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         System.exit(0);
     }
 
@@ -183,6 +185,7 @@ public class MenuController {
      */
     @FXML
     public void onStartGameButtonClick(){
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         if (gameManager.getCurrentProfile() == null) {
             logger.logWarning("Nessun profilo selezionato per iniziare il gioco!");
             showTransitionScreen("Nessun profilo selezionato, accedi al tuo profilo");
@@ -302,12 +305,16 @@ public class MenuController {
      * Esegue azioni personalizzate legate al pulsante di cambio e viene mostrata un'immagine
      * del profilo diversa ad ogni click.
      */
+    @FXML
     public void onNewChangeButtonClick() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         currentAvatarIndex = (currentAvatarIndex + 1) % avatarImages.size();
         newAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
     }
 
+    @FXML
     public void onCreateProfileClick() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         logger.logInfo("Aggiorno Nickname e creo il profilo");
         String avatarPath = avatarPaths.get(currentAvatarIndex);
         gameManager.createNewProfile(newNameField.getText(), avatarPath);
@@ -316,6 +323,7 @@ public class MenuController {
 
     @FXML
     public void onLoadProfileClick() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         loadProfileBox.setVisible(true);
         toggleMenu(loadProfileBox);
         loadNameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
@@ -326,6 +334,7 @@ public class MenuController {
 
     @FXML
     public void onNewProfileClick() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         newProfileBox.setVisible(true);
         toggleMenu(newProfileBox);
     }

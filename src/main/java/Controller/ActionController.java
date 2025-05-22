@@ -66,8 +66,8 @@ public class ActionController implements BlackjackActionListener {
                 view.getAIPlayerViews().get(playerIndex).showBlackjack(handIndex);
             }
         }
-
         updatePlayerControls();
+        AudioQueue.queue(AudioManager.SoundEffect.BLACKJACK);
     }
 
     private void handleCardDealtEvent(GameEvent event) {
@@ -90,6 +90,7 @@ public class ActionController implements BlackjackActionListener {
                 view.getAIPlayerViews().get(playerIndex).animateCardDealt(handIndex, card, player.getHandValue(handIndex));
             }
         }
+        AudioQueue.queue(AudioManager.SoundEffect.CARD_DEAL);
     }
 
     private void handlePlayerBustedEvent(GameEvent event) {
@@ -97,8 +98,9 @@ public class ActionController implements BlackjackActionListener {
         Player player = (Player) data.get("player");
         int handIndex = (int) data.get("handIndex");
 
-        if (player == model.getHumanPlayer()) {
+        if (player.equals(model.getHumanPlayer())) {
             view.getPlayerHands().showBusted(handIndex);
+            AudioQueue.queue(AudioManager.SoundEffect.LOSE);
         } else {
             int playerIndex = model.getPlayers().indexOf(player);
             if (playerIndex >= 0 && playerIndex < view.getAIPlayerViews().size()) {
@@ -122,6 +124,7 @@ public class ActionController implements BlackjackActionListener {
             view.getPlayerView().updateCurrentBet(currentBet);
             view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
         }
+        AudioQueue.queue(AudioManager.SoundEffect.DOUBLE_DOWN);
     }
 
     private void handleSplitEvent(GameEvent event) {
@@ -140,6 +143,9 @@ public class ActionController implements BlackjackActionListener {
             view.getPlayerView().updateBalance(player.getBalance());
             view.getPlayerView().updateCurrentBet(player.getCurrentBet());
         }
+        AudioQueue.queue(AudioManager.SoundEffect.SPLIT);
+        AudioQueue.queue(AudioManager.SoundEffect.CARD_DEAL);
+        AudioQueue.queue(AudioManager.SoundEffect.CARD_DEAL);
     }
 
     public void updatePlayerControls() {
@@ -161,26 +167,25 @@ public class ActionController implements BlackjackActionListener {
 
     @Override
     public void onHitButtonPressed() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         model.playerHit();
     }
 
     @Override
     public void onStandButtonPressed() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         model.playerStand();
     }
 
     @Override
     public void onDoubleDownPressed() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         model.doubleDown();
     }
 
     @Override
     public void onSplitButtonPressed() {
+        AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
         model.splitHand();
-    }
-
-    @Override
-    public void onExitButtonPressed() {
-
     }
 }

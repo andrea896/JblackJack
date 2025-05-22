@@ -13,7 +13,7 @@ public class AnimationQueue {
     public static void queue(Animation animation) {
         animationQueue.add(() -> {
             animation.play();
-            PauseTransition pause = new PauseTransition(Duration.millis(700));
+            PauseTransition pause = new PauseTransition(Duration.millis(650));
             pause.setOnFinished(e -> playNext());
             pause.play();
         });

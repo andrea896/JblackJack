@@ -12,7 +12,6 @@ public class ControlPanelView extends HBox {
     private final Button standButton;
     private final Button doubleDownButton;
     private final Button splitButton;
-    private final Button exitButton;
     private BlackjackActionListener actionListener;
 
     public ControlPanelView() {
@@ -26,7 +25,6 @@ public class ControlPanelView extends HBox {
         standButton = createButton("STAND", "stand-button");
         doubleDownButton = createButton("D. DOWN", "double-button");
         splitButton = createButton("SPLIT", "split-button");
-        exitButton = createButton("MENU", "exit-button");
 
         // Disabilita pulsanti all'inizio
         hitButton.setDisable(true);
@@ -38,12 +36,11 @@ public class ControlPanelView extends HBox {
         setupButtonListeners();
 
         // Aggiungi pulsanti al layout
-        getChildren().addAll(hitButton, standButton, doubleDownButton, splitButton, exitButton);
+        getChildren().addAll(hitButton, standButton, doubleDownButton, splitButton);
         setHgrow(hitButton, Priority.ALWAYS);
         setHgrow(standButton, Priority.ALWAYS);
         setHgrow(doubleDownButton, Priority.ALWAYS);
         setHgrow(splitButton, Priority.ALWAYS);
-        setHgrow(exitButton, Priority.ALWAYS);
     }
 
     private Button createButton(String text, String styleClass) {
@@ -75,12 +72,6 @@ public class ControlPanelView extends HBox {
         splitButton.setOnAction(e -> {
             if (actionListener != null) {
                 actionListener.onSplitButtonPressed();
-            }
-        });
-
-        exitButton.setOnAction(e -> {
-            if (actionListener != null) {
-                actionListener.onExitButtonPressed();
             }
         });
     }

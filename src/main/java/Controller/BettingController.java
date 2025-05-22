@@ -6,7 +6,7 @@ import Model.Players.AIPlayer;
 import Model.Players.Player;
 import View.BlackJackView;
 
-public class BettingController implements BlackjackBettingListener{
+public class BettingController implements BlackjackBettingListener {
     protected final GameModel model;
     protected final BlackJackView view;
 
@@ -23,7 +23,7 @@ public class BettingController implements BlackjackBettingListener{
         switch (event.getType()) {
             case BET_PLACED:
                 int betAmount = (int) event.getData().get("amount");
-                if (event.getData().get("player") == model.getHumanPlayer().getName()) {
+                if (event.getData().get("player").equals(model.getHumanPlayer().getName())) {
                     int balance = (int) event.getData().get("balance");
                     view.getPlayerView().updateCurrentBet(betAmount);
                     view.getPlayerView().updateBalance(balance);
@@ -64,17 +64,7 @@ public class BettingController implements BlackjackBettingListener{
                 view.getPlayerHands().updateBet(newBet, handIndex);
                 view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
                 break;
-
-            case PLAYER_WINS:
-            case PUSH:
-                updatePlayerBalanceFromEvent();
-                break;
         }
-    }
-
-    private void updatePlayerBalanceFromEvent() {
-        int balance = model.getHumanPlayer().getBalance();
-        view.getPlayerView().updateBalance(balance);
     }
 
     @Override
@@ -83,16 +73,20 @@ public class BettingController implements BlackjackBettingListener{
         view.getPlayerView().updateBalance(model.getHumanPlayer().getBalance());
         view.getPlayerView().updateCurrentBet(amount);
         view.getPlayerHands().updateBet(amount, 0);
+        AudioQueue.queue(AudioManager.SoundEffect.CHIP_STACK);
         model.startRound(amount);
     }
 
     @Override
     public void onInsuranceAccepted() {
+        AudioQueue.queue(AudioManager.SoundEffect.BUTTON_CLICK);
+        AudioQueue.queue(AudioManager.SoundEffect.CHIP_PLACE);
         model.takeInsurance();
     }
 
     @Override
     public void onInsuranceDeclined() {
+        AudioQueue.queue(AudioManager.SoundEffect.BUTTON_CLICK);
         model.declineInsurance();
     }
 }

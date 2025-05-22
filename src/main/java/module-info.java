@@ -8,6 +8,7 @@ module com.example.jblackjack {
     requires eu.hansolo.tilesfx;
     requires com.google.gson;
     requires java.logging;
+    requires java.desktop;
 
     opens Controller to javafx.fxml;
     exports Model.Profile;
