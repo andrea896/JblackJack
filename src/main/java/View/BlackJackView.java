@@ -13,29 +13,40 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Vista principale del gioco BlackJack che coordina tutte le componenti grafiche.
+ * Gestisce il layout del tavolo da gioco, le aree dei giocatori, del dealer
+ * e tutti i controlli dell'interfaccia utente.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ */
 public class BlackJackView extends AnchorPane {
-    // Componenti principali
     private final DealerView dealerView;
     private final PlayerInfoView playerView;
     private final ControlPanelView controlPanelView;
     private final BettingView bettingView;
     private PlayerHandsView playerHandsView;
-
-    // Elementi dell'interfaccia
     private List<PlayerHandsView> aiHandsViews;
     private final HBox bottomControlsArea;
     private final HBox allHandsArea;
-
-    // Altri elementi UI
     private final Label statusMessageLabel;
     private final Button playAgainButton;
     private EndRoundPanel endRoundPanel;
-
-    // Listeners
     private BlackjackActionListener actionListener;
     private BlackjackBettingListener bettingListener;
     private RoundEndListener roundEndListener;
 
+    /**
+     * Costruisce la vista principale del gioco BlackJack.
+     * 
+     * @param cardBackDesign Il design del dorso delle carte selezionato
+     * @param playerImagePath Il percorso dell'avatar del giocatore
+     * @param numberOfPlayers Il numero di giocatori AI
+     * @param playerName Il nome del giocatore umano
+     * @param balance Il saldo iniziale del giocatore
+     */
     public BlackJackView(String cardBackDesign, String playerImagePath, int numberOfPlayers, String playerName, int balance) {
         CardImageService.setCardBackDesign(cardBackDesign);
 
@@ -106,7 +117,7 @@ public class BlackJackView extends AnchorPane {
     }
 
     /**
-     * Configura gli event handlers per i pulsanti e altri controlli
+     * Configura gli event handlers per i pulsanti e altri controlli.
      */
     private void setupEventHandlers() {
         playAgainButton.setOnAction(e -> {
@@ -116,6 +127,11 @@ public class BlackJackView extends AnchorPane {
         });
     }
 
+    /**
+     * Aggiorna il messaggio di stato mostrato temporaneamente.
+     * 
+     * @param message Il messaggio da visualizzare
+     */
     public void updateStatusMessage(String message) {
         statusMessageLabel.setText(message);
         statusMessageLabel.setVisible(true);
@@ -125,43 +141,84 @@ public class BlackJackView extends AnchorPane {
         pause.play();
     }
 
-    public void showGameStartAnimation() {
-        updateStatusMessage("Game Started!");
-    }
-
+    /**
+     * Mostra o nasconde il pulsante "Play Again".
+     * 
+     * @param visible true per mostrare il pulsante, false per nasconderlo
+     */
     public void showPlayAgainButton(boolean visible) {
         playAgainButton.setVisible(visible);
     }
 
+    /**
+     * Restituisce la vista delle informazioni del giocatore.
+     * 
+     * @return La vista PlayerInfoView
+     */
     public PlayerInfoView getPlayerView() {
         return playerView;
     }
 
+    /**
+     * Restituisce la vista del dealer.
+     * 
+     * @return La vista DealerView
+     */
     public DealerView getDealerView() {
         return dealerView;
     }
 
+    /**
+     * Restituisce la vista delle mani del giocatore umano.
+     * 
+     * @return La vista PlayerHandsView del giocatore umano
+     */
     public PlayerHandsView getPlayerHands() {
         return playerHandsView;
     }
 
+    /**
+     * Restituisce la lista delle viste dei giocatori AI.
+     * 
+     * @return Lista delle viste PlayerHandsView dei giocatori AI
+     */
     public List<PlayerHandsView> getAIPlayerViews() {
         return aiHandsViews;
     }
 
+    /**
+     * Restituisce la vista del pannello di controllo.
+     * 
+     * @return La vista ControlPanelView
+     */
     public ControlPanelView getControlPanelView() {
         return controlPanelView;
     }
 
+    /**
+     * Restituisce la vista delle scommesse.
+     * 
+     * @return La vista BettingView
+     */
     public BettingView getBettingView() {
         return bettingView;
     }
 
+    /**
+     * Imposta il listener per le azioni di gioco.
+     * 
+     * @param listener Il listener per le azioni del giocatore
+     */
     public void setActionListener(BlackjackActionListener listener) {
         this.actionListener = listener;
         controlPanelView.setActionListener(listener);
     }
 
+    /**
+     * Imposta il listener per le scommesse.
+     * 
+     * @param listener Il listener per le scommesse del giocatore
+     */
     public void setBettingListener(BlackjackBettingListener listener) {
         this.bettingListener = listener;
         bettingView.setBettingListener(listener);
@@ -170,7 +227,7 @@ public class BlackJackView extends AnchorPane {
     /**
      * Imposta il listener per gli eventi di fine round.
      *
-     * @param listener L'oggetto listener
+     * @param listener L'oggetto listener per la gestione della fine del round
      */
     public void setRoundEndListener(RoundEndListener listener) {
         this.roundEndListener = listener;
@@ -178,10 +235,10 @@ public class BlackJackView extends AnchorPane {
     }
 
     /**
-     * Mostra il pannello di fine round in base al saldo.
+     * Mostra il pannello di fine round basato sul saldo corrente.
      *
-     * @param currentBalance Il saldo attuale
-     * @param minimumBet La scommessa minima
+     * @param currentBalance Il saldo attuale del giocatore
+     * @param minimumBet La scommessa minima richiesta per continuare
      */
     public void showEndRoundPanel(int currentBalance, int minimumBet) {
         if (currentBalance < minimumBet) {
@@ -192,7 +249,9 @@ public class BlackJackView extends AnchorPane {
     }
 
     /**
-     * Resetta completamente la vista per un nuovo round.
+     * Resetta completamente la vista per preparare un nuovo round.
+     * Ripulisce tutte le mani, resetta i controlli e prepara l'interfaccia
+     * per una nuova partita.
      */
     public void resetViewForNewRound() {
         playerHandsView.resetForNewRound();

@@ -1,1 +1,1 @@
-tagSearchIndex = [];updateSearchResults();
+tagSearchIndex = [{"l":"Caratteristiche principali:","h":"module com.example.jblackjack","d":"Section","u":"com.example.jblackjack/module-summary.html#caratteristiche-principali--heading"}];updateSearchResults();

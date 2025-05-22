@@ -7,12 +7,27 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
+/**
+ * Vista che visualizza le informazioni del giocatore nel BlackJack.
+ * Mostra l'avatar, il nome, il saldo corrente e la puntata attiva del giocatore.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ */
 public class PlayerInfoView extends VBox {
     private final ImageView profileImageView;
     private final Label nameLabel;
     private final Label balanceLabel;
     private final Label currentBetLabel;
 
+    /**
+     * Costruisce la vista delle informazioni del giocatore.
+     * 
+     * @param name Il nome del giocatore
+     * @param imagePath Il percorso dell'immagine avatar del giocatore
+     * @param balance Il saldo iniziale del giocatore
+     */
     public PlayerInfoView(String name, String imagePath, int balance) {
         // Impostazioni base del layout
         setAlignment(Pos.TOP_CENTER);
@@ -32,7 +47,7 @@ public class PlayerInfoView extends VBox {
         profileImageView.setFitHeight(86);
         profileImageView.setPreserveRatio(true);
 
-        // Crea clip circolare
+        // Crea clip circolare per l'avatar
         Circle clip = new Circle(43);
         clip.setCenterX(44);
         clip.setCenterY(44);
@@ -55,14 +70,18 @@ public class PlayerInfoView extends VBox {
     }
 
     /**
-     * Aggiorna il saldo visualizzato
+     * Aggiorna il saldo visualizzato con un nuovo valore.
+     * 
+     * @param balance Il nuovo saldo del giocatore
      */
     public void updateBalance(int balance) {
         balanceLabel.setText("Balance: " + balance);
     }
 
     /**
-     * Aggiorna la puntata corrente visualizzata
+     * Aggiorna la puntata corrente visualizzata.
+     * 
+     * @param bet L'importo della puntata corrente
      */
     public void updateCurrentBet(int bet) {
         currentBetLabel.setText("Current Bet: " + bet);

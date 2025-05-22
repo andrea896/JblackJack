@@ -10,6 +10,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+/**
+ * Vista che rappresenta una singola mano di carte nel BlackJack.
+ * Gestisce la visualizzazione delle carte, del valore della mano, delle scommesse
+ * e delle animazioni associate alla distribuzione delle carte.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ */
 public class HandView extends VBox {
     private Label valueLabel;
     private Label betLabel;
@@ -18,6 +27,10 @@ public class HandView extends VBox {
     private Label resultLabel;
     private HBox labelsContainer;
 
+    /**
+     * Costruisce una nuova vista per una mano di carte.
+     * Inizializza tutti i componenti grafici e le etichette informative.
+     */
     public HandView() {
         setAlignment(javafx.geometry.Pos.CENTER);
 
@@ -44,14 +57,33 @@ public class HandView extends VBox {
         getChildren().addAll(labelsContainer, handContainer);
     }
 
+    /**
+     * Controlla la visibilità dell'etichetta della scommessa.
+     * 
+     * @param visible true per mostrare l'etichetta, false per nasconderla
+     */
     public void setHandlabel(boolean visible){
         betLabel.setVisible(visible);
     }
 
+    /**
+     * Controlla la visibilità dell'etichetta dell'assicurazione.
+     * 
+     * @param visible true per mostrare l'etichetta, false per nasconderla
+     */
     public void setInsuranceLabel(boolean visible){
         insuranceLabel.setVisible(visible);
     }
 
+    /**
+     * Anima l'aggiunta di una nuova carta alla mano.
+     * La carta appare con un'animazione di movimento, scala e rotazione
+     * dal mazzo del dealer alla posizione finale nella mano.
+     * 
+     * @param card La carta da aggiungere
+     * @param handValue Il nuovo valore totale della mano
+     * @param isHiddenCard true se la carta deve essere mostrata coperta
+     */
     public void animateCardDealt(Card card, int handValue, boolean isHiddenCard) {
         ImageView cardView;
         if (isHiddenCard)
@@ -97,34 +129,49 @@ public class HandView extends VBox {
         AnimationQueue.queue(dealAnimation);
     }
 
+    /**
+     * Aggiorna l'etichetta della scommessa con un nuovo importo.
+     * 
+     * @param bet Il nuovo importo della scommessa
+     */
     public void updateBet(int bet) {
         betLabel.setText("Bet: " + bet);
     }
 
+    /**
+     * Aggiorna l'etichetta dell'assicurazione con un nuovo importo.
+     * 
+     * @param insuranceAmount Il nuovo importo dell'assicurazione
+     */
     public void updateInsurance(int insuranceAmount){
         insuranceLabel.setText("Insur: " + insuranceAmount);
     }
 
+    /**
+     * Aggiorna l'etichetta del valore della mano.
+     * 
+     * @param handValue Il nuovo valore della mano
+     */
     public void updateHandValue(int handValue){
         valueLabel.setText("value: " + handValue);
     }
 
     /**
-     * Mostra il risultato "BUSTED!"
+     * Mostra il risultato "BUSTED!" con animazione.
      */
     public void showBusted() {
         showResult("BUSTED!", "busted-label");
     }
 
     /**
-     * Mostra il risultato "BLACKJACK!"
+     * Mostra il risultato "BLACKJACK!" con animazione.
      */
     public void showBlackjack() {
         showResult("BLACKJACK!", "blackjack-label");
     }
 
     /**
-     * Mostra un risultato nella label del risultato.
+     * Mostra un risultato personalizzato con animazione di fade-in e scala.
      *
      * @param text Il testo da mostrare
      * @param styleClass La classe CSS da applicare alla label
@@ -151,8 +198,8 @@ public class HandView extends VBox {
     }
 
     /**
-     * Resetta completamente la vista della mano, rimuovendo tutte le carte
-     * e ripristinando le etichette ai valori predefiniti.
+     * Resetta completamente la vista della mano per un nuovo round.
+     * Rimuove tutte le carte e ripristina le etichette ai valori predefiniti.
      */
     public void reset() {
         handContainer.getChildren().clear();
@@ -162,6 +209,11 @@ public class HandView extends VBox {
         insuranceLabel.setText("Insur: ");
     }
 
+    /**
+     * Restituisce il container delle carte per accesso diretto.
+     * 
+     * @return Il container HBox che contiene le immagini delle carte
+     */
     public HBox getHandContainer() {
         return handContainer;
     }

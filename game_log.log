@@ -10,3 +10,12 @@ Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBac
 mag 22, 2025 12:00:14 PM Utility.LoggerUtility logInfo
 INFO: [Controller.GameManager.updatePlayerStats()] 
 Statistiche aggiornate: balance=1586, mani giocate=1, vinte=1, perse=0
+mag 22, 2025 12:57:42 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 22, 2025 12:57:42 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 3 profili
+mag 22, 2025 12:57:52 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png

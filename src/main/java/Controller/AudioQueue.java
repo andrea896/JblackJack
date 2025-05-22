@@ -7,6 +7,12 @@ import java.util.Queue;
 
 /**
  * Gestisce una coda di effetti sonori da riprodurre in sequenza.
+ * Garantisce che i suoni non si sovrappongano e vengano riprodotti in ordine
+ * con un ritardo appropriato tra un effetto e l'altro.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
  */
 public class AudioQueue {
     private static final Queue<Runnable> audioQueue = new LinkedList<>();
@@ -15,8 +21,9 @@ public class AudioQueue {
 
     /**
      * Aggiunge un effetto sonoro alla coda di riproduzione.
+     * L'effetto verrà riprodotto quando sarà il suo turno nella coda.
      *
-     * @param effect L'effetto sonoro da riprodurre
+     * @param effect L'effetto sonoro da aggiungere alla coda
      */
     public static void queue(AudioManager.SoundEffect effect) {
         audioQueue.add(() -> {
@@ -31,7 +38,8 @@ public class AudioQueue {
     }
 
     /**
-     * Riproduce il prossimo audio nella coda.
+     * Riproduce il prossimo effetto sonoro nella coda.
+     * Se la coda è vuota, imposta il flag di riproduzione a false.
      */
     private static void playNext() {
         if (audioQueue.isEmpty()) {
