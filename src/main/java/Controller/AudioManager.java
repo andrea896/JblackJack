@@ -16,7 +16,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * Implementata come singleton.
  */
 public class AudioManager {
-
 	private static AudioManager instance;
 	private boolean soundEnabled;
 

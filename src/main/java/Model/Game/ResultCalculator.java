@@ -124,7 +124,7 @@ public class ResultCalculator {
         } else {
             // Stesso valore, pareggio (restituzione della scommessa)
             manager.payPush(player, handIndex);
-            return "win";
+            return "push";
         }
     }
 }

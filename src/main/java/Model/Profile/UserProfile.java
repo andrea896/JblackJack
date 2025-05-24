@@ -9,13 +9,8 @@ package Model.Profile;
  * @since 1.0
  */
 public class UserProfile {
-    /** Il nickname dell'utente */
     private String nickname;
-    
-    /** Il percorso dell'immagine avatar dell'utente */
     private String avatarPath;
-    
-    /** Le statistiche di gioco dell'utente */
     private GameStats stats;
 
     /**

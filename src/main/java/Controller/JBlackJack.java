@@ -17,7 +17,6 @@ import java.io.IOException;
  * @since 1.0
  */
 public class JBlackJack extends Application {
-    /** Logger per la registrazione degli eventi dell'applicazione */
     static final Logger logger = Logger.getLogger(JBlackJack.class.getName());
     
     /**

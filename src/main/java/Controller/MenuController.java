@@ -130,6 +130,16 @@ public class MenuController {
         toggleMenu(rankMenuBox);
     }
 
+    /**
+     * Carica e ordina la classifica dei profili utente secondo il criterio specificato.
+     * Recupera tutti i profili dal ProfileManager, li ordina in base al criterio selezionato
+     * e aggiorna la TableView con i risultati ordinati.
+     *
+     * @param criteria Il criterio di ordinamento da applicare. Deve essere uno dei valori
+     *                 supportati: "Hands Lost", "Hands Won", "Total Hands Played", "Current Balance".
+     *                 Se il criterio non è riconosciuto, la lista non viene ordinata.
+     * @since 1.0
+     */
     private void loadRanking(String criteria) {
         List<UserProfile> profiles = ProfileManager.getInstance().getProfiles();
 
@@ -157,6 +167,20 @@ public class MenuController {
         rankingTableView.refresh();
     }
 
+    /**
+     * Estrae il valore numerico corrispondente al criterio specificato dalle statistiche del profilo.
+     * Questo metodo helper viene utilizzato per ottenere valori comparabili dalle statistiche
+     * di un profilo utente in base al criterio di ranking selezionato.
+     *
+     * @param profile Il profilo utente da cui estrarre il valore. Può essere null.
+     * @param criteria Il criterio per determinare quale valore estrarre.
+     *                 Deve corrispondere a uno dei criteri supportati dal sistema di ranking.
+     *
+     * @return Il valore numerico corrispondente al criterio, oppure 0 se il profilo/criterio
+     *         non è valido o se si verifica un errore nell'estrazione del dato.
+     *
+     * @since 1.0
+     */
     private int getValueForCriteria(UserProfile profile, String criteria) {
         if (profile == null || profile.getStats() == null) return 0;
         switch (criteria) {
@@ -203,18 +227,46 @@ public class MenuController {
         timeline.play();
     }
 
+    /**
+     * Determina il numero di giocatori AI selezionato dall'utente tramite i radio button.
+     * Verifica quale radio button è attualmente selezionato e restituisce il numero
+     * corrispondente di giocatori AI da includere nella partita.
+     *
+     * @return Il numero di giocatori AI selezionato:
+     *         <ul>
+     *         <li>1 se è selezionato il radio button "Un giocatore"</li>
+     *         <li>2 se è selezionato il radio button "Due giocatori"</li>
+     *         <li>3 se è selezionato il radio button "Tre giocatori"</li>
+     *         <li>2 come valore di default se nessun radio button è selezionato</li>
+     *         </ul>
+     * @since 1.0
+     */
     private int getSelectedNumberOfPlayers() {
         if (onePlayerRadioButton.isSelected()) return 1;
         if (twoPlayersRadioButton.isSelected()) return 2;
         if (threePlayersRadioButton.isSelected()) return 3;
-        return 2; // Valore predefinito
+        return 2;
     }
 
+    /**
+     * Determina il design del dorso delle carte selezionato dall'utente.
+     * Verifica quale radio button per il design delle carte è attualmente selezionato
+     * e restituisce il percorso dell'immagine corrispondente.
+     *
+     * @return Il percorso dell'immagine del dorso delle carte selezionato:
+     *         <ul>
+     *         <li>"Images/cardBack_blue5.png" per il design blu</li>
+     *         <li>"Images/cardBack_red5.png" per il design rosso</li>
+     *         <li>"Images/cardBack_green5.png" per il design verde</li>
+     *         <li>"Images/cardBack_blue5.png" come design di default se nessun radio button è selezionato</li>
+     *         </ul>
+     * @since 1.0
+     */
     private String getSelectedCardBackDesign() {
         if (blueCardRadioButton.isSelected()) return "Images/cardBack_blue5.png";
         if (redCardRadioButton.isSelected()) return "Images/cardBack_red5.png";
         if (greenCardRadioButton.isSelected()) return "Images/cardBack_green5.png";
-        return "Images/cardBack_blue5.png"; // Valore predefinito
+        return "Images/cardBack_blue5.png";
     }
 
     /**
@@ -281,6 +333,18 @@ public class MenuController {
         fadeIn.play();
     }
 
+    /**
+     * Aggiorna l'interfaccia utente con i dati del profilo specificato.
+     * Carica il profilo dal database tramite il nickname e popola tutti i campi
+     * dell'interfaccia con le informazioni del profilo (avatar, statistiche, saldo).
+     *
+     * @param nickname Il nickname del profilo da caricare e visualizzare.
+     *
+     * @throws IllegalArgumentException se il nickname è null
+     * @throws RuntimeException se l'avatar del profilo non può essere caricato
+     *
+     * @since 1.0
+     */
     private void updateUIFromProfile(String nickname) {
         if (!nickname.isEmpty()) {
             UserProfile currentProfile = gameManager.loadExistingProfile(nickname);
@@ -312,6 +376,13 @@ public class MenuController {
         newAvatarCircle.setFill(new ImagePattern(avatarImages.get(currentAvatarIndex)));
     }
 
+    /**
+     * Gestisce l'evento di click sul pulsante "Crea Profilo".
+     * Crea un nuovo profilo utente utilizzando il nickname inserito e l'avatar
+     * attualmente selezionato, quindi aggiorna l'interfaccia con i dati del nuovo profilo.
+     *
+     * @since 1.0
+     */
     @FXML
     public void onCreateProfileClick() {
         AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
@@ -321,6 +392,13 @@ public class MenuController {
         updateUIFromProfile(newNameField.getText());
     }
 
+    /**
+     * Gestisce l'evento di click sul pulsante "Carica Profilo".
+     * Mostra la sezione per il caricamento di un profilo esistente e configura
+     * il listener per l'aggiornamento automatico dell'UI quando l'utente inserisce un nickname.
+     *
+     * @since 1.0
+     */
     @FXML
     public void onLoadProfileClick() {
         AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);
@@ -332,6 +410,13 @@ public class MenuController {
         });
     }
 
+    /**
+     * Gestisce l'evento di click sul pulsante "Nuovo Profilo".
+     * Mostra la sezione per la creazione di un nuovo profilo utente,
+     * permettendo all'utente di inserire nickname e selezionare un avatar.
+     *
+     * @since 1.0
+     */
     @FXML
     public void onNewProfileClick() {
         AudioManager.getInstance().playSound(AudioManager.SoundEffect.BUTTON_CLICK);

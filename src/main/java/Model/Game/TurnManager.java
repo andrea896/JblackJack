@@ -272,8 +272,7 @@ public class TurnManager extends Observable {
                     while (continuePlaying && aiPlayer.getHandValue(handIndex) < 21) {
                         Card dealerUpCard = dealer.getHand(0).get(0);
                         int handValue = aiPlayer.getHandValue(handIndex);
-
-                        // Verifica se fare Split (ha priorità più alta)
+                        
                         if (aiPlayer.getHands().get(handIndex).getCards().size() == 2) {
                             Card card1 = aiPlayer.getHands().get(handIndex).getCards().get(0);
                             Card card2 = aiPlayer.getHands().get(handIndex).getCards().get(1);
@@ -282,6 +281,7 @@ public class TurnManager extends Observable {
                                 if (aiPlayer.canSplit(handIndex)) {
                                     Card newCard1 = deck.drawCard();
                                     Card newCard2 = deck.drawCard();
+                                    int bet = aiPlayer.getCurrentBet();
                                     aiPlayer.splitHand(handIndex, newCard1, newCard2);
                                     notifyObserversWithEvent(GameEventType.HAND_SPLIT,
                                             "player", aiPlayer,
@@ -289,7 +289,7 @@ public class TurnManager extends Observable {
                                             "newCard2", newCard2,
                                             "handValue1", aiPlayer.getHandValue(handIndex),
                                             "handValue2", aiPlayer.getHandValue(handIndex + 1),
-                                            "bet", aiPlayer.getCurrentBet());
+                                            "bet", bet);
                                     continue;
                                 }
                             }
@@ -326,14 +326,11 @@ public class TurnManager extends Observable {
                                     "handIndex", handIndex);
                         }
 
-                        // Infine, decide se pescare o stare
                         if (strategy.shouldDraw(handValue)) {
-                            // Notifica hit
                             Card card = deck.drawCard();
                             aiPlayer.addCard(handIndex, card);
                             createCardDealtEvent(player, card, handIndex, false);
 
-                            // Se sballa, termina il turno per questa mano
                             if (aiPlayer.getHandValue(handIndex) > 21) {
                                 continuePlaying = false;
                                 notifyObserversWithEvent(GameEventType.PLAYER_BUSTED,
@@ -341,7 +338,6 @@ public class TurnManager extends Observable {
                                         "handIndex", handIndex);
                             }
                         } else {
-                            // Decide di stare
                             notifyObserversWithEvent(GameEventType.PLAYER_STAND,
                                     "player", aiPlayer.getName(),
                                     "handIndex", handIndex);
@@ -384,7 +380,6 @@ public class TurnManager extends Observable {
      * @return true se tutti i giocatori hanno sballato, false altrimenti
      */
     private boolean isAllPlayersBusted() {
-        // Controlla il giocatore umano
         boolean humanBusted = true;
         for (int i = 0; i < humanPlayer.getHandCount(); i++)
             if (!humanPlayer.isBusted(i)) {
@@ -461,8 +456,8 @@ public class TurnManager extends Observable {
      *
      * @param player Il giocatore che ha ricevuto la carta
      * @param card La carta distribuita
-     * @param handIndex L'indice della mano (per supportare split)
-     * @param isHiddenCard Indica se la carta è nascosta (solo per il dealer)
+     * @param handIndex L'indice della mano
+     * @param isHiddenCard Indica se la carta è nascosta
      */
     private void createCardDealtEvent(Player player, Card card, int handIndex, boolean isHiddenCard) {
         if (player instanceof Dealer) {

@@ -9,16 +9,9 @@ package Model.Profile;
  * @since 1.0
  */
 public class GameStats {
-    /** Numero totale di mani giocate */
     private int totalHandsPlayed;
-    
-    /** Numero di mani vinte */
     private int handsWon;
-    
-    /** Numero di mani perse */
     private int handsLost;
-    
-    /** Saldo corrente del giocatore */
     private int currentBalance;
 
     /**

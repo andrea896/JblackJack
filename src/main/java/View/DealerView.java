@@ -13,7 +13,7 @@ import javafx.util.Duration;
 /**
  * Vista specializzata per visualizzare le carte e lo stato del dealer nel BlackJack.
  * Gestisce la visualizzazione delle carte del dealer, inclusa la logica per
- * nascondere e rivelare la carta coperta (hole card).
+ * nascondere e rivelare la carta coperta.
  * 
  * @author JBlackJack Team
  * @version 1.0

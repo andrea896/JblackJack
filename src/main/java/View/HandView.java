@@ -118,9 +118,7 @@ public class HandView extends VBox {
         wobbleTransition.setToAngle(0);
         wobbleTransition.setInterpolator(Interpolator.SPLINE(0.4, 0, 0.2, 1));
 
-        ParallelTransition dealAnimation = new ParallelTransition(
-                moveTransition, scaleTransition, wobbleTransition
-        );
+        ParallelTransition dealAnimation = new ParallelTransition(moveTransition, scaleTransition, wobbleTransition);
 
         valueLabel.setText("value: " + handValue);
 

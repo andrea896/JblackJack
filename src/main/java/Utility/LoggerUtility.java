@@ -13,11 +13,7 @@ import java.util.logging.*;
  * @since 1.0
  */
 public class LoggerUtility {
-
-    /** Logger principale dell'applicazione */
     private static final Logger logger = Logger.getLogger("GameLogger");
-    
-    /** Handler per scrivere i log su file */
     private static FileHandler fileHandler;
 
     // Inizializzazione statica del logger

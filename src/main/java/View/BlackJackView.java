@@ -3,13 +3,10 @@ package View;
 import Controller.BlackjackActionListener;
 import Controller.BlackjackBettingListener;
 import Controller.RoundEndListener;
-import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +28,6 @@ public class BlackJackView extends AnchorPane {
     private List<PlayerHandsView> aiHandsViews;
     private final HBox bottomControlsArea;
     private final HBox allHandsArea;
-    private final Label statusMessageLabel;
     private final Button playAgainButton;
     private EndRoundPanel endRoundPanel;
     private BlackjackActionListener actionListener;
@@ -86,11 +82,6 @@ public class BlackJackView extends AnchorPane {
         bottomControlsArea.getChildren().addAll(bettingView, controlPanelView, playerView);
         bottomControlsArea.setSpacing(20);
 
-        // Elementi aggiuntivi
-        statusMessageLabel = new Label();
-        statusMessageLabel.getStyleClass().add("status-message");
-        statusMessageLabel.setVisible(true);
-
         playAgainButton = new Button("Play Again");
         playAgainButton.getStyleClass().add("play-again-button");
         playAgainButton.setVisible(false);
@@ -111,7 +102,7 @@ public class BlackJackView extends AnchorPane {
         AnchorPane.setTopAnchor(endRoundPanel, 300.0);
         AnchorPane.setRightAnchor(endRoundPanel, 0.0);
 
-        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, statusMessageLabel, playAgainButton, endRoundPanel);
+        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, playAgainButton, endRoundPanel);
 
         setupEventHandlers();
     }
@@ -125,20 +116,6 @@ public class BlackJackView extends AnchorPane {
                 showPlayAgainButton(true);
             }
         });
-    }
-
-    /**
-     * Aggiorna il messaggio di stato mostrato temporaneamente.
-     * 
-     * @param message Il messaggio da visualizzare
-     */
-    public void updateStatusMessage(String message) {
-        statusMessageLabel.setText(message);
-        statusMessageLabel.setVisible(true);
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(e -> statusMessageLabel.setVisible(false));
-        pause.play();
     }
 
     /**

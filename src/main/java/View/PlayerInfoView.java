@@ -47,7 +47,7 @@ public class PlayerInfoView extends VBox {
         profileImageView.setFitHeight(86);
         profileImageView.setPreserveRatio(true);
 
-        // Crea clip circolare per l'avatar
+        // clip circolare per l'avatar
         Circle clip = new Circle(43);
         clip.setCenterX(44);
         clip.setCenterY(44);
@@ -65,7 +65,6 @@ public class PlayerInfoView extends VBox {
         currentBetLabel.setAlignment(Pos.TOP_CENTER);
         currentBetLabel.getStyleClass().add("bet-label");
 
-        // Assemblaggio componenti
         getChildren().addAll(nameLabel, profileImageView, balanceLabel, currentBetLabel);
     }
 

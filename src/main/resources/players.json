@@ -4,10 +4,10 @@
       "nickname": "Andrew",
       "avatarUrl": "/GameMenu/Images/avatar1.png",
       "stats": {
-        "totalHandsPlayed": 193,
-        "handsWon": 132,
-        "handsLost": 61,
-        "currentBalance": 1586
+        "totalHandsPlayed": 208,
+        "handsWon": 142,
+        "handsLost": 66,
+        "currentBalance": 2278
       }
     },
     {
@@ -28,6 +28,16 @@
         "handsWon": 0,
         "handsLost": 1,
         "currentBalance": 900
+      }
+    },
+    {
+      "nickname": "Anna",
+      "avatarUrl": "/GameMenu/Images/avatar2.png",
+      "stats": {
+        "totalHandsPlayed": 3,
+        "handsWon": 2,
+        "handsLost": 1,
+        "currentBalance": 1568
       }
     }
   ]
