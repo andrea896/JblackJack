@@ -113,7 +113,6 @@ java --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml
 | **Maven** | 3.11.0 | Build system |
 | **GSON** | 2.10.1 | Serializzazione JSON |
 | **Java Sound API** | Built-in | Sistema audio |
-| **JUnit** | 5.10.0 | Testing (scope test) |
 
 ## 📈 Funzionalità Avanzate
 
@@ -138,14 +137,6 @@ Tre strategie distinte per i giocatori artificiali:
 - **Transizioni fluide** tra stati di gioco
 - **Effetti split** con movimento fisico delle carte
 
-## 📊 Caratteristiche del Sistema
-
-- **Persistenza Dati**: Profili salvati in formato JSON
-- **Gestione Errori**: Logging completo e gestione eccezioni
-- **Validazione Input**: Controlli su tutte le azioni utente
-- **Responsive Design**: Interfaccia adattiva e user-friendly
-- **Memory Management**: Ottimizzazione caricamento risorse
-
 ## 📚 Documentazione
 
 La documentazione JavaDoc completa è disponibile nella cartella `javadoc/`:
@@ -158,24 +149,13 @@ mvn javadoc:javadoc
 open javadoc/index.html
 ```
 
-## 🤝 Contributi
-
-Questo è un progetto accademico sviluppato per il corso di Metodologie di Programmazione. Il progetto dimostra l'applicazione pratica di:
-
-- **Design Patterns**
-- **Architettura software**
-- **Programmazione orientata agli oggetti** 
-- **Interfacce grafiche** con JavaFX
-- **Stream API** di Java 8+
-- **Best practices** di sviluppo software
-
 ## 📄 Licenza
 
 Progetto accademico sviluppato per scopi educativi nell'ambito del corso di Metodologie di Programmazione presso l'Università "La Sapienza" di Roma.
 
 ## 👥 Autori
 
-- **Andrea Gobbi** - *Sviluppatore principale* - Università "La Sapienza" di Roma
+- **Andrea896** - *Sviluppatore principale* - Università "La Sapienza" di Roma
 
 ---
 
@@ -183,7 +163,6 @@ Progetto accademico sviluppato per scopi educativi nell'ambito del corso di Meto
 
 Questo progetto rappresenta l'applicazione pratica di concetti fondamentali di programmazione:
 
-- **Principi SOLID** nella progettazione delle classi
 - **Clean Code** e best practices
 - **Gestione della complessità** attraverso pattern appropriati
 - **Separazione delle responsabilità** tramite architettura MVC
