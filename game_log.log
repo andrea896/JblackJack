@@ -1,6 +1,351 @@
-mag 19, 2025 2:53:42 PM Utility.LoggerUtility logInfo
+mag 23, 2025 2:37:20 PM Utility.LoggerUtility logInfo
 INFO: [Model.Profile.ProfileManager.loadProfiles()] 
 Caricamento profili dal file: src/main/resources/players.json
-mag 19, 2025 2:53:42 PM Utility.LoggerUtility logInfo
+mag 23, 2025 2:37:20 PM Utility.LoggerUtility logInfo
 INFO: [Model.Profile.ProfileManager.loadProfiles()] 
-Trovati 2 profili
+Trovati 3 profili
+mag 23, 2025 2:37:30 PM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.updateUIFromProfile()] 
+Field del testo vuota
+mag 23, 2025 2:38:27 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_green5.png
+mag 23, 2025 2:38:45 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=2239, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:40:04 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 23, 2025 2:40:04 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 3 profili
+mag 23, 2025 2:40:14 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 23, 2025 2:40:25 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1517, mani giocate=1, vinte=0, perse=1
+mag 23, 2025 2:40:45 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1878, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:41:02 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1156, mani giocate=1, vinte=0, perse=1
+mag 23, 2025 2:41:20 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=795, mani giocate=1, vinte=0, perse=1
+mag 23, 2025 2:41:57 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=434, mani giocate=1, vinte=0, perse=1
+mag 23, 2025 2:42:17 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=795, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:42:42 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1156, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:43:00 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1517, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:43:14 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1878, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:48:39 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 23, 2025 2:48:39 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 3 profili
+mag 23, 2025 2:48:50 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 23, 2025 2:49:06 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=2278, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:49:21 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1878, mani giocate=1, vinte=0, perse=1
+mag 23, 2025 2:49:43 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=2278, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:50:39 PM Utility.LoggerUtility logInfo
+INFO: [Controller.MenuController.onCreateProfileClick()] 
+Aggiorno Nickname e creo il profilo
+mag 23, 2025 2:50:39 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.createProfile()] 
+Profilo Anna creato con successo
+mag 23, 2025 2:50:39 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.createNewProfile()] 
+Profilo creato:Anna
+mag 23, 2025 2:50:48 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Anna, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 23, 2025 2:51:04 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1151, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:51:30 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1568, mani giocate=1, vinte=1, perse=0
+mag 23, 2025 2:51:44 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=1568, mani giocate=1, vinte=0, perse=1
+mag 24, 2025 12:00:38 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 24, 2025 12:00:38 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 24, 2025 12:00:52 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_blue5.png
+mag 24, 2025 12:01:44 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=2524, mani giocate=1, vinte=1, perse=0
+mag 24, 2025 12:04:24 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 24, 2025 12:04:24 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 24, 2025 12:04:36 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 24, 2025 12:04:43 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=3430, mani giocate=1, vinte=1, perse=0
+mag 24, 2025 12:05:24 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4034, mani giocate=1, vinte=1, perse=0
+mag 24, 2025 12:05:39 PM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.updateUIFromProfile()] 
+Field del testo vuota
+mag 26, 2025 9:47:47 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 9:47:47 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 9:47:58 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 9:48:12 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4482, mani giocate=1, vinte=1, perse=0
+mag 26, 2025 9:48:28 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4034, mani giocate=1, vinte=0, perse=1
+mag 26, 2025 9:49:29 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 9:49:29 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 9:49:39 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 9:50:09 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4034, mani giocate=2, vinte=1, perse=1
+mag 26, 2025 9:52:06 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 9:52:06 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 9:52:16 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 9:52:48 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4834, mani giocate=2, vinte=2, perse=0
+mag 26, 2025 10:46:06 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 10:46:06 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 11:23:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 11:23:09 AM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 11:23:20 AM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 12:43:38 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 12:43:38 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 12:43:48 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 12:44:04 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4327, mani giocate=1, vinte=0, perse=1
+mag 26, 2025 12:44:14 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4327, mani giocate=1, vinte=0, perse=1
+mag 26, 2025 12:44:26 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=3820, mani giocate=1, vinte=0, perse=1
+mag 26, 2025 12:44:47 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=3820, mani giocate=1, vinte=0, perse=1
+mag 26, 2025 12:45:37 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=3820, mani giocate=1, vinte=0, perse=1
+mag 26, 2025 12:45:54 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4327, mani giocate=1, vinte=1, perse=0
+mag 26, 2025 12:46:24 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4834, mani giocate=1, vinte=1, perse=0
+mag 26, 2025 12:46:37 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=5341, mani giocate=1, vinte=1, perse=0
+mag 26, 2025 12:52:37 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 12:52:37 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 12:52:49 PM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.updateUIFromProfile()] 
+Field del testo vuota
+mag 26, 2025 12:54:48 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 12:54:48 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 12:54:54 PM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.updateUIFromProfile()] 
+Field del testo vuota
+mag 26, 2025 12:55:04 PM Utility.LoggerUtility logWarning
+WARNING: [Controller.MenuController.updateUIFromProfile()] 
+Field del testo vuota
+mag 26, 2025 12:55:14 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 12:55:29 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=3609, mani giocate=2, vinte=0, perse=2
+mag 26, 2025 12:55:51 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=3609, mani giocate=2, vinte=1, perse=1
+mag 26, 2025 12:56:10 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=3609, mani giocate=2, vinte=1, perse=1
+mag 26, 2025 12:56:29 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=2743, mani giocate=2, vinte=0, perse=2
+mag 26, 2025 12:56:46 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4475, mani giocate=2, vinte=2, perse=0
+mag 26, 2025 12:57:04 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=4475, mani giocate=2, vinte=1, perse=1
+mag 26, 2025 12:57:35 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=6207, mani giocate=2, vinte=2, perse=0
+mag 26, 2025 12:59:07 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 12:59:07 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 12:59:19 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:00:16 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:00:16 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:00:27 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:04:03 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:04:03 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:04:13 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:04:27 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=5484, mani giocate=2, vinte=0, perse=2
+mag 26, 2025 1:05:08 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:05:08 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:05:20 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:06:56 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:06:56 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:07:07 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:08:23 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:08:23 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:08:33 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:08:46 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=7202, mani giocate=2, vinte=2, perse=0
+mag 26, 2025 1:09:11 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=8348, mani giocate=2, vinte=2, perse=0
+mag 26, 2025 1:12:48 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:12:48 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:12:58 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:13:09 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=10792, mani giocate=2, vinte=2, perse=0
+mag 26, 2025 1:13:59 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:13:59 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:14:09 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:14:45 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=11172, mani giocate=2, vinte=1, perse=1
+mag 26, 2025 1:15:14 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Caricamento profili dal file: src/main/resources/players.json
+mag 26, 2025 1:15:14 PM Utility.LoggerUtility logInfo
+INFO: [Model.Profile.ProfileManager.loadProfiles()] 
+Trovati 4 profili
+mag 26, 2025 1:15:25 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.startGame()] 
+Gioco avviato per il profilo: Andrew, giocatori: 3, design carte: Images/cardBack_red5.png
+mag 26, 2025 1:15:43 PM Utility.LoggerUtility logInfo
+INFO: [Controller.GameManager.updatePlayerStats()] 
+Statistiche aggiornate: balance=11172, mani giocate=2, vinte=1, perse=1

@@ -9,6 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * Gestore principale dell'applicazione BlackJack.
+ * Coordina l'interazione tra i profili utente, il modello di gioco e la vista.
+ * Implementato come singleton per garantire un unico punto di controllo dell'applicazione.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ */
 public class GameManager {
     private static GameManager instance;
     private ProfileManager profileManager;
@@ -17,11 +26,20 @@ public class GameManager {
     private Stage primaryStage;
     private GameModel gameModel;
 
+    /**
+     * Costruttore privato per implementare il pattern Singleton.
+     * Inizializza il ProfileManager e crea un profilo utente vuoto.
+     */
     private GameManager() {
         profileManager = ProfileManager.getInstance();
         currentProfile = new UserProfile();
     }
 
+    /**
+     * Restituisce l'istanza singleton del GameManager.
+     * 
+     * @return L'istanza unica del GameManager
+     */
     public static GameManager getInstance() {
         if (instance == null)
             instance = new GameManager();
@@ -29,10 +47,21 @@ public class GameManager {
         return instance;
     }
 
+    /**
+     * Inizializza il GameManager con lo stage principale dell'applicazione.
+     * 
+     * @param primaryStage Lo stage principale di JavaFX
+     */
     public void init(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+    /**
+     * Carica un profilo esistente dal database.
+     * 
+     * @param nickname Il nickname del profilo da caricare
+     * @return Il profilo caricato, null se non trovato
+     */
     public UserProfile loadExistingProfile(String nickname) {
         if (currentProfile != null && nickname != null && !nickname.trim().isEmpty()) {
             currentProfile = this.profileManager.loadProfile(nickname);
@@ -41,6 +70,13 @@ public class GameManager {
         return currentProfile;
     }
 
+    /**
+     * Crea un nuovo profilo utente con nickname e avatar specificati.
+     * 
+     * @param newNickname Il nickname del nuovo profilo
+     * @param avatarPath Il percorso dell'avatar selezionato
+     * @return Il nuovo profilo creato, null se la creazione fallisce
+     */
     public UserProfile createNewProfile(String newNickname, String avatarPath) {
         if (newNickname == null || newNickname.trim().isEmpty()) {
             logger.logWarning("Tentativo di creare un profilo con un nickname vuoto!");
@@ -52,10 +88,21 @@ public class GameManager {
         return currentProfile;
     }
 
+    /**
+     * Restituisce il profilo utente correntemente attivo.
+     * 
+     * @return Il profilo corrente
+     */
     public UserProfile getCurrentProfile() {
         return currentProfile;
     }
 
+    /**
+     * Avvia una nuova partita con i parametri specificati.
+     * 
+     * @param numberOfPlayers Il numero di giocatori AI da includere
+     * @param cardBackDesign Il design del dorso delle carte selezionato
+     */
     public void startGame(int numberOfPlayers, String cardBackDesign){
         if (currentProfile == null){
             logger.logWarning("Nessun profilo selezionato per iniziare il gioco");
@@ -84,7 +131,22 @@ public class GameManager {
 
     }
 
+    /**
+     * Aggiorna le statistiche del giocatore al termine di una sessione di gioco.
+     * Riproduce anche effetti sonori appropriati basati sui risultati.
+     * 
+     * @param finalBalance Il saldo finale del giocatore
+     * @param totalHands Il numero totale di mani giocate nella sessione
+     * @param wonHands Il numero di mani vinte
+     * @param lostHands Il numero di mani perse
+     */
     public void updatePlayerStats(int finalBalance, int totalHands, int wonHands, int lostHands) {
+        if(wonHands < lostHands){
+            AudioQueue.queue(AudioManager.SoundEffect.LOSE);
+        }
+        else{
+            AudioQueue.queue(AudioManager.SoundEffect.WIN);
+        }
         currentProfile.getStats().setCurrentBalance(finalBalance);
 
         currentProfile.getStats().setTotalHandsPlayed(

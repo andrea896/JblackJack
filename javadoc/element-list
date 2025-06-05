@@ -5,5 +5,5 @@ Model.Game.Objects
 Model.Players
 Model.Players.StrategyPlay
 Model.Profile
-Test
 Utility
+View

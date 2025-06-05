@@ -8,6 +8,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Gestore centralizzato per la persistenza e gestione dei profili utente nel gioco BlackJack.
+ * Implementa il pattern Singleton per garantire un'unica istanza di gestione dei profili
+ * e fornisce operazioni CRUD complete per i profili utente utilizzando JSON come formato di storage.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ *
+ */
 public class ProfileManager {
     private static final LoggerUtility LOGGER = new LoggerUtility();
     private static final String PROFILE_PATH = "src/main/resources/players.json";
@@ -16,6 +26,20 @@ public class ProfileManager {
     private List<UserProfile> profiles;
     private static ProfileManager instance;
 
+    /**
+     * Costruttore privato per implementare il pattern Singleton.
+     * Inizializza il Gson configurato per pretty printing, le strutture dati
+     * e avvia il caricamento automatico dei profili esistenti.
+     * 
+     * <p>Durante l'inizializzazione:</p>
+     * <ul>
+     * <li>Configura Gson con pretty printing per leggibilità del JSON</li>
+     * <li>Inizializza le liste per profili in memoria e JSON</li>
+     * <li>Carica automaticamente tutti i profili esistenti dal file</li>
+     * </ul>
+     * 
+     * @see #loadProfiles()
+     */
     public ProfileManager() {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         profiles = new ArrayList<>();
@@ -23,6 +47,17 @@ public class ProfileManager {
         loadProfiles();
     }
 
+    /**
+     * Restituisce l'istanza singleton del ProfileManager.
+     * Implementa il pattern Singleton con inizializzazione lazy per garantire
+     * che esista un'unica istanza di gestione profili nell'applicazione.
+     * 
+     * <p><strong>Nota:</strong> Questo metodo non è thread-safe. Se è richiesto
+     * accesso concorrente, sincronizzare esternamente.</p>
+     * 
+     * @return L'istanza singleton del ProfileManager, mai null
+     * @since 1.0
+     */
     public static ProfileManager getInstance() {
         if (instance == null)
             instance = new ProfileManager();
@@ -30,6 +65,11 @@ public class ProfileManager {
         return instance;
     }
 
+    /**
+     * Carica tutti i profili utente dal file JSON specificato.
+     * Legge il file JSON, deserializza i dati e popola sia la lista in memoria
+     * che l'array JSON per le successive operazioni di scrittura.
+     */
     private void loadProfiles() {
         LOGGER.logInfo("Caricamento profili dal file: " + PROFILE_PATH);
         try {
@@ -58,6 +98,11 @@ public class ProfileManager {
         }
     }
 
+    /**
+     * Salva tutti i profili correnti nel file JSON.
+     * Serializza l'array JSON dei profili e lo scrive nel file specificato
+     * utilizzando pretty printing per migliorare la leggibilità.
+     */
     private void saveToJson() {
         try {
             JsonObject rootObject = new JsonObject();
@@ -68,6 +113,21 @@ public class ProfileManager {
         }
     }
 
+    /**
+     * Crea un nuovo profilo utente con nickname e avatar specificati.
+     * Verifica l'unicità del nickname, crea il profilo con statistiche iniziali
+     * di default e lo persiste sia in memoria che su file JSON.
+     * 
+     * @param nickname Il nickname univoco per il nuovo profilo.
+     *                 Non deve essere già esistente nel sistema.
+     * @param avatarPath Il percorso dell'immagine avatar per il profilo.
+     *                   Dovrebbe essere un percorso valido alle risorse.
+     * 
+     * @return Il nuovo {@link UserProfile} creato, oppure {@code null} se esiste
+     *         già un profilo con lo stesso nickname.
+     * 
+     * @since 1.0
+     */
     public UserProfile createProfile(String nickname, String avatarPath) {
         for (UserProfile profile : profiles) {
             if (profile.getNickname().equals(nickname)) {
@@ -102,6 +162,21 @@ public class ProfileManager {
         return newProfile;
     }
 
+    /**
+     * Carica e restituisce un profilo utente specifico tramite nickname.
+     * Effettua una ricerca case-insensitive nella lista dei profili caricati
+     * per trovare il profilo corrispondente al nickname specificato.
+     *
+     * @param nickname Il nickname del profilo da cercare.
+     *                 La ricerca è case-insensitive.
+     *                 Può essere null (restituirà null).
+     * 
+     * @return Il {@link UserProfile} corrispondente al nickname, oppure {@code null}
+     *         se nessun profilo corrisponde o se il nickname è null.
+     *
+     * 
+     * @since 1.0
+     */
     public UserProfile loadProfile(String nickname) {
         return profiles.stream()
                 .filter(p -> p.getNickname().equalsIgnoreCase(nickname))
@@ -109,10 +184,35 @@ public class ProfileManager {
                 .orElse(null);
     }
 
+    /**
+     * Restituisce una lista immutabile di tutti i profili utente caricati.
+     * Fornisce accesso in sola lettura alla collezione completa dei profili
+     * per operazioni di visualizzazione, ricerca o analisi.
+     * 
+     * @return Lista di tutti i {@link UserProfile} attualmente caricati.
+     *         Mai null, ma può essere vuota se non ci sono profili.
+     *         La lista riflette lo stato attuale in memoria.
+     * 
+     * @since 1.0
+     */
     public List<UserProfile> getProfiles() {
         return profiles;
     }
 
+    /**
+     * Aggiorna le statistiche di un profilo esistente e persiste le modifiche su file.
+     * Trova il profilo corrispondente nell'array JSON tramite nickname e aggiorna
+     * solo le statistiche di gioco, mantenendo invariati nickname e avatar.
+     * 
+     * @param updatedProfile Il profilo con le statistiche aggiornate da persistere.
+     *                       Deve avere un nickname corrispondente a un profilo esistente.
+     *                       Non deve essere null.
+     * 
+     * @throws NullPointerException se updatedProfile è null o le sue statistiche sono null
+     *
+     * 
+     * @since 1.0
+     */
     public void updateProfile(UserProfile updatedProfile) {
         for (int i = 0; i < profilesArray.size(); i++) {
             JsonObject profileObject = profilesArray.get(i).getAsJsonObject();

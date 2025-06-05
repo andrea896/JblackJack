@@ -13,7 +13,6 @@ import javafx.util.Duration;
  * se vuole giocare un altro round o uscire dal gioco.
  */
 public class EndRoundPanel extends VBox {
-
     private RoundEndListener listener;
 
     /**

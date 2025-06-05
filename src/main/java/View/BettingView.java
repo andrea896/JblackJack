@@ -9,6 +9,15 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Vista per la gestione delle scommesse e delle assicurazioni nel BlackJack.
+ * Fornisce controlli per piazzare scommesse tramite slider e gestire l'assicurazione
+ * quando il dealer mostra un Asso.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ */
 public class BettingView extends VBox {
     private final Slider betSlider;
     private final Label betAmountLabel;
@@ -18,6 +27,12 @@ public class BettingView extends VBox {
     private final HBox insuranceButtons;
     private BlackjackBettingListener bettingListener;
 
+    /**
+     * Costruisce la vista delle scommesse con i limiti di puntata specificati.
+     * 
+     * @param minBet La scommessa minima consentita
+     * @param maxBet La scommessa massima consentita
+     */
     public BettingView(int minBet, int maxBet) {
         setAlignment(Pos.CENTER);
         setSpacing(10);
@@ -85,24 +100,46 @@ public class BettingView extends VBox {
         getChildren().addAll(betLabel, betAmountLabel, betSlider, placeBetButton, insuranceBox);
     }
 
+    /**
+     * Imposta il listener per gli eventi di scommessa.
+     * 
+     * @param listener Il listener che gestirà gli eventi di scommessa
+     */
     public void setBettingListener(BlackjackBettingListener listener) {
         this.bettingListener = listener;
     }
 
+    /**
+     * Mostra o nasconde i controlli per le scommesse.
+     * 
+     * @param visible true per mostrare i controlli, false per nasconderli
+     */
     public void showBettingControls(boolean visible) {
         placeBetButton.setVisible(visible);
         betAmountLabel.setVisible(visible);
         betSlider.setVisible(visible);
     }
 
+    /**
+     * Mostra l'opzione di assicurazione quando il dealer ha un Asso.
+     */
     public void showInsuranceOption() {
         insuranceBox.setVisible(true);
     }
 
+    /**
+     * Nasconde l'opzione di assicurazione.
+     */
     public void hideInsuranceOption() {
         insuranceBox.setVisible(false);
     }
 
+    /**
+     * Aggiorna il valore massimo dello slider delle scommesse.
+     * Utile per adattare i limiti al saldo corrente del giocatore.
+     * 
+     * @param maxBet Il nuovo valore massimo per le scommesse
+     */
     public void setMaxBetSlider(int maxBet) {
         betSlider.setVisible(true);
         betSlider.setShowTickMarks(true);

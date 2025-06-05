@@ -117,6 +117,13 @@ public class GameModel {
         turnManager.takeInsurance();
     }
 
+    /**
+     * Gestisce il rifiuto dell'assicurazione da parte del giocatore.
+     * Questo metodo viene chiamato quando il giocatore sceglie di non sottoscrivere
+     * l'assicurazione contro il blackjack del dealer, delegando l'operazione al TurnManager.
+     *
+     * @since 1.0
+     */
     public void declineInsurance() {
         turnManager.declineInsurance();
     }
@@ -167,6 +174,15 @@ public class GameModel {
         return turnManager.getCurrentHandIndex();
     }
 
+    /**
+     * Restituisce l'istanza del TurnManager associata a questo modello di gioco.
+     * Il TurnManager è responsabile della gestione del flusso di gioco, dei turni
+     * dei giocatori e della logica di distribuzione delle carte.
+     *
+     * @return L'istanza del TurnManager
+     *
+     * @since 1.0
+     */
     public TurnManager getTurnManager() {
         return turnManager;
     }

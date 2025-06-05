@@ -1,5 +1,13 @@
 package Model.Game.Objects;
 
+/**
+ * Enumerazione che rappresenta i ranghi delle carte da gioco nel BlackJack.
+ * Ogni rango ha un valore associato utilizzato per il calcolo del punteggio.
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ */
 public enum Rank {
 
     TWO(2),
@@ -16,20 +24,41 @@ public enum Rank {
     KING(10),
     ACE(11);
 
+    /** Il valore numerico del rango nel BlackJack */
     private final int value;
 
+    /**
+     * Costruttore per inizializzare il rango con il suo valore.
+     * 
+     * @param value Il valore numerico del rango
+     */
     Rank(int value) {
         this.value = value;
     }
 
+    /**
+     * Restituisce il valore numerico del rango.
+     * 
+     * @return Il valore del rango
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Verifica se il rango è un Asso.
+     * 
+     * @return true se il rango è ACE, false altrimenti
+     */
     public boolean isAce() {
         return this.equals(ACE);
     }
 
+    /**
+     * Restituisce la rappresentazione stringa del rango.
+     * 
+     * @return Il nome del rango
+     */
     @Override
     public String toString() {
         return name();

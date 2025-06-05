@@ -9,21 +9,33 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Controller principale che coordina tutti i controller secondari del gioco BlackJack.
+ * Implementa il pattern Observer per ricevere eventi dal TurnManager e
+ * distribuirli ai controller appropriati (ActionController e BettingController).
+ * 
+ * @author JBlackJack Team
+ * @version 1.0
+ * @since 1.0
+ */
 public class MainController implements Observer, RoundEndListener {
     private final GameModel model;
     private final BlackJackView view;
-    private final GameController gameController;
     private final ActionController actionController;
     private final BettingController bettingController;
 
+    /**
+     * Costruisce il MainController e inizializza tutti i sotto-controller.
+     * 
+     * @param model Il modello del gioco
+     * @param view La vista principale del gioco
+     */
     public MainController(GameModel model, BlackJackView view) {
         this.model = model;
         this.view = view;
-        this.gameController = new GameController(model, view);
         this.actionController = new ActionController(model, view);
         this.bettingController = new BettingController(model, view);
         model.getTurnManager().addObserver(this);
@@ -32,6 +44,12 @@ public class MainController implements Observer, RoundEndListener {
         bettingController.initialize();
     }
 
+    /**
+     * Riceve notifiche di aggiornamento dal TurnManager osservato.
+     * 
+     * @param o L'oggetto osservato (TurnManager)
+     * @param arg L'argomento passato (GameEvent)
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o.equals(model.getTurnManager()) && arg instanceof GameEvent) {
@@ -40,13 +58,19 @@ public class MainController implements Observer, RoundEndListener {
         }
     }
 
+    /**
+     * Distribuisce gli eventi ai controller appropriati in base al tipo di evento.
+     * 
+     * @param event L'evento di gioco da distribuire
+     */
     private void dispatchEvent(GameEvent event) {
         GameManager gameManager = GameManager.getInstance();
         GameEventType type = event.getType();
-        int bet;
 
         switch (type) {
             case GAME_STARTED:
+                AudioQueue.queue(AudioManager.SoundEffect.SHUFFLE);
+                break;
             case ROUND_STARTED:
             case ROUND_ENDED:
                 int finalBalance = (int) event.getData().get("finalBalance");
@@ -65,6 +89,7 @@ public class MainController implements Observer, RoundEndListener {
             case DEALER_TURN_STARTED:
                 Card hiddenCard = (Card) event.getData().get("card");
                 int handValue = (int) event.getData().get("handValue");
+                AudioQueue.queue(AudioManager.SoundEffect.SPLIT);
                 view.getDealerView().revealHiddenCard(hiddenCard, handValue);
                 break;
 
@@ -84,25 +109,11 @@ public class MainController implements Observer, RoundEndListener {
             case INSURANCE_ACCEPTED:
             case INSURANCE_DECLINED:
             case INSURANCE_OFFERED:
-            case WINNINGS_PAID:
                 actionController.updatePlayerControls();
                 bettingController.handleEvent(event);
                 break;
-
-            case PLAYER_WINS:
-                bettingController.handleEvent(event);
-                break;
-
-            case DEALER_WINS:
-                bet = (int) event.getData().get("bet");
-                //gameManager.updatePlayerStats(false, false, bet);
-                gameController.handleEvent(event);
-                bettingController.handleEvent(event);
-                break;
-            case PUSH:
             case BLACKJACK_ACHIEVED:
                 actionController.handleEvent(event);
-                gameController.handleEvent(event);
                 bettingController.handleEvent(event);
                 break;
 
@@ -111,6 +122,9 @@ public class MainController implements Observer, RoundEndListener {
         }
     }
 
+    /**
+     * Gestisce la richiesta di un nuovo round da parte del giocatore.
+     */
     @Override
     public void onNewRoundRequested() {
         view.resetViewForNewRound();
@@ -118,11 +132,19 @@ public class MainController implements Observer, RoundEndListener {
         view.getBettingView().showBettingControls(true);
     }
 
+    /**
+     * Gestisce la richiesta di uscita dal gioco.
+     */
     @Override
     public void onExitRequested() {
         navigateToMainMenu();
     }
 
+    /**
+     * Gestisce la richiesta di ricarica del saldo.
+     * 
+     * @param amount L'importo da aggiungere al saldo corrente
+     */
     @Override
     public void onBalanceReloadRequested(int amount) {
         int currentBalance = model.getHumanPlayer().getBalance();
@@ -134,6 +156,9 @@ public class MainController implements Observer, RoundEndListener {
         onNewRoundRequested();
     }
 
+    /**
+     * Naviga di ritorno al menu principale dell'applicazione.
+     */
     private void navigateToMainMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameMenu/MenuView.fxml"));
