@@ -266,7 +266,10 @@ public class TurnManager extends Observable {
 
         return false;
     }
-
+    /**
+     * notifica gli osservatori l'evento di assicurazione rifiutata
+     *
+     */
     public void declineInsurance(){
         notifyObserversWithEvent(GameEventType.INSURANCE_DECLINED);
     }
@@ -452,6 +455,8 @@ public class TurnManager extends Observable {
 
     /**
      * Restituisce l'indice della mano corrente.
+     *
+     * @return currentHandIndex mano corrente del giocatore
      */
     public int getCurrentHandIndex() {
         return currentHandIndex;
