@@ -24,7 +24,6 @@ public enum Rank {
     KING(10),
     ACE(11);
 
-    /** Il valore numerico del rango nel BlackJack */
     private final int value;
 
     /**

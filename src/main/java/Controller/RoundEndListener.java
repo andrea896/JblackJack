@@ -2,7 +2,7 @@ package Controller;
 
 /**
  * Interfaccia per la gestione degli eventi di fine round nel BlackJack.
- * Definisce i metodi di callback per le azioni disponibili al termine di ogni mano.
+ * Definisce i metodi di callback per le azioni disponibili al termine di ogni turno.
  * 
  * @author JBlackJack Team
  * @version 1.0

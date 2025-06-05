@@ -47,6 +47,8 @@ public class AudioManager {
 
 	/**
 	 * Ottiene l'istanza singleton dell'AudioManager.
+	 *
+	 * @return L'istanza singleton di AudioManager per la gestione degli effetti audio
 	 */
 	public static AudioManager getInstance() {
 		if (instance == null)

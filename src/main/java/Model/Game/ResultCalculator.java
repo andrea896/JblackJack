@@ -18,12 +18,15 @@ public class ResultCalculator {
     public ResultCalculator(BankManager manager) {
         this.manager = manager;
     }
+
     /**
      * Calcola i risultati per tutti i giocatori.
      *
      * @param humanPlayer Giocatore umano
      * @param players Lista di tutti i giocatori AI
      * @param dealer Dealer
+     *
+     * @return Map<String, Integer> Mappa che associa il nome del giocatore alle vincite/perdite
      */
     public Map<String, Integer> calculateResults(Player humanPlayer, List<Player> players, Dealer dealer) {
         int dealerValue = dealer.getHandValue(0);
