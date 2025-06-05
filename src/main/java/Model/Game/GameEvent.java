@@ -21,7 +21,7 @@ public class GameEvent {
      * @param type Il tipo di evento
      * @param data I dati associati all'evento (può essere null)
      */
-    public GameEvent(GameEventType type, Map<String, Object> data) {
+    private GameEvent(GameEventType type, Map<String, Object> data) {
         this.type = type;
         this.data = data != null ? data : new HashMap<>();
     }

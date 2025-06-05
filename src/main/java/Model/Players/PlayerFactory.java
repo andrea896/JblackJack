@@ -37,7 +37,7 @@ public class PlayerFactory {
 
     /**
      * Crea un nuovo dealer con strategia aggressiva.
-     * Il dealer utilizza sempre una strategia aggressiva per rendere il gioco più interessante.
+     * Il dealer utilizza sempre una strategia aggressiva.
      * 
      * @return Un nuovo oggetto Dealer
      */

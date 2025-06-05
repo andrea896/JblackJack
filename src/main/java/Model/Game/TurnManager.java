@@ -11,6 +11,7 @@ import Model.Players.StrategyPlay.AggressiveStrategy;
 import Model.Players.StrategyPlay.ConservativeStrategy;
 import Model.Players.StrategyPlay.PlayerStrategy;
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * Gestisce il flusso di gioco e i turni nel BlackJack.
@@ -92,6 +93,7 @@ public class TurnManager extends Observable {
         PlayerStrategy strategy = aiPlayer.getStrategy();
         int minBet = 10;
         int maxBet = 300;
+
         int balance = aiPlayer.getBalance();
         maxBet = Math.min(maxBet, balance);
 
@@ -108,13 +110,13 @@ public class TurnManager extends Observable {
      * Distribuisce le carte iniziali a tutti i giocatori e al dealer.
      */
     private void dealInitialCards() {
-        Card humanCard1 = deck.drawCard();
-        //Card humanCard1 = new Card(Rank.TEN, Suit.CLUBS);
+        //Card humanCard1 = deck.drawCard();
+        Card humanCard1 = new Card(Rank.TEN, Suit.CLUBS);
         humanPlayer.addCard(humanCard1);
         createCardDealtEvent(humanPlayer, humanCard1, currentHandIndex, false);
 
-        Card humanCard2 = deck.drawCard();
-        //Card humanCard2 = new Card(Rank.TEN, Suit.HEARTS);
+        //Card humanCard2 = deck.drawCard();
+        Card humanCard2 = new Card(Rank.TEN, Suit.HEARTS);
         humanPlayer.addCard(humanCard2);
         createCardDealtEvent(humanPlayer, humanCard2, currentHandIndex, false);
 
@@ -143,7 +145,12 @@ public class TurnManager extends Observable {
         if (humanPlayer.getHandCount() <= 1 || currentHandIndex >= humanPlayer.getHandCount() - 1) {
             gameState = GameState.AI_PLAYER_TURN;
             playAITurns();
-        } else {
+        } else if (humanPlayer.hasBlackjack(currentHandIndex + 1)) {
+            currentHandIndex++;
+            notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED, "player", humanPlayer, "handIndex", currentHandIndex);
+            playerStand();
+        }
+        else{
             currentHandIndex++;
         }
     }
@@ -161,7 +168,7 @@ public class TurnManager extends Observable {
         humanPlayer.addCard(currentHandIndex, card);
         createCardDealtEvent(humanPlayer, card, currentHandIndex, false);
 
-        if (humanPlayer.getHandValue(currentHandIndex) >= 21) {
+        if (humanPlayer.getHandValue(currentHandIndex) > 21) {
             notifyObserversWithEvent(GameEventType.PLAYER_BUSTED, "player", humanPlayer, "handIndex", currentHandIndex);
             handleHandTransition();
         }
@@ -225,6 +232,11 @@ public class TurnManager extends Observable {
                     "handValue1", humanPlayer.getHandValue(currentHandIndex),
                     "handValue2", humanPlayer.getHandValue(currentHandIndex + 1),
                     "bet", bet);
+
+            if (humanPlayer.hasBlackjack(currentHandIndex)) {
+                notifyObserversWithEvent(GameEventType.BLACKJACK_ACHIEVED, "player", humanPlayer, "handIndex", currentHandIndex);
+                playerStand();
+            }
             return true;
         }
 
@@ -272,7 +284,7 @@ public class TurnManager extends Observable {
                     while (continuePlaying && aiPlayer.getHandValue(handIndex) < 21) {
                         Card dealerUpCard = dealer.getHand(0).get(0);
                         int handValue = aiPlayer.getHandValue(handIndex);
-                        
+
                         if (aiPlayer.getHands().get(handIndex).getCards().size() == 2) {
                             Card card1 = aiPlayer.getHands().get(handIndex).getCards().get(0);
                             Card card2 = aiPlayer.getHands().get(handIndex).getCards().get(1);
@@ -380,21 +392,15 @@ public class TurnManager extends Observable {
      * @return true se tutti i giocatori hanno sballato, false altrimenti
      */
     private boolean isAllPlayersBusted() {
-        boolean humanBusted = true;
-        for (int i = 0; i < humanPlayer.getHandCount(); i++)
-            if (!humanPlayer.isBusted(i)) {
-                humanBusted = false;
-                break;
-            }
-
+        boolean humanBusted = IntStream.range(0, humanPlayer.getHandCount())
+                .allMatch(humanPlayer::isBusted);
+        
         if (!humanBusted) return false;
 
-        for (Player player : players)
-            if (player != humanPlayer)
-                for (int i = 0; i < player.getHandCount(); i++)
-                    if (!player.isBusted(i))
-                        return false;
-        return true;
+        return players.stream()
+                .filter(player -> player instanceof AIPlayer)
+                .allMatch(player -> IntStream.range(0, player.getHandCount())
+                        .allMatch(player::isBusted));
     }
 
     /**
@@ -402,7 +408,7 @@ public class TurnManager extends Observable {
      */
     private void endRound() {
         if (dealer.hasBlackjack(0) && !insurancePaid) {
-            resultCalculator.processInsuranceOutcomes(humanPlayer, players, dealer, insurancePaid);
+            resultCalculator.processInsuranceOutcomes(humanPlayer, players, insurancePaid);
             insurancePaid = true;
         } else {
             resultCalculator.clearInsurance(humanPlayer, players);

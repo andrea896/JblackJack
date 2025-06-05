@@ -17,7 +17,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class AudioManager {
 	private static AudioManager instance;
-	private boolean soundEnabled;
 
 	/**
 	 * Enumerazione degli effetti sonori disponibili.
@@ -56,20 +55,11 @@ public class AudioManager {
 	}
 
 	/**
-	 * Costruttore privato (singleton).
-	 */
-	private AudioManager() {
-		this.soundEnabled = true;
-	}
-
-	/**
 	 * Riproduce un file audio dal percorso specificato.
 	 *
 	 * @param filename Il percorso del file audio
 	 */
 	private void play(String filename) {
-		if (!soundEnabled) return;
-
 		try {
 			InputStream in = new BufferedInputStream(new FileInputStream(filename));
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(in);

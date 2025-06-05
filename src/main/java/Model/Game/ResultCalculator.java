@@ -1,6 +1,7 @@
 package Model.Game;
 
 import Model.Game.Objects.Hand;
+import Model.Players.AIPlayer;
 import Model.Players.Dealer;
 import Model.Players.Player;
 
@@ -55,18 +56,16 @@ public class ResultCalculator {
      *
      * @param humanPlayer Giocatore umano
      * @param players Lista di tutti i giocatori
-     * @param dealer Dealer
      * @param insurancePaid Flag per evitare pagamenti doppi
      */
-    public void processInsuranceOutcomes(Player humanPlayer, List<Player> players, Dealer dealer, boolean insurancePaid) {
+    public void processInsuranceOutcomes(Player humanPlayer, List<Player> players, boolean insurancePaid) {
         if (insurancePaid) return;
 
         for (Player player : players) {
             if (player.hasInsurance())
                 manager.payInsurance(player);
-            else if (player != humanPlayer)
+            else
                 manager.handleInsuranceLoss(player);
-
         }
 
         if (humanPlayer.hasInsurance())
@@ -82,9 +81,9 @@ public class ResultCalculator {
      * @param players Lista di tutti i giocatori
      */
     public void clearInsurance(Player humanPlayer, List<Player> players) {
-        for (Player player : players)
-            if (player != humanPlayer)
-                manager.handleInsuranceLoss(player);
+        players.stream()
+                .filter(player -> player instanceof AIPlayer)
+                .forEach(manager::handleInsuranceLoss);
 
         manager.handleInsuranceLoss(humanPlayer);
     }

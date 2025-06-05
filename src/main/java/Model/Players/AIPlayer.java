@@ -3,7 +3,7 @@ package Model.Players;
 import Model.Players.StrategyPlay.PlayerStrategy;
 
 /**
- * Rappresenta un giocatore controllato dall'intelligenza artificiale nel BlackJack.
+ * Rappresenta un giocatore controllato dalla CPU nel BlackJack.
  * Estende la classe Player aggiungendo una strategia di gioco specifica.
  * 
  * @author JBlackJack Team

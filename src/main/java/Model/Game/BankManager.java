@@ -38,10 +38,7 @@ public class BankManager {
     public void payBlackjack(Player player, int handIndex) {
         Hand hand = player.getHands().get(handIndex);
         int bet = hand.getBet();
-
-        // Paga la scommessa originale + la vincita (3:2)
         player.setBalance(player.getBalance() + (int)(bet * 2.5));
-
         resetBet(player, handIndex);
     }
 

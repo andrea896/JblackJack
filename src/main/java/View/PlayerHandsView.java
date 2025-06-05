@@ -151,15 +151,12 @@ public class PlayerHandsView extends VBox {
                 cardToMove.setTranslateX(0);
                 cardToMove.setTranslateY(0);
                 firstHandView.animateCardDealt(newCard1, handValue1, false);
-                Timeline delay = new Timeline(new KeyFrame(Duration.millis(300), evt -> {
-                    secondHandView.animateCardDealt(newCard2, handValue2, false);
-                }));
-                delay.play();
+                secondHandView.animateCardDealt(newCard2, handValue2, false);
 
                 secondHandView.updateBet(bet);
             });
 
-            moveCard.play();
+            AnimationQueue.queue(moveCard);
         }
     }
 

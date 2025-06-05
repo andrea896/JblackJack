@@ -27,7 +27,7 @@ public class BalancedStrategy implements PlayerStrategy{
      */
     @Override
     public boolean shouldDraw(int handValue) {
-        return handValue < 16; // Gioca più bilanciato, prende meno rischi
+        return handValue < 16;
     }
 
     /**

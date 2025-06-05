@@ -28,7 +28,6 @@ public class BlackJackView extends AnchorPane {
     private List<PlayerHandsView> aiHandsViews;
     private final HBox bottomControlsArea;
     private final HBox allHandsArea;
-    private final Button playAgainButton;
     private EndRoundPanel endRoundPanel;
     private BlackjackActionListener actionListener;
     private BlackjackBettingListener bettingListener;
@@ -82,10 +81,6 @@ public class BlackJackView extends AnchorPane {
         bottomControlsArea.getChildren().addAll(bettingView, controlPanelView, playerView);
         bottomControlsArea.setSpacing(20);
 
-        playAgainButton = new Button("Play Again");
-        playAgainButton.getStyleClass().add("play-again-button");
-        playAgainButton.setVisible(false);
-
         endRoundPanel = new EndRoundPanel();
         endRoundPanel.toFront();
 
@@ -102,29 +97,7 @@ public class BlackJackView extends AnchorPane {
         AnchorPane.setTopAnchor(endRoundPanel, 300.0);
         AnchorPane.setRightAnchor(endRoundPanel, 0.0);
 
-        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, playAgainButton, endRoundPanel);
-
-        setupEventHandlers();
-    }
-
-    /**
-     * Configura gli event handlers per i pulsanti e altri controlli.
-     */
-    private void setupEventHandlers() {
-        playAgainButton.setOnAction(e -> {
-            if (bettingListener != null) {
-                showPlayAgainButton(true);
-            }
-        });
-    }
-
-    /**
-     * Mostra o nasconde il pulsante "Play Again".
-     * 
-     * @param visible true per mostrare il pulsante, false per nasconderlo
-     */
-    public void showPlayAgainButton(boolean visible) {
-        playAgainButton.setVisible(visible);
+        getChildren().addAll(dealerView, allHandsArea, bottomControlsArea, endRoundPanel);
     }
 
     /**
