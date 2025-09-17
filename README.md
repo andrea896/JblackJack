@@ -171,5 +171,3 @@ Questo progetto rappresenta l'applicazione pratica di concetti fondamentali di p
 Il codice è documentato secondo gli standard JavaDoc e segue le convenzioni di naming Java per garantire massima leggibilità e manutenibilità.
 
 ---
-
-*Sviluppato con ❤️ per l'apprendimento della programmazione orientata agli oggetti*
