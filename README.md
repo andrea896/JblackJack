@@ -7,16 +7,6 @@
 
 Un'implementazione completa e moderna del gioco BlackJack sviluppata in Java con interfaccia grafica JavaFX. Progetto realizzato per il corso di **Metodologie di Programmazione** presso l'Università "La Sapienza" di Roma.
 
-## 🎮 Caratteristiche Principali
-
-- **🎨 Interfaccia Grafica Moderna**: Realizzata con JavaFX e FXML con styling CSS personalizzato
-- **🤖 CPU**: Giocatori CPU con 3 strategie diverse (Aggressiva, Conservativa, Bilanciata)
-- **👤 Gestione Profili**: Sistema completo di profili utente con statistiche e persistenza JSON
-- **🔊 Sistema Audio**: Effetti sonori immersivi e musica di sottofondo
-- **✨ Animazioni Fluide**: Transizioni e animazioni per migliorare l'esperienza utente
-- **📊 Statistiche Avanzate**: Classifiche e tracking delle performance
-- **🎲 Funzionalità Complete**: Split, Double Down, Insurance, tutte le regole del BlackJack
-
 ## Architettura
 
 Il progetto implementa diversi **Design Pattern** fondamentali:
@@ -114,29 +104,6 @@ java --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml
 | **GSON** | 2.10.1 | Serializzazione JSON |
 | **Java Sound API** | Built-in | Sistema audio |
 
-## 📈 Funzionalità Avanzate
-
-### 🤖 Giocatori controllati dalla CPU
-
-Tre strategie distinte per i giocatori artificiali:
-
-- **Aggressiva**: Prende più rischi, pesca fino a 17
-- **Conservativa**: Prudente, si ferma a 15
-- **Bilanciata**: Equilibrata, si ferma a 16
-
-### 🔊 Audio Engine
-
-- **11 effetti sonori** diversi per ogni azione
-- **Coda audio sequenziale** per evitare sovrapposizioni
-- **Musica di sottofondo**
-
-### ✨ Sistema Animazioni
-
-- **Distribuzione carte** con effetti di movimento e rotazione
-- **Animazioni 3D** per la rivelazione della carta nascosta
-- **Transizioni fluide** tra stati di gioco
-- **Effetti split** con movimento fisico delle carte
-
 ## 📚 Documentazione
 
 La documentazione JavaDoc completa è disponibile nella cartella `javadoc/`:
@@ -158,18 +125,3 @@ Progetto accademico sviluppato per scopi educativi nell'ambito del corso di Meto
 - **Andrea896** - *Sviluppatore principale* - Università "La Sapienza" di Roma
 
 ---
-
-## 🎓 Note Accademiche
-
-Questo progetto rappresenta l'applicazione pratica di concetti fondamentali di programmazione:
-
-- **Clean Code** e best practices
-- **Gestione della complessità** attraverso pattern appropriati
-- **Separazione delle responsabilità** tramite architettura MVC
-- **Programmazione event-driven** con Observer pattern
-
-Il codice è documentato secondo gli standard JavaDoc e segue le convenzioni di naming Java per garantire massima leggibilità e manutenibilità.
-
----
-
-*Sviluppato con ❤️ per l'apprendimento della programmazione orientata agli oggetti*
