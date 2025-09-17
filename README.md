@@ -7,16 +7,6 @@
 
 Un'implementazione completa e moderna del gioco BlackJack sviluppata in Java con interfaccia grafica JavaFX. Progetto realizzato per il corso di **Metodologie di Programmazione** presso l'Università "La Sapienza" di Roma.
 
-## 🎮 Caratteristiche Principali
-
-- **🎨 Interfaccia Grafica Moderna**: Realizzata con JavaFX e FXML con styling CSS personalizzato
-- **🤖 CPU**: Giocatori CPU con 3 strategie diverse (Aggressiva, Conservativa, Bilanciata)
-- **👤 Gestione Profili**: Sistema completo di profili utente con statistiche e persistenza JSON
-- **🔊 Sistema Audio**: Effetti sonori immersivi e musica di sottofondo
-- **✨ Animazioni Fluide**: Transizioni e animazioni per migliorare l'esperienza utente
-- **📊 Statistiche Avanzate**: Classifiche e tracking delle performance
-- **🎲 Funzionalità Complete**: Split, Double Down, Insurance, tutte le regole del BlackJack
-
 ## Architettura
 
 Il progetto implementa diversi **Design Pattern** fondamentali:
