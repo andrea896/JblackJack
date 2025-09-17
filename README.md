@@ -104,29 +104,6 @@ java --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml
 | **GSON** | 2.10.1 | Serializzazione JSON |
 | **Java Sound API** | Built-in | Sistema audio |
 
-## 📈 Funzionalità Avanzate
-
-### 🤖 Giocatori controllati dalla CPU
-
-Tre strategie distinte per i giocatori artificiali:
-
-- **Aggressiva**: Prende più rischi, pesca fino a 17
-- **Conservativa**: Prudente, si ferma a 15
-- **Bilanciata**: Equilibrata, si ferma a 16
-
-### 🔊 Audio Engine
-
-- **11 effetti sonori** diversi per ogni azione
-- **Coda audio sequenziale** per evitare sovrapposizioni
-- **Musica di sottofondo**
-
-### ✨ Sistema Animazioni
-
-- **Distribuzione carte** con effetti di movimento e rotazione
-- **Animazioni 3D** per la rivelazione della carta nascosta
-- **Transizioni fluide** tra stati di gioco
-- **Effetti split** con movimento fisico delle carte
-
 ## 📚 Documentazione
 
 La documentazione JavaDoc completa è disponibile nella cartella `javadoc/`:
