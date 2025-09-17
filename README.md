@@ -125,16 +125,3 @@ Progetto accademico sviluppato per scopi educativi nell'ambito del corso di Meto
 - **Andrea896** - *Sviluppatore principale* - Università "La Sapienza" di Roma
 
 ---
-
-## 🎓 Note Accademiche
-
-Questo progetto rappresenta l'applicazione pratica di concetti fondamentali di programmazione:
-
-- **Clean Code** e best practices
-- **Gestione della complessità** attraverso pattern appropriati
-- **Separazione delle responsabilità** tramite architettura MVC
-- **Programmazione event-driven** con Observer pattern
-
-Il codice è documentato secondo gli standard JavaDoc e segue le convenzioni di naming Java per garantire massima leggibilità e manutenibilità.
-
----
